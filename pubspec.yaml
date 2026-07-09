@@ -1,0 +1,98 @@
+name: legado_flutter
+description: "Legado reading app - Flutter rewrite"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+  # Database
+  drift: 2.29.0
+  sqlite3_flutter_libs: ^0.5.28
+  path_provider: ^2.1.5
+  path: ^1.9.1
+
+  # Data Models
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
+
+  # Network
+  dio: ^5.9.2
+  dio_cookie_manager: ^3.1.1
+  cookie_jar: ^4.0.8
+
+  # Dependency Injection & State Management
+  get_it: ^8.0.3
+  flutter_riverpod: ^3.3.1
+
+  # Navigation
+  go_router: ^17.3.0
+
+  # JS Engine
+  flutter_js: ^0.8.7
+
+  # WebView (BackstageWebView replacement)
+  flutter_inappwebview: ^6.1.5
+
+  # Utilities
+  collection: ^1.19.1
+  crypto: ^3.0.7
+
+  # HTML/CSS Selector (jsoup alternative)
+  html: ^0.15.5
+
+  # XPath
+  xpath_selector: ^3.0.2
+  xpath_selector_html_parser: ^3.0.1
+
+  # JSONPath
+  json_path: ^0.9.0
+
+  # Encryption (AES/RSA - pointycastle)
+  pointycastle: ^4.0.0
+
+  # UUID
+  uuid: ^4.5.1
+
+  # Archive (unzip)
+  archive: ^4.0.3
+
+  # EPUB XML parsing
+  xml: ^6.5.0
+
+  # EPUB WebView rendering
+  webview_flutter: ^4.10.0
+
+  # PDF rendering
+  pdfx: ^2.6.0
+
+  # TTS (Text-to-Speech)
+  flutter_tts: ^4.2.2
+
+  # Audio player (audiobooks)
+  just_audio: ^0.9.42
+
+  # URL Launcher
+  url_launcher: ^6.3.1
+  cached_network_image: ^3.4.1
+  shared_preferences: ^2.5.5
+  file_picker: ^8.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+  # Code generation
+  drift_dev: 2.29.0
+  freezed: ^3.0.0
+  json_serializable: ^6.9.4
+  build_runner: ^2.4.15
+
+flutter:
+  uses-material-design: true
