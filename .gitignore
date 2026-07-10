@@ -1,24 +1,46 @@
-# Flutter/Dart 构建产物
+# Flutter/Dart
 .dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
 .packages
 build/
-*.iml
+
+# Keep the app lockfile committed for reproducible Flutter builds.
+!pubspec.lock
+
+# IDE/editor local files
 .idea/
 .vscode/
-*.lock
-.gradle/
-local.properties
+*.iml
 
-# macOS 系统文件
+# Android local/build files
+android/.gradle/
+android/**/build/
+android/**/.cxx/
+android/local.properties
+android/captures/
+
+# iOS generated/local files
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Flutter/flutter_export_environment.sh
+ios/Runner/GeneratedPluginRegistrant.*
+ios/Pods/
+ios/Runner.xcworkspace/xcuserdata/
+ios/Runner.xcodeproj/xcuserdata/
+
+# OS files
 .DS_Store
+Thumbs.db
 
-# 生成的代码文件（可选提交，取决于项目约定）
-# *.g.dart
-# *.freezed.dart
+# Logs
+*.log
+log.txt
 
-# 密钥和配置文件
+# Secrets and local environment
 *.key
 *.jks
+*.keystore
 *.p12
 .env
 .env.*
