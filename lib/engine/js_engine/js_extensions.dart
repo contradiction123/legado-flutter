@@ -118,7 +118,9 @@ class JsExtensions {
         Map<String, dynamic>? headers;
         if (req.args.length > 1 && req.args[1] != null) {
           try {
-            headers = Map<String, dynamic>.from(jsonDecode(req.args[1].toString()));
+            headers = Map<String, dynamic>.from(
+              jsonDecode(req.args[1].toString()),
+            );
           } catch (_) {}
         }
         final response = await _http.get(url, headers: headers);
@@ -129,19 +131,24 @@ class JsExtensions {
     _engine.onMessage('java.getCookie', (args) {
       final req = BridgeRequest.fromJson(args as String);
       final url = req.args.isNotEmpty ? req.args[0].toString() : '';
-      CookieStore.getCookies(url).then((cookies) {
-        _engine.resolveCallback(req.callbackId, result: cookies);
-      }).catchError((_) {
-        _engine.resolveCallback(req.callbackId, result: '');
-      });
+      CookieStore.getCookies(url)
+          .then((cookies) {
+            _engine.resolveCallback(req.callbackId, result: cookies);
+          })
+          .catchError((_) {
+            _engine.resolveCallback(req.callbackId, result: '');
+          });
     });
 
     _engine.onMessage('java.getWebViewUA', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: 'Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) '
-              'AppleWebKit/537.36 (KHTML, like Gecko) '
-              'Chrome/126.0.0.0 Mobile Safari/537.36');
+      _engine.resolveCallback(
+        req.callbackId,
+        result:
+            'Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) '
+            'AppleWebKit/537.36 (KHTML, like Gecko) '
+            'Chrome/126.0.0.0 Mobile Safari/537.36',
+      );
     });
   }
 
@@ -210,8 +217,9 @@ class JsExtensions {
         if (url.isEmpty) return '';
         try {
           final cacheDir = await getTemporaryDirectory();
-          final fileName = base64Encode(utf8.encode(url))
-              .replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_');
+          final fileName = base64Encode(
+            utf8.encode(url),
+          ).replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_');
           final filePath = '${cacheDir.path}/$fileName.cache';
           await _dio.download(url, filePath);
           return filePath;
@@ -233,7 +241,9 @@ class JsExtensions {
           if (!await file.exists()) return '';
           final bytes = await file.readAsBytes();
           final archive = ZipDecoder().decodeBytes(bytes);
-          final dest = destDir.isNotEmpty ? Directory(destDir) : Directory(path.replaceAll(RegExp(r'\.[^.]*$'), ''));
+          final dest = destDir.isNotEmpty
+              ? Directory(destDir)
+              : Directory(path.replaceAll(RegExp(r'\.[^.]*$'), ''));
           if (!await dest.exists()) await dest.create(recursive: true);
           for (final entry in archive) {
             if (entry.isFile) {
@@ -252,15 +262,19 @@ class JsExtensions {
     // java.un7zFile → 不支持
     _engine.onMessage('java.un7zFile', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"error":"7z unsupported in Flutter, use zip instead"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"error":"7z unsupported in Flutter, use zip instead"}',
+      );
     });
 
     // java.unrarFile → 不支持
     _engine.onMessage('java.unrarFile', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"error":"RAR unsupported in Flutter, use zip instead"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"error":"RAR unsupported in Flutter, use zip instead"}',
+      );
     });
 
     // java.unArchiveFile(path) → 自动检测格式解压
@@ -302,9 +316,11 @@ class JsExtensions {
         if (path.isEmpty) return '[]';
         final dir = Directory(path);
         if (!await dir.exists()) return '[]';
-        final files = await dir.list().where((entity) =>
-            entity is File &&
-            entity.path.endsWith('.txt')).map((e) => e.path).toList();
+        final files = await dir
+            .list()
+            .where((entity) => entity is File && entity.path.endsWith('.txt'))
+            .map((e) => e.path)
+            .toList();
         return jsonEncode(files);
       });
     });
@@ -336,15 +352,19 @@ class JsExtensions {
     // java.getRarStringContent → 不支持
     _engine.onMessage('java.getRarStringContent', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"error":"RAR unsupported"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"error":"RAR unsupported"}',
+      );
     });
 
     // java.get7zStringContent → 不支持
     _engine.onMessage('java.get7zStringContent', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"error":"7z unsupported"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"error":"7z unsupported"}',
+      );
     });
 
     // java.getZipByteArrayContent(zipPath, filePath) → 从 ZIP 中读取二进制内容
@@ -374,15 +394,19 @@ class JsExtensions {
     // java.getRarByteArrayContent → 不支持
     _engine.onMessage('java.getRarByteArrayContent', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"error":"RAR unsupported"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"error":"RAR unsupported"}',
+      );
     });
 
     // java.get7zByteArrayContent → 不支持
     _engine.onMessage('java.get7zByteArrayContent', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"error":"7z unsupported"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"error":"7z unsupported"}',
+      );
     });
   }
 
@@ -499,13 +523,16 @@ class JsExtensions {
         final bytes = utf8.encode(data);
         crypto.Digest digest;
         switch (algo.toUpperCase()) {
-          case 'SHA-1': case 'SHA1':
+          case 'SHA-1':
+          case 'SHA1':
             digest = crypto.sha1.convert(bytes);
             break;
-          case 'SHA-256': case 'SHA256':
+          case 'SHA-256':
+          case 'SHA256':
             digest = crypto.sha256.convert(bytes);
             break;
-          case 'SHA-512': case 'SHA512':
+          case 'SHA-512':
+          case 'SHA512':
             digest = crypto.sha512.convert(bytes);
             break;
           case 'MD5':
@@ -528,10 +555,12 @@ class JsExtensions {
         final bytes = utf8.encode(data);
         crypto.Digest digest;
         switch (algo.toUpperCase()) {
-          case 'SHA-256': case 'SHA256':
+          case 'SHA-256':
+          case 'SHA256':
             digest = crypto.sha256.convert(bytes);
             break;
-          case 'SHA-512': case 'SHA512':
+          case 'SHA-512':
+          case 'SHA512':
             digest = crypto.sha512.convert(bytes);
             break;
           default:
@@ -618,10 +647,7 @@ class JsExtensions {
           decodeBigInt('65537'),
         );
         final cipher = OAEPEncoding(RSAEngine());
-        cipher.init(
-          true,
-          PublicKeyParameter<RSAPublicKey>(publicKey),
-        );
+        cipher.init(true, PublicKeyParameter<RSAPublicKey>(publicKey));
         final result = cipher.process(Uint8List.fromList(utf8.encode(data)));
         _engine.resolveCallback(req.callbackId, result: base64Encode(result));
       } catch (e) {
@@ -633,7 +659,9 @@ class JsExtensions {
     _engine.onMessage('java.createSign', (args) {
       final req = BridgeRequest.fromJson(args as String);
       try {
-        final algo = req.args.isNotEmpty ? req.args[0].toString() : 'HmacSHA256';
+        final algo = req.args.isNotEmpty
+            ? req.args[0].toString()
+            : 'HmacSHA256';
         final data = req.args.length > 1 ? req.args[1].toString() : '';
         final key = req.args.length > 2 ? req.args[2].toString() : '';
         if (data.isEmpty) {
@@ -667,32 +695,42 @@ class JsExtensions {
 
     _engine.onMessage('java.aesDecodeToString', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"warning":"Deprecated, use createSymmetricCrypto"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"warning":"Deprecated, use createSymmetricCrypto"}',
+      );
     });
 
     _engine.onMessage('java.aesEncodeToString', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"warning":"Deprecated, use createSymmetricCrypto"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"warning":"Deprecated, use createSymmetricCrypto"}',
+      );
     });
 
     _engine.onMessage('java.aesEncodeToBase64String', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"warning":"Deprecated, use createSymmetricCrypto"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"warning":"Deprecated, use createSymmetricCrypto"}',
+      );
     });
 
     _engine.onMessage('java.desDecodeToString', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"warning":"Deprecated, use createSymmetricCrypto"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"warning":"Deprecated, use createSymmetricCrypto"}',
+      );
     });
 
     _engine.onMessage('java.tripleDESDecodeStr', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: '{"warning":"Deprecated, use createSymmetricCrypto"}');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: '{"warning":"Deprecated, use createSymmetricCrypto"}',
+      );
     });
   }
 
@@ -704,7 +742,9 @@ class JsExtensions {
       final req = BridgeRequest.fromJson(args as String);
       try {
         final timeMs = int.tryParse(req.args[0].toString()) ?? 0;
-        final format = req.args.length > 1 ? req.args[1].toString() : 'yyyy-MM-dd';
+        final format = req.args.length > 1
+            ? req.args[1].toString()
+            : 'yyyy-MM-dd';
         final date = DateTime.fromMillisecondsSinceEpoch(timeMs, isUtc: true);
         final result = _formatDate(date, format);
         _engine.resolveCallback(req.callbackId, result: result);
@@ -897,8 +937,10 @@ class JsExtensions {
 
     _engine.onMessage('java.replaceFont', (args) {
       final req = BridgeRequest.fromJson(args as String);
-      _engine.resolveCallback(req.callbackId,
-          result: req.args.isNotEmpty ? req.args[0].toString() : '');
+      _engine.resolveCallback(
+        req.callbackId,
+        result: req.args.isNotEmpty ? req.args[0].toString() : '',
+      );
     });
   }
 
@@ -907,11 +949,13 @@ class JsExtensions {
   // ──────────────────────────────────────────────────────────────────
 
   void _handleAsync(BridgeRequest req, Future<String> Function() handler) {
-    handler().then((result) {
-      _engine.resolveCallback(req.callbackId, result: result);
-    }).catchError((e) {
-      _engine.resolveCallback(req.callbackId, error: e.toString());
-    });
+    handler()
+        .then((result) {
+          _engine.resolveCallback(req.callbackId, result: result);
+        })
+        .catchError((e) {
+          _engine.resolveCallback(req.callbackId, error: e.toString());
+        });
   }
 
   String _formatDate(DateTime date, String format) {
@@ -948,8 +992,16 @@ class JsExtensions {
 
   String _chineseNumToArabic(String text) {
     const map = {
-      '零': '0', '一': '1', '二': '2', '三': '3', '四': '4',
-      '五': '5', '六': '6', '七': '7', '八': '8', '九': '9',
+      '零': '0',
+      '一': '1',
+      '二': '2',
+      '三': '3',
+      '四': '4',
+      '五': '5',
+      '六': '6',
+      '七': '7',
+      '八': '8',
+      '九': '9',
     };
     final buffer = StringBuffer();
     for (var i = 0; i < text.length; i++) {
@@ -968,28 +1020,106 @@ class JsExtensions {
   }
 
   static const _s2tMap = {
-    '国': '國', '为': '爲', '与': '與', '书': '書', '发': '發',
-    '对': '對', '导': '導', '实': '實', '体': '體', '关': '關',
-    '开': '開', '门': '門', '问': '問', '长': '長', '们': '們',
-    '个': '個', '来': '來', '说': '說', '时': '時', '间': '間',
-    '过': '過', '这': '這', '还': '還', '学': '學', '习': '習',
-    '爱': '愛', '写': '寫', '读': '讀', '让': '讓', '请': '請',
-    '认': '認', '识': '識', '见': '見', '点': '點', '进': '進',
-    '会': '會', '后': '後', '应': '應', '变': '變', '当': '當',
-    '给': '給', '谁': '誰', '两': '兩', '只': '隻', '许': '許',
-    '论': '論', '评': '評', '试': '試', '该': '該',
+    '国': '國',
+    '为': '爲',
+    '与': '與',
+    '书': '書',
+    '发': '發',
+    '对': '對',
+    '导': '導',
+    '实': '實',
+    '体': '體',
+    '关': '關',
+    '开': '開',
+    '门': '門',
+    '问': '問',
+    '长': '長',
+    '们': '們',
+    '个': '個',
+    '来': '來',
+    '说': '說',
+    '时': '時',
+    '间': '間',
+    '过': '過',
+    '这': '這',
+    '还': '還',
+    '学': '學',
+    '习': '習',
+    '爱': '愛',
+    '写': '寫',
+    '读': '讀',
+    '让': '讓',
+    '请': '請',
+    '认': '認',
+    '识': '識',
+    '见': '見',
+    '点': '點',
+    '进': '進',
+    '会': '會',
+    '后': '後',
+    '应': '應',
+    '变': '變',
+    '当': '當',
+    '给': '給',
+    '谁': '誰',
+    '两': '兩',
+    '只': '隻',
+    '许': '許',
+    '论': '論',
+    '评': '評',
+    '试': '試',
+    '该': '該',
   };
 
   static const _t2sMap = {
-    '國': '国', '爲': '为', '與': '与', '書': '书', '發': '发',
-    '對': '对', '導': '导', '實': '实', '體': '体', '關': '关',
-    '開': '开', '門': '门', '問': '问', '長': '长', '們': '们',
-    '個': '个', '來': '来', '說': '说', '時': '时', '間': '间',
-    '過': '过', '這': '这', '還': '还', '學': '学', '習': '习',
-    '愛': '爱', '寫': '写', '讀': '读', '讓': '让', '請': '请',
-    '認': '认', '識': '识', '見': '见', '點': '点', '進': '进',
-    '會': '会', '後': '后', '應': '应', '變': '变', '當': '当',
-    '給': '给', '誰': '谁', '兩': '两', '隻': '只', '許': '许',
-    '論': '论', '評': '评', '試': '试', '該': '该',
+    '國': '国',
+    '爲': '为',
+    '與': '与',
+    '書': '书',
+    '發': '发',
+    '對': '对',
+    '導': '导',
+    '實': '实',
+    '體': '体',
+    '關': '关',
+    '開': '开',
+    '門': '门',
+    '問': '问',
+    '長': '长',
+    '們': '们',
+    '個': '个',
+    '來': '来',
+    '說': '说',
+    '時': '时',
+    '間': '间',
+    '過': '过',
+    '這': '这',
+    '還': '还',
+    '學': '学',
+    '習': '习',
+    '愛': '爱',
+    '寫': '写',
+    '讀': '读',
+    '讓': '让',
+    '請': '请',
+    '認': '认',
+    '識': '识',
+    '見': '见',
+    '點': '点',
+    '進': '进',
+    '會': '会',
+    '後': '后',
+    '應': '应',
+    '變': '变',
+    '當': '当',
+    '給': '给',
+    '誰': '谁',
+    '兩': '两',
+    '隻': '只',
+    '許': '许',
+    '論': '论',
+    '評': '评',
+    '試': '试',
+    '該': '该',
   };
 }

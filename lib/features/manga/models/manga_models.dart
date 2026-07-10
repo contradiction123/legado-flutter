@@ -118,8 +118,8 @@ class MangaReaderState {
 
   MangaChapter? get currentChapter =>
       chapters.isNotEmpty && currentChapterIndex < chapters.length
-          ? chapters[currentChapterIndex]
-          : null;
+      ? chapters[currentChapterIndex]
+      : null;
 
   MangaPage? get currentPage {
     final ch = currentChapter;

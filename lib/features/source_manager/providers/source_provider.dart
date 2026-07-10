@@ -54,10 +54,7 @@ class SourceProvider extends StateNotifier<SourceState> {
       }
     } catch (e) {
       if (!_disposed) {
-        state = state.copyWith(
-          isLoading: false,
-          error: e.toString(),
-        );
+        state = state.copyWith(isLoading: false, error: e.toString());
       }
     }
   }
@@ -101,15 +98,18 @@ class SourceProvider extends StateNotifier<SourceState> {
     try {
       final repo = await _getRepo();
       final list = jsonDecode(jsonString) as List<dynamic>;
-      final sources = list.map((e) {
-        if (e is Map<String, dynamic>) {
-          return BookSource.fromJson(e);
-        }
-        if (e is String) {
-          return BookSource.fromJson(jsonDecode(e) as Map<String, dynamic>);
-        }
-        return null;
-      }).whereType<BookSource>().toList();
+      final sources = list
+          .map((e) {
+            if (e is Map<String, dynamic>) {
+              return BookSource.fromJson(e);
+            }
+            if (e is String) {
+              return BookSource.fromJson(jsonDecode(e) as Map<String, dynamic>);
+            }
+            return null;
+          })
+          .whereType<BookSource>()
+          .toList();
 
       await repo.importAll(sources);
       await loadSources();
@@ -181,7 +181,8 @@ class SourceState {
 /// 书源状态提供者
 ///
 /// 自动懒初始化 DAO+Repository，无需外部 DI 注入。
-final sourceProvider =
-    StateNotifierProvider<SourceProvider, SourceState>((ref) {
+final sourceProvider = StateNotifierProvider<SourceProvider, SourceState>((
+  ref,
+) {
   return SourceProvider();
 });

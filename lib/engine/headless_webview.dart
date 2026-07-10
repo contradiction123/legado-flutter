@@ -8,11 +8,7 @@ class WebViewResponse {
   final String? body;
   final int? statusCode;
 
-  const WebViewResponse({
-    required this.url,
-    this.body,
-    this.statusCode,
-  });
+  const WebViewResponse({required this.url, this.body, this.statusCode});
 }
 
 /// WebView 配置参数
@@ -55,6 +51,8 @@ class HeadlessWebViewManager {
   late Completer<WebViewResponse> _completer;
   Timer? _delayTimer;
   Timer? _retryTimer;
+  Timer? _globalTimeout;
+  HeadlessInAppWebView? _webView;
   int _retryCount = 0;
   bool _isDone = false;
   late String _currentUrl;
@@ -76,13 +74,12 @@ class HeadlessWebViewManager {
         config.sourceRegex != null || config.overrideUrlRegex != null;
 
     // 全局超时
-    Timer(const Duration(milliseconds: _globalTimeoutMs), () {
+    _globalTimeout = Timer(const Duration(milliseconds: _globalTimeoutMs), () {
       if (!_isDone) _finish(null, statusCode: 408);
     });
 
     try {
-      // ignore: unused_local_variable
-      final _ = HeadlessInAppWebView(
+      _webView = HeadlessInAppWebView(
         initialSettings: InAppWebViewSettings(
           javaScriptEnabled: true,
           domStorageEnabled: true,
@@ -98,10 +95,7 @@ class HeadlessWebViewManager {
               )
             : null,
         initialUrlRequest: config.html == null && config.url != null
-            ? URLRequest(
-                url: WebUri(config.url!),
-                headers: config.headerMap,
-              )
+            ? URLRequest(url: WebUri(config.url!), headers: config.headerMap)
             : null,
         onLoadStop: (controller, url) async {
           if (_isDone) return;
@@ -124,8 +118,11 @@ class HeadlessWebViewManager {
         },
         onReceivedError: (controller, request, error) {
           if (!_isDone) {
-            _finish(null, statusCode: _errorTypeToCode(error.type),
-                error: error.description);
+            _finish(
+              null,
+              statusCode: _errorTypeToCode(error.type),
+              error: error.description,
+            );
           }
         },
         shouldOverrideUrlLoading: (controller, navigation) async {
@@ -147,7 +144,9 @@ class HeadlessWebViewManager {
           if (!isSniffMode || _isDone) return;
           if (config.sourceRegex != null) {
             try {
-              if (RegExp(config.sourceRegex!).hasMatch(resource.url.toString())) {
+              if (RegExp(
+                config.sourceRegex!,
+              ).hasMatch(resource.url.toString())) {
                 _finish(resource.url.toString());
               }
             } catch (_) {}
@@ -162,7 +161,10 @@ class HeadlessWebViewManager {
   }
 
   void _scheduleJsEval(
-      InAppWebViewController controller, String url, String js) {
+    InAppWebViewController controller,
+    String url,
+    String js,
+  ) {
     _delayTimer = Timer(
       Duration(milliseconds: 1000 + _retryIntervalMs),
       () => _executeJs(controller, url, js),
@@ -170,7 +172,10 @@ class HeadlessWebViewManager {
   }
 
   Future<void> _executeJs(
-      InAppWebViewController controller, String url, String js) async {
+    InAppWebViewController controller,
+    String url,
+    String js,
+  ) async {
     if (_isDone) return;
     try {
       final result = await controller.evaluateJavascript(source: js);
@@ -199,11 +204,30 @@ class HeadlessWebViewManager {
     _isDone = true;
     _delayTimer?.cancel();
     _retryTimer?.cancel();
-    _completer.complete(WebViewResponse(
-      url: _currentUrl,
-      body: body,
-      statusCode: statusCode,
-    ));
+    _globalTimeout?.cancel();
+    _disposeWebView();
+    _completer.complete(
+      WebViewResponse(url: _currentUrl, body: body, statusCode: statusCode),
+    );
+  }
+
+  void _disposeWebView() {
+    _webView?.dispose();
+    _webView = null;
+  }
+
+  /// 释放资源，防止泄漏
+  void dispose() {
+    if (!_isDone) {
+      _finish(null, error: 'Manager disposed');
+    }
+    _delayTimer?.cancel();
+    _retryTimer?.cancel();
+    _globalTimeout?.cancel();
+    _disposeWebView();
+    _delayTimer = null;
+    _retryTimer = null;
+    _globalTimeout = null;
   }
 
   String _unescapeJsString(String input) {
@@ -249,14 +273,20 @@ Future<String?> webViewGetContent({
   Map<String, String>? headers,
 }) async {
   final manager = HeadlessWebViewManager();
-  final result = await manager.getPageContent(WebViewConfig(
-    url: url,
-    html: html,
-    javaScript: js,
-    tag: tag,
-    headerMap: headers,
-  ));
-  return result.body;
+  try {
+    final result = await manager.getPageContent(
+      WebViewConfig(
+        url: url,
+        html: html,
+        javaScript: js,
+        tag: tag,
+        headerMap: headers,
+      ),
+    );
+    return result.body;
+  } finally {
+    manager.dispose();
+  }
 }
 
 /// 便捷函数：嗅探资源 URL（对应 java.webViewGetSource）
@@ -270,16 +300,22 @@ Future<String?> webViewSniffSource({
   int delayTimeMs = 0,
 }) async {
   final manager = HeadlessWebViewManager();
-  final result = await manager.getPageContent(WebViewConfig(
-    url: url,
-    html: html,
-    javaScript: js,
-    sourceRegex: sourceRegex,
-    tag: tag,
-    headerMap: headers,
-    delayTimeMs: delayTimeMs,
-  ));
-  return result.body;
+  try {
+    final result = await manager.getPageContent(
+      WebViewConfig(
+        url: url,
+        html: html,
+        javaScript: js,
+        sourceRegex: sourceRegex,
+        tag: tag,
+        headerMap: headers,
+        delayTimeMs: delayTimeMs,
+      ),
+    );
+    return result.body;
+  } finally {
+    manager.dispose();
+  }
 }
 
 /// 便捷函数：嗅探跳转 URL（对应 java.webViewGetOverrideUrl）
@@ -293,14 +329,20 @@ Future<String?> webViewSniffOverrideUrl({
   int delayTimeMs = 0,
 }) async {
   final manager = HeadlessWebViewManager();
-  final result = await manager.getPageContent(WebViewConfig(
-    url: url,
-    html: html,
-    javaScript: js,
-    overrideUrlRegex: overrideUrlRegex,
-    tag: tag,
-    headerMap: headers,
-    delayTimeMs: delayTimeMs,
-  ));
-  return result.body;
+  try {
+    final result = await manager.getPageContent(
+      WebViewConfig(
+        url: url,
+        html: html,
+        javaScript: js,
+        overrideUrlRegex: overrideUrlRegex,
+        tag: tag,
+        headerMap: headers,
+        delayTimeMs: delayTimeMs,
+      ),
+    );
+    return result.body;
+  } finally {
+    manager.dispose();
+  }
 }

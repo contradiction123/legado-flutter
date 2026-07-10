@@ -19,7 +19,8 @@ class BookSourceMapper {
       concurrentRate: table.concurrentRate,
       header: table.header is Map<String, dynamic>
           ? (table.header as Map<String, dynamic>).map(
-              (k, v) => MapEntry(k, v.toString()))
+              (k, v) => MapEntry(k, v.toString()),
+            )
           : null,
       loginUrl: table.loginUrl,
       loginUi: table.loginUi,

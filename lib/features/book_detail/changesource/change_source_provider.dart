@@ -110,11 +110,7 @@ class ChangeSourceProvider extends StateNotifier<ChangeSourceState> {
   Future<void> testSources(String bookName, String bookAuthor) async {
     if (bookName.trim().isEmpty) return;
 
-    state = state.copyWith(
-      isLoading: true,
-      error: null,
-      testResults: const {},
-    );
+    state = state.copyWith(isLoading: true, error: null, testResults: const {});
 
     try {
       final db = await databaseInstance;
@@ -122,10 +118,7 @@ class ChangeSourceProvider extends StateNotifier<ChangeSourceState> {
       final sources = await sourceDao.getEnabled();
 
       if (sources.isEmpty) {
-        state = state.copyWith(
-          isLoading: false,
-          error: '没有可用的书源，请先导入或启用书源',
-        );
+        state = state.copyWith(isLoading: false, error: '没有可用的书源，请先导入或启用书源');
         return;
       }
 
@@ -137,12 +130,7 @@ class ChangeSourceProvider extends StateNotifier<ChangeSourceState> {
       final futures = <Future<void>>[];
 
       for (final source in sources) {
-        futures.add(_testSingleSource(
-          source,
-          bookName,
-          results,
-          semaphore,
-        ));
+        futures.add(_testSingleSource(source, bookName, results, semaphore));
       }
 
       await Future.wait(futures);
@@ -159,8 +147,9 @@ class ChangeSourceProvider extends StateNotifier<ChangeSourceState> {
 
         // 都成功则按响应时间升序
         if (aResult?.success == true && bResult?.success == true) {
-          return (aResult?.responseTimeMs ?? 0)
-              .compareTo(bResult?.responseTimeMs ?? 0);
+          return (aResult?.responseTimeMs ?? 0).compareTo(
+            bResult?.responseTimeMs ?? 0,
+          );
         }
 
         // 都失败则保持原顺序
@@ -173,10 +162,7 @@ class ChangeSourceProvider extends StateNotifier<ChangeSourceState> {
         isLoading: false,
       );
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: '换源测试失败: $e',
-      );
+      state = state.copyWith(isLoading: false, error: '换源测试失败: $e');
     }
   }
 
@@ -237,5 +223,5 @@ class ChangeSourceProvider extends StateNotifier<ChangeSourceState> {
 /// 换源状态提供者
 final changeSourceProvider =
     StateNotifierProvider<ChangeSourceProvider, ChangeSourceState>((ref) {
-  return ChangeSourceProvider();
-});
+      return ChangeSourceProvider();
+    });

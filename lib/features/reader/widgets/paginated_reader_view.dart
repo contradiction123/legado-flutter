@@ -138,10 +138,7 @@ class _PaginatedReaderViewState extends ConsumerState<PaginatedReaderView> {
       lineHeight: config.lineHeight,
     );
 
-    final builder = TextPageBuilder(
-      config: layoutConfig,
-      textStyle: textStyle,
-    );
+    final builder = TextPageBuilder(config: layoutConfig, textStyle: textStyle);
 
     final ci = widget.chapterIndex;
     final content = state.contents[ci] ?? '';

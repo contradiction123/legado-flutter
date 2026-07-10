@@ -41,10 +41,7 @@ class _PdfReaderScreenState extends ConsumerState<PdfReaderScreen> {
           _buildContent(state),
 
           // 菜单层
-          if (_isMenuVisible) ...[
-            _buildTopBar(state),
-            _buildBottomBar(state),
-          ],
+          if (_isMenuVisible) ...[_buildTopBar(state), _buildBottomBar(state)],
 
           // 翻页触摸区域
           _buildTapOverlay(state),
@@ -83,7 +80,9 @@ class _PdfReaderScreenState extends ConsumerState<PdfReaderScreen> {
       controller: _pageController,
       itemCount: state.pageCount,
       onPageChanged: (page) {
-        ref.read(pdfReaderProvider(widget.book.bookUrl).notifier).goToPage(page);
+        ref
+            .read(pdfReaderProvider(widget.book.bookUrl).notifier)
+            .goToPage(page);
       },
       itemBuilder: (context, index) {
         return _PdfPageView(
@@ -179,8 +178,9 @@ class _PdfReaderScreenState extends ConsumerState<PdfReaderScreen> {
                 icon: const Icon(Icons.zoom_in, color: Colors.white70),
                 tooltip: '放大',
                 onPressed: () {
-                  final notifier =
-                      ref.read(pdfReaderProvider(widget.book.bookUrl).notifier);
+                  final notifier = ref.read(
+                    pdfReaderProvider(widget.book.bookUrl).notifier,
+                  );
                   notifier.setZoom(state.zoomLevel + 0.25);
                 },
               ),
@@ -188,8 +188,9 @@ class _PdfReaderScreenState extends ConsumerState<PdfReaderScreen> {
                 icon: const Icon(Icons.zoom_out, color: Colors.white70),
                 tooltip: '缩小',
                 onPressed: () {
-                  final notifier =
-                      ref.read(pdfReaderProvider(widget.book.bookUrl).notifier);
+                  final notifier = ref.read(
+                    pdfReaderProvider(widget.book.bookUrl).notifier,
+                  );
                   notifier.setZoom(state.zoomLevel - 0.25);
                 },
               ),
@@ -216,25 +217,22 @@ class _PdfReaderScreenState extends ConsumerState<PdfReaderScreen> {
                 icon: const Icon(Icons.chevron_left, color: Colors.white70),
                 onPressed: state.hasPrevious
                     ? () => _pageController.previousPage(
-                          duration: const Duration(milliseconds: 200),
-                          curve: Curves.easeInOut,
-                        )
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                      )
                     : null,
               ),
               Text(
                 state.progressText,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 14,
-                ),
+                style: const TextStyle(color: Colors.white70, fontSize: 14),
               ),
               IconButton(
                 icon: const Icon(Icons.chevron_right, color: Colors.white70),
                 onPressed: state.hasNext
                     ? () => _pageController.nextPage(
-                          duration: const Duration(milliseconds: 200),
-                          curve: Curves.easeInOut,
-                        )
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                      )
                     : null,
               ),
             ],
@@ -344,10 +342,7 @@ class _PdfPageViewState extends ConsumerState<_PdfPageView> {
 
     if (_imageBytes == null) {
       return Center(
-        child: Text(
-          '加载失败',
-          style: TextStyle(color: Colors.white38),
-        ),
+        child: Text('加载失败', style: TextStyle(color: Colors.white38)),
       );
     }
 

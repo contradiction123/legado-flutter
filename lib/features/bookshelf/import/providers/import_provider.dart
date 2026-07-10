@@ -128,6 +128,8 @@ class ImportProvider extends StateNotifier<ImportState> {
 }
 
 /// 导入状态提供者
-final importProvider = StateNotifierProvider<ImportProvider, ImportState>((ref) {
+final importProvider = StateNotifierProvider<ImportProvider, ImportState>((
+  ref,
+) {
   return ImportProvider();
 });

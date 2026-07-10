@@ -40,10 +40,14 @@ class GroupFilterBar extends StatelessWidget {
       child: ActionChip(
         label: Text(label),
         labelStyle: theme.textTheme.labelLarge?.copyWith(
-          color: isSelected ? colorScheme.onPrimaryContainer : colorScheme.onSurfaceVariant,
+          color: isSelected
+              ? colorScheme.onPrimaryContainer
+              : colorScheme.onSurfaceVariant,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
         ),
-        backgroundColor: isSelected ? colorScheme.primaryContainer : colorScheme.surfaceContainerHighest,
+        backgroundColor: isSelected
+            ? colorScheme.primaryContainer
+            : colorScheme.surfaceContainerHighest,
         side: isSelected
             ? BorderSide(color: colorScheme.primaryContainer)
             : BorderSide(color: colorScheme.outlineVariant),

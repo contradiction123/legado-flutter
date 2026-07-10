@@ -66,10 +66,7 @@ class _OverviewCards extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '总览',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+        Text('总览', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 12),
         Row(
           children: [
@@ -106,15 +103,14 @@ class _DailyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final maxTime = recentStats.fold<int>(
-        0, (max, s) => s.readTime > max ? s.readTime : max);
+      0,
+      (max, s) => s.readTime > max ? s.readTime : max,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '近 7 天阅读',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+        Text('近 7 天阅读', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 12),
         SizedBox(
           height: 120,
@@ -135,18 +131,17 @@ class _DailyChart extends StatelessWidget {
                       Text(
                         _formatDurationShort(stat.readTime),
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              fontSize: 9,
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                          fontSize: 9,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Container(
                         width: 24,
                         height: barHeight,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.primary.withValues(
-                            alpha: 0.3 + ratio * 0.7,
-                          ),
+                          color: Theme.of(context).colorScheme.primary
+                              .withValues(alpha: 0.3 + ratio * 0.7),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),
@@ -154,9 +149,9 @@ class _DailyChart extends StatelessWidget {
                       Text(
                         label,
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              fontSize: 9,
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                          fontSize: 9,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ],
                   ),
@@ -181,35 +176,28 @@ class _TodayCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '今日阅读',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+        Text('今日阅读', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 12),
         Card(
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
-                Icon(
-                  Icons.today,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
+                Icon(Icons.today, color: Theme.of(context).colorScheme.primary),
                 const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       _formatDuration(todayReadTime),
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
                       '今日有效阅读时长',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ),
@@ -233,10 +221,7 @@ class _StreakCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '连续阅读',
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
+        Text('连续阅读', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 12),
         Card(
           child: Padding(
@@ -253,7 +238,8 @@ class _StreakCard extends StatelessWidget {
                   children: [
                     Text(
                       '$streakDays 天',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: streakDays > 0 ? Colors.orange : null,
                           ),
@@ -261,8 +247,8 @@ class _StreakCard extends StatelessWidget {
                     Text(
                       streakDays > 0 ? '连续阅读天数' : '还没有连续阅读记录',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ],
                 ),
@@ -302,16 +288,16 @@ class _StatCard extends StatelessWidget {
             Text(
               value,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
             ),
             const SizedBox(height: 4),
             Text(
               label,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),

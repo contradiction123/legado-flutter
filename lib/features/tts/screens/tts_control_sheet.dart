@@ -67,12 +67,17 @@ class _TtsControlSheetState extends ConsumerState<TtsControlSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(_formatDuration(state.elapsedSeconds),
-                  style: theme.textTheme.labelSmall),
+              Text(
+                _formatDuration(state.elapsedSeconds),
+                style: theme.textTheme.labelSmall,
+              ),
               if (state.timerMode == TtsTimerMode.countdown)
-                Text('剩余 ${state.timerMinutes} 分钟',
-                    style: theme.textTheme.labelSmall?.copyWith(
-                        color: theme.colorScheme.primary)),
+                Text(
+                  '剩余 ${state.timerMinutes} 分钟',
+                  style: theme.textTheme.labelSmall?.copyWith(
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
             ],
           ),
           const SizedBox(height: 16),
@@ -82,9 +87,9 @@ class _TtsControlSheetState extends ConsumerState<TtsControlSheet> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _ControlButton(
-                  icon: Icons.skip_previous_rounded,
-                  onPressed: () =>
-                      ref.read(ttsProvider.notifier).prevParagraph()),
+                icon: Icons.skip_previous_rounded,
+                onPressed: () => ref.read(ttsProvider.notifier).prevParagraph(),
+              ),
               const SizedBox(width: 12),
               _PlayButton(
                 isPlaying: state.playState == TtsPlayState.playing,
@@ -93,9 +98,9 @@ class _TtsControlSheetState extends ConsumerState<TtsControlSheet> {
               ),
               const SizedBox(width: 12),
               _ControlButton(
-                  icon: Icons.skip_next_rounded,
-                  onPressed: () =>
-                      ref.read(ttsProvider.notifier).nextParagraph()),
+                icon: Icons.skip_next_rounded,
+                onPressed: () => ref.read(ttsProvider.notifier).nextParagraph(),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -104,21 +109,24 @@ class _TtsControlSheetState extends ConsumerState<TtsControlSheet> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextButton.icon(
-                  onPressed: () => ref.read(ttsProvider.notifier).stop(),
-                  icon: const Icon(Icons.stop_rounded, size: 18),
-                  label: const Text('停止')),
+                onPressed: () => ref.read(ttsProvider.notifier).stop(),
+                icon: const Icon(Icons.stop_rounded, size: 18),
+                label: const Text('停止'),
+              ),
               const SizedBox(width: 8),
               TextButton.icon(
-                  onPressed: () => ref.read(ttsProvider.notifier).addTimer(),
-                  icon: const Icon(Icons.timer_outlined, size: 18),
-                  label: Text(state.timerMinutes > 0
-                      ? '${state.timerMinutes}分'
-                      : '定时')),
+                onPressed: () => ref.read(ttsProvider.notifier).addTimer(),
+                icon: const Icon(Icons.timer_outlined, size: 18),
+                label: Text(
+                  state.timerMinutes > 0 ? '${state.timerMinutes}分' : '定时',
+                ),
+              ),
               const SizedBox(width: 8),
               TextButton.icon(
-                  onPressed: () => _showConfig(context),
-                  icon: const Icon(Icons.tune, size: 18),
-                  label: const Text('设置')),
+                onPressed: () => _showConfig(context),
+                icon: const Icon(Icons.tune, size: 18),
+                label: const Text('设置'),
+              ),
             ],
           ),
         ],
@@ -130,10 +138,7 @@ class _TtsControlSheetState extends ConsumerState<TtsControlSheet> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (_) => SizedBox(
-        height: 280,
-        child: const TtsConfigSheet(),
-      ),
+      builder: (_) => SizedBox(height: 280, child: const TtsConfigSheet()),
     );
   }
 
@@ -156,8 +161,7 @@ class _ControlButton extends StatelessWidget {
       iconSize: 28,
       onPressed: onPressed,
       style: IconButton.styleFrom(
-        backgroundColor:
-            Theme.of(context).colorScheme.surfaceContainerHighest,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
       ),
     );
   }
@@ -171,7 +175,9 @@ class _PlayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill),
+      icon: Icon(
+        isPlaying ? Icons.pause_circle_filled : Icons.play_circle_fill,
+      ),
       iconSize: 56,
       color: Theme.of(context).colorScheme.primary,
       onPressed: onPressed,
@@ -267,8 +273,10 @@ class _SliderConfig extends StatelessWidget {
         ),
         SizedBox(
           width: 48,
-          child: Text(displayValue,
-              style: Theme.of(context).textTheme.bodySmall),
+          child: Text(
+            displayValue,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
         ),
       ],
     );

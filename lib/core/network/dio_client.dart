@@ -39,9 +39,7 @@ class DioClient {
         followRedirects: true,
         maxRedirects: 5,
         validateStatus: (status) => true, // 不抛出 HTTP 错误状态
-        headers: {
-          'User-Agent': _defaultUserAgent,
-        },
+        headers: {'User-Agent': _defaultUserAgent},
       ),
     );
 

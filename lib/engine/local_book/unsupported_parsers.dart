@@ -11,7 +11,10 @@ class MobiParser implements BaseLocalBookParser {
   @override
   Future<void> updateBookInfo(Book book) async {
     // MOBI 元数据可从文件名中提取
-    final title = book.originName.replaceAll(RegExp(r'\.(mobi|azw3|azw)$', caseSensitive: false), '');
+    final title = book.originName.replaceAll(
+      RegExp(r'\.(mobi|azw3|azw)$', caseSensitive: false),
+      '',
+    );
     book = book.copyWith(
       name: book.name.isNotEmpty ? book.name : title,
       intro: 'MOBI 格式暂不支持阅读。请使用 EPUB 或 TXT 格式替代。',
@@ -40,7 +43,10 @@ class MobiParser implements BaseLocalBookParser {
 class UmdParser implements BaseLocalBookParser {
   @override
   Future<void> updateBookInfo(Book book) async {
-    final title = book.originName.replaceAll(RegExp(r'\.umd$', caseSensitive: false), '');
+    final title = book.originName.replaceAll(
+      RegExp(r'\.umd$', caseSensitive: false),
+      '',
+    );
     book = book.copyWith(
       name: book.name.isNotEmpty ? book.name : title,
       intro: 'UMD 格式暂不支持阅读。请使用 EPUB 或 TXT 格式替代。',

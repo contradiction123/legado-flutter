@@ -26,9 +26,12 @@ class SslHelper {
   static Future<bool> verifyCertificate(String url) async {
     try {
       final dio = Dio();
-      await dio.head(url,
-          options: Options(
-              validateStatus: (status) => status != null && status < 500));
+      await dio.head(
+        url,
+        options: Options(
+          validateStatus: (status) => status != null && status < 500,
+        ),
+      );
       return true;
     } catch (_) {
       return false;

@@ -20,10 +20,7 @@ class MangaReaderProvider extends StateNotifier<MangaReaderState> {
   /// 跳转到指定章节
   void goToChapter(int index) {
     if (index < 0 || index >= state.chapters.length) return;
-    state = state.copyWith(
-      currentChapterIndex: index,
-      currentPageIndex: 0,
-    );
+    state = state.copyWith(currentChapterIndex: index, currentPageIndex: 0);
   }
 
   /// 跳转到指定页
@@ -59,16 +56,12 @@ class MangaReaderProvider extends StateNotifier<MangaReaderState> {
 
   /// 切换阅读模式
   void setReadMode(MangaReadMode mode) {
-    state = state.copyWith(
-      config: state.config.copyWith(readMode: mode),
-    );
+    state = state.copyWith(config: state.config.copyWith(readMode: mode));
   }
 
   /// 切换翻页方向
   void setDirection(MangaDirection dir) {
-    state = state.copyWith(
-      config: state.config.copyWith(direction: dir),
-    );
+    state = state.copyWith(config: state.config.copyWith(direction: dir));
   }
 
   /// 切换双页模式
@@ -95,6 +88,7 @@ class MangaReaderProvider extends StateNotifier<MangaReaderState> {
   }
 }
 
-final mangaReaderProvider = StateNotifierProvider<MangaReaderProvider, MangaReaderState>(
-  (ref) => MangaReaderProvider(),
-);
+final mangaReaderProvider =
+    StateNotifierProvider<MangaReaderProvider, MangaReaderState>(
+      (ref) => MangaReaderProvider(),
+    );

@@ -38,12 +38,17 @@ class ReplaceRuleService {
   /// 检查规则是否适用于当前范围
   bool _isInScope(ReplaceRule rule, String? chapterTitle) {
     // 如果 scopeTitle 为 true，需要匹配标题
-    if (rule.scopeTitle && chapterTitle != null && rule.scope != null && rule.scope!.isNotEmpty) {
+    if (rule.scopeTitle &&
+        chapterTitle != null &&
+        rule.scope != null &&
+        rule.scope!.isNotEmpty) {
       if (!_matchScope(chapterTitle, rule.scope!)) return false;
     }
 
     // 如果 excludeScope 不为空，排除匹配的章节
-    if (rule.excludeScope != null && rule.excludeScope!.isNotEmpty && chapterTitle != null) {
+    if (rule.excludeScope != null &&
+        rule.excludeScope!.isNotEmpty &&
+        chapterTitle != null) {
       if (_matchScope(chapterTitle, rule.excludeScope!)) return false;
     }
 
@@ -77,10 +82,7 @@ class ReplaceRuleService {
           // 支持 $1, $2 等反向引用
           var replacement = rule.replacement;
           for (var i = 0; i <= match.groupCount; i++) {
-            replacement = replacement.replaceAll(
-              '\$$i',
-              match.group(i) ?? '',
-            );
+            replacement = replacement.replaceAll('\$$i', match.group(i) ?? '');
           }
           return replacement;
         });

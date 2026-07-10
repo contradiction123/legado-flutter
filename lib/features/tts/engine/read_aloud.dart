@@ -199,18 +199,19 @@ class ReadAloudEngine {
 
   /// 获取当前状态快照
   TtsState get state => TtsState(
-        playState: _state,
-        currentText: _paragraphQueue.isNotEmpty &&
-                _currentParagraphIndex < _paragraphQueue.length
-            ? _paragraphQueue[_currentParagraphIndex]
-            : null,
-        progress: _paragraphQueue.isNotEmpty
-            ? _currentParagraphIndex / _paragraphQueue.length
-            : 0,
-        elapsedSeconds: _elapsedSeconds,
-        timerMinutes: _timerMinutes,
-        timerMode: _timerMode,
-      );
+    playState: _state,
+    currentText:
+        _paragraphQueue.isNotEmpty &&
+            _currentParagraphIndex < _paragraphQueue.length
+        ? _paragraphQueue[_currentParagraphIndex]
+        : null,
+    progress: _paragraphQueue.isNotEmpty
+        ? _currentParagraphIndex / _paragraphQueue.length
+        : 0,
+    elapsedSeconds: _elapsedSeconds,
+    timerMinutes: _timerMinutes,
+    timerMode: _timerMode,
+  );
 
   /// 朗读当前段落
   Future<void> _speakCurrent() async {
@@ -264,20 +265,23 @@ class ReadAloudEngine {
 
   /// 发出状态通知
   void _emitState({String? error}) {
-    onStateChanged?.call(TtsState(
-      playState: _state,
-      currentText: _paragraphQueue.isNotEmpty &&
-              _currentParagraphIndex < _paragraphQueue.length
-          ? _paragraphQueue[_currentParagraphIndex]
-          : null,
-      progress: _paragraphQueue.isNotEmpty
-          ? _currentParagraphIndex / _paragraphQueue.length
-          : 0,
-      elapsedSeconds: _elapsedSeconds,
-      timerMinutes: _timerMinutes,
-      timerMode: _timerMode,
-      error: error,
-    ));
+    onStateChanged?.call(
+      TtsState(
+        playState: _state,
+        currentText:
+            _paragraphQueue.isNotEmpty &&
+                _currentParagraphIndex < _paragraphQueue.length
+            ? _paragraphQueue[_currentParagraphIndex]
+            : null,
+        progress: _paragraphQueue.isNotEmpty
+            ? _currentParagraphIndex / _paragraphQueue.length
+            : 0,
+        elapsedSeconds: _elapsedSeconds,
+        timerMinutes: _timerMinutes,
+        timerMode: _timerMode,
+        error: error,
+      ),
+    );
   }
 
   /// 释放资源

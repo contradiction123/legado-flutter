@@ -47,7 +47,9 @@ class _SourceEditScreenState extends ConsumerState<SourceEditScreen> {
     _groupController = TextEditingController(text: s?.bookSourceGroup ?? '');
     _searchUrlController = TextEditingController(text: s?.searchUrl ?? '');
     _ruleSearchController = TextEditingController(text: s?.ruleSearch ?? '');
-    _ruleBookInfoController = TextEditingController(text: s?.ruleBookInfo ?? '');
+    _ruleBookInfoController = TextEditingController(
+      text: s?.ruleBookInfo ?? '',
+    );
     _ruleTocController = TextEditingController(text: s?.ruleToc ?? '');
     _ruleContentController = TextEditingController(text: s?.ruleContent ?? '');
     _exploreUrlController = TextEditingController(text: s?.exploreUrl ?? '');
@@ -133,7 +135,9 @@ class _SourceEditScreenState extends ConsumerState<SourceEditScreen> {
           bookSourceType: widget.source?.bookSourceType ?? 0,
           customOrder: widget.source?.customOrder ?? 0,
           enabledExplore: widget.source?.enabledExplore ?? true,
-          lastUpdateTime: widget.source?.lastUpdateTime ?? DateTime.now().millisecondsSinceEpoch,
+          lastUpdateTime:
+              widget.source?.lastUpdateTime ??
+              DateTime.now().millisecondsSinceEpoch,
           respondTime: widget.source?.respondTime ?? 180000,
           weight: widget.source?.weight ?? 0,
           eventListener: widget.source?.eventListener ?? false,
@@ -145,9 +149,9 @@ class _SourceEditScreenState extends ConsumerState<SourceEditScreen> {
 
       if (mounted) {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_isNew ? '书源创建成功' : '书源更新成功')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(_isNew ? '书源创建成功' : '书源更新成功')));
       }
     } catch (e) {
       setState(() => _jsonError = '保存失败: $e');
@@ -349,10 +353,7 @@ class _SourceEditScreenState extends ConsumerState<SourceEditScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'JSON 编辑器',
-            style: theme.textTheme.titleMedium,
-          ),
+          Text('JSON 编辑器', style: theme.textTheme.titleMedium),
           const SizedBox(height: 8),
           Text(
             '直接编辑书源的完整 JSON 数据',
@@ -367,10 +368,7 @@ class _SourceEditScreenState extends ConsumerState<SourceEditScreen> {
               maxLines: null,
               expands: true,
               textAlignVertical: TextAlignVertical.top,
-              style: const TextStyle(
-                fontFamily: 'monospace',
-                fontSize: 13,
-              ),
+              style: const TextStyle(fontFamily: 'monospace', fontSize: 13),
               decoration: InputDecoration(
                 hintText: '在此粘贴或编辑 JSON...',
                 border: OutlineInputBorder(
@@ -427,9 +425,7 @@ class _SourceEditScreenState extends ConsumerState<SourceEditScreen> {
         labelText: label,
         hintText: hint,
         prefixIcon: icon != null ? Icon(icon, size: 20) : null,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 12,

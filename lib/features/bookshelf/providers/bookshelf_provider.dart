@@ -84,16 +84,9 @@ class BookshelfProvider extends StateNotifier<BookshelfState> {
       final books = await bookRepo.getAll();
       final groups = await groupDao.getAll();
 
-      state = state.copyWith(
-        books: books,
-        groups: groups,
-        isLoading: false,
-      );
+      state = state.copyWith(books: books, groups: groups, isLoading: false);
     } catch (e) {
-      state = state.copyWith(
-        error: '加载书架失败: $e',
-        isLoading: false,
-      );
+      state = state.copyWith(error: '加载书架失败: $e', isLoading: false);
     }
   }
 
@@ -107,10 +100,7 @@ class BookshelfProvider extends StateNotifier<BookshelfState> {
 
   /// 选择分组
   void selectGroup(int groupId) {
-    state = state.copyWith(
-      selectedGroupId: groupId,
-      selectedBooks: const {},
-    );
+    state = state.copyWith(selectedGroupId: groupId, selectedBooks: const {});
   }
 
   /// 进入编辑模式
@@ -158,7 +148,9 @@ class BookshelfProvider extends StateNotifier<BookshelfState> {
         await bookRepo.deleteByUrl(url);
       }
 
-      final remaining = state.books.where((b) => !toDelete.contains(b.bookUrl)).toList();
+      final remaining = state.books
+          .where((b) => !toDelete.contains(b.bookUrl))
+          .toList();
       state = state.copyWith(
         books: remaining,
         selectedBooks: const {},
@@ -226,5 +218,5 @@ class BookshelfProvider extends StateNotifier<BookshelfState> {
 /// 书架状态提供者
 final bookshelfProvider =
     StateNotifierProvider<BookshelfProvider, BookshelfState>((ref) {
-  return BookshelfProvider();
-});
+      return BookshelfProvider();
+    });

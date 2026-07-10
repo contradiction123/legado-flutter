@@ -69,9 +69,7 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
               ),
 
             // 导入结果列表
-            Expanded(
-              child: _buildResultList(state, theme),
-            ),
+            Expanded(child: _buildResultList(state, theme)),
           ],
         ),
       ),
@@ -119,13 +117,18 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.cloud_upload_outlined,
-                size: 48, color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4)),
+            Icon(
+              Icons.cloud_upload_outlined,
+              size: 48,
+              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+            ),
             const SizedBox(height: 12),
             Text(
               '点击上方按钮选择本地书籍文件',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                color: theme.colorScheme.onSurfaceVariant.withValues(
+                  alpha: 0.6,
+                ),
               ),
             ),
           ],
@@ -157,11 +160,17 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
               style: theme.textTheme.titleSmall?.copyWith(color: Colors.orange),
             ),
           ),
-          ...state.failedPaths.map((path) => ListTile(
-                dense: true,
-                leading: const Icon(Icons.error_outline, color: Colors.orange, size: 20),
-                title: Text(path, style: const TextStyle(fontSize: 13)),
-              )),
+          ...state.failedPaths.map(
+            (path) => ListTile(
+              dense: true,
+              leading: const Icon(
+                Icons.error_outline,
+                color: Colors.orange,
+                size: 20,
+              ),
+              title: Text(path, style: const TextStyle(fontSize: 13)),
+            ),
+          ),
         ],
       ],
     );
@@ -185,9 +194,9 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('选择文件失败: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('选择文件失败: $e')));
     }
   }
 
@@ -200,9 +209,9 @@ class _ImportScreenState extends ConsumerState<ImportScreen> {
     // 保存到书架
     ref.read(bookshelfProvider.notifier).addBooks(books).then((count) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('已添加 $count 本书到书架')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('已添加 $count 本书到书架')));
       ref.read(importProvider.notifier).reset();
       Navigator.pop(context);
     });

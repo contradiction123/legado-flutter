@@ -60,9 +60,7 @@ class BookmarkProvider extends StateNotifier<BookmarkState> {
     try {
       final dao = await _getDao();
       await dao.insert(bookmark);
-      state = state.copyWith(
-        bookmarks: [bookmark, ...state.bookmarks],
-      );
+      state = state.copyWith(bookmarks: [bookmark, ...state.bookmarks]);
       return true;
     } catch (e) {
       state = state.copyWith(error: '添加书签失败: $e');
@@ -92,13 +90,16 @@ class BookmarkProvider extends StateNotifier<BookmarkState> {
 
   /// 获取当前章节的书签（用于删除）
   Bookmark? getBookmarkAt(int chapterIndex) {
-    final matches = state.bookmarks.where((b) => b.chapterIndex == chapterIndex);
+    final matches = state.bookmarks.where(
+      (b) => b.chapterIndex == chapterIndex,
+    );
     return matches.isNotEmpty ? matches.first : null;
   }
 }
 
 /// 书签状态提供者
-final bookmarkProvider =
-    StateNotifierProvider<BookmarkProvider, BookmarkState>((ref) {
-  return BookmarkProvider();
-});
+final bookmarkProvider = StateNotifierProvider<BookmarkProvider, BookmarkState>(
+  (ref) {
+    return BookmarkProvider();
+  },
+);

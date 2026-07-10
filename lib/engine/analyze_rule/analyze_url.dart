@@ -19,7 +19,10 @@ class AnalyzeUrl {
     var url = urlTemplate;
     for (final entry in variables.entries) {
       final placeholder = '{{${entry.key}}}';
-      url = url.replaceAll(placeholder, Uri.encodeComponent(entry.value.toString()));
+      url = url.replaceAll(
+        placeholder,
+        Uri.encodeComponent(entry.value.toString()),
+      );
     }
     return url;
   }
@@ -27,7 +30,8 @@ class AnalyzeUrl {
   /// 构建完整 URL（处理相对路径）
   String resolveUrl(String baseUrl, String? relativeUrl) {
     if (relativeUrl == null || relativeUrl.isEmpty) return baseUrl;
-    if (relativeUrl.startsWith('http://') || relativeUrl.startsWith('https://')) {
+    if (relativeUrl.startsWith('http://') ||
+        relativeUrl.startsWith('https://')) {
       return relativeUrl;
     }
     try {
@@ -72,7 +76,11 @@ class AnalyzeUrl {
   }
 
   /// 批量构建 URL（用于多页场景）
-  List<String> buildUrls(String urlTemplate, Map<String, dynamic> baseVariables, {int pageCount = 1}) {
+  List<String> buildUrls(
+    String urlTemplate,
+    Map<String, dynamic> baseVariables, {
+    int pageCount = 1,
+  }) {
     if (pageCount <= 1) {
       return [buildUrl(urlTemplate, baseVariables)];
     }

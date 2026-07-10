@@ -17,18 +17,13 @@ class TextPageBuilder {
   late final TextMeasurer _measurer;
   TextPageBuilderState _state;
 
-  TextPageBuilder({
-    required this.config,
-    required TextStyle textStyle,
-  }) : _state = TextPageBuilderState() {
+  TextPageBuilder({required this.config, required TextStyle textStyle})
+    : _state = TextPageBuilderState() {
     _measurer = TextMeasurer(textStyle: textStyle);
   }
 
   /// 刷新排版配置
-  void updateConfig({
-    LayoutConfig? config,
-    TextStyle? textStyle,
-  }) {
+  void updateConfig({LayoutConfig? config, TextStyle? textStyle}) {
     if (config != null) {
       this.config.width = config.width;
       this.config.height = config.height;
@@ -147,17 +142,15 @@ class TextPageBuilder {
   List<_LayoutLine> _layoutParagraph(String text) {
     if (text.isEmpty) return [];
 
-    final textStyle = TextStyle(
-      fontSize: config.fontSize,
-      height: 1.0,
-    );
+    final textStyle = TextStyle(fontSize: config.fontSize, height: 1.0);
 
     final painter = TextPainter(
       textDirection: TextDirection.ltr,
       text: TextSpan(text: text, style: textStyle),
     );
 
-    final availableWidth = config.width - config.padding.left - config.padding.right;
+    final availableWidth =
+        config.width - config.padding.left - config.padding.right;
     painter.layout(maxWidth: availableWidth);
 
     // 使用 preferredLineHeight 作为行高参考
@@ -174,9 +167,7 @@ class TextPageBuilder {
       // 找到当前行的结束位置
       // 用 TextPainter 获取在（availableWidth, 行中线）处的字符位置
       final midY = lineHeight * (i + 0.5);
-      final endPos = painter.getPositionForOffset(
-        Offset(availableWidth, midY),
-      );
+      final endPos = painter.getPositionForOffset(Offset(availableWidth, midY));
       var endChar = endPos.offset.clamp(charOffset + 1, text.length);
 
       // 确保结尾不会是空行
@@ -190,13 +181,15 @@ class TextPageBuilder {
         continue;
       }
 
-      lines.add(_LayoutLine(
-        text: lineText,
-        height: lineHeight,
-        descent: lineHeight * 0.2, // 近似计算 descent
-        startIndex: charOffset,
-        endIndex: endChar,
-      ));
+      lines.add(
+        _LayoutLine(
+          text: lineText,
+          height: lineHeight,
+          descent: lineHeight * 0.2, // 近似计算 descent
+          startIndex: charOffset,
+          endIndex: endChar,
+        ),
+      );
 
       charOffset = endChar;
     }

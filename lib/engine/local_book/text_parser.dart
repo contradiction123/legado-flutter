@@ -180,26 +180,29 @@ class TextParser implements BaseLocalBookParser {
           : content.length;
 
       // 限制单章最大长度
-      final actualEnd =
-          (end - start > _maxLengthWithToc) ? start + _maxLengthWithToc : end;
+      final actualEnd = (end - start > _maxLengthWithToc)
+          ? start + _maxLengthWithToc
+          : end;
 
       // 创建 BookChapter
       final chapterTitle = matches[i].group(0)?.trim() ?? '第${i + 1}章';
       final url = 'txt://${book.originName}/$i';
       final md5Hash = _md5Hex('${book.originName}$i$chapterTitle');
 
-      chapters.add(BookChapter(
-        url: url,
-        title: chapterTitle,
-        baseUrl: book.bookUrl,
-        bookUrl: book.bookUrl,
-        index: i,
-        start: start,
-        end: actualEnd,
-        isVolume: false,
-        isVip: false,
-        isPay: false,
-      ));
+      chapters.add(
+        BookChapter(
+          url: url,
+          title: chapterTitle,
+          baseUrl: book.bookUrl,
+          bookUrl: book.bookUrl,
+          index: i,
+          start: start,
+          end: actualEnd,
+          isVolume: false,
+          isVip: false,
+          isPay: false,
+        ),
+      );
     }
 
     return chapters;
@@ -226,18 +229,20 @@ class TextParser implements BaseLocalBookParser {
       }
 
       final url = 'txt://${book.originName}/$chapterIndex';
-      chapters.add(BookChapter(
-        url: url,
-        title: '第${chapterIndex + 1}节',
-        baseUrl: book.bookUrl,
-        bookUrl: book.bookUrl,
-        index: chapterIndex,
-        start: start,
-        end: end,
-        isVolume: false,
-        isVip: false,
-        isPay: false,
-      ));
+      chapters.add(
+        BookChapter(
+          url: url,
+          title: '第${chapterIndex + 1}节',
+          baseUrl: book.bookUrl,
+          bookUrl: book.bookUrl,
+          index: chapterIndex,
+          start: start,
+          end: end,
+          isVolume: false,
+          isVip: false,
+          isPay: false,
+        ),
+      );
 
       start = end;
       chapterIndex++;

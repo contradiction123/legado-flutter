@@ -27,7 +27,8 @@ class _MangaPageViewState extends State<MangaPageView> {
   @override
   void initState() {
     super.initState();
-    _isNetwork = widget.imageUrl.startsWith('http://') ||
+    _isNetwork =
+        widget.imageUrl.startsWith('http://') ||
         widget.imageUrl.startsWith('https://');
   }
 
@@ -35,7 +36,8 @@ class _MangaPageViewState extends State<MangaPageView> {
   void didUpdateWidget(MangaPageView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.imageUrl != widget.imageUrl) {
-      _isNetwork = widget.imageUrl.startsWith('http://') ||
+      _isNetwork =
+          widget.imageUrl.startsWith('http://') ||
           widget.imageUrl.startsWith('https://');
     }
   }
@@ -76,8 +78,7 @@ class _MangaPageViewState extends State<MangaPageView> {
         return Center(
           child: CircularProgressIndicator(
             value: progress.expectedTotalBytes != null
-                ? progress.cumulativeBytesLoaded /
-                    progress.expectedTotalBytes!
+                ? progress.cumulativeBytesLoaded / progress.expectedTotalBytes!
                 : null,
             color: Colors.white38,
           ),
@@ -92,7 +93,11 @@ class _MangaPageViewState extends State<MangaPageView> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.broken_image_outlined, size: 48, color: Colors.white38),
+          const Icon(
+            Icons.broken_image_outlined,
+            size: 48,
+            color: Colors.white38,
+          ),
           const SizedBox(height: 8),
           const Text('加载失败', style: TextStyle(color: Colors.white38)),
         ],

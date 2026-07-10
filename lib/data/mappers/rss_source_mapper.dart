@@ -20,6 +20,16 @@ class RssSourceMapper {
       header: table.header != null
           ? Map<String, String>.from(jsonDecode(table.header!))
           : null,
+      ruleArticles: table.ruleArticles,
+      ruleTitle: table.ruleTitle,
+      ruleLink: table.ruleLink,
+      rulePubDate: table.rulePubDate,
+      ruleDescription: table.ruleDescription,
+      ruleImage: table.ruleImage,
+      ruleContent: table.ruleContent,
+      type: table.type,
+      sortUrl: table.sortUrl,
+      articleStyle: table.articleStyle,
     );
   }
 
@@ -47,6 +57,32 @@ class RssSourceMapper {
       header: model.header != null
           ? drift.Value(jsonEncode(model.header))
           : const drift.Value.absent(),
+      ruleArticles: model.ruleArticles != null
+          ? drift.Value(model.ruleArticles!)
+          : const drift.Value.absent(),
+      ruleTitle: model.ruleTitle != null
+          ? drift.Value(model.ruleTitle!)
+          : const drift.Value.absent(),
+      ruleLink: model.ruleLink != null
+          ? drift.Value(model.ruleLink!)
+          : const drift.Value.absent(),
+      rulePubDate: model.rulePubDate != null
+          ? drift.Value(model.rulePubDate!)
+          : const drift.Value.absent(),
+      ruleDescription: model.ruleDescription != null
+          ? drift.Value(model.ruleDescription!)
+          : const drift.Value.absent(),
+      ruleImage: model.ruleImage != null
+          ? drift.Value(model.ruleImage!)
+          : const drift.Value.absent(),
+      ruleContent: model.ruleContent != null
+          ? drift.Value(model.ruleContent!)
+          : const drift.Value.absent(),
+      type: drift.Value(model.type),
+      sortUrl: model.sortUrl != null
+          ? drift.Value(model.sortUrl!)
+          : const drift.Value.absent(),
+      articleStyle: drift.Value(model.articleStyle),
     );
   }
 }

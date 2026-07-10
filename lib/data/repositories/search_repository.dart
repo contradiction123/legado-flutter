@@ -23,18 +23,19 @@ class SearchRepository {
 
   /// 搜索（按书名或作者模糊匹配）
   Future<List<SearchBook>> search(String keyword) async {
-    final rows = await (_database.select(_database.searchBooks)
-          ..where((t) =>
-              t.name.contains(keyword) | t.author.contains(keyword)))
-        .get();
+    final rows =
+        await (_database.select(_database.searchBooks)..where(
+              (t) => t.name.contains(keyword) | t.author.contains(keyword),
+            ))
+            .get();
     return rows.map(_fromTable).toList();
   }
 
   /// 获取最近的搜索结果（按搜索时间倒序）
   Future<List<SearchBook>> getRecent() async {
-    final rows = await (_database.select(_database.searchBooks)
-          ..orderBy([(t) => OrderingTerm.desc(t.time)]))
-        .get();
+    final rows = await (_database.select(
+      _database.searchBooks,
+    )..orderBy([(t) => OrderingTerm.desc(t.time)])).get();
     return rows.map(_fromTable).toList();
   }
 

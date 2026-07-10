@@ -39,15 +39,17 @@ class DiscoverScreen extends ConsumerWidget {
                   ref.read(discoverProvider.notifier).selectGroup(tab),
             ),
           // 内容
-          Expanded(
-            child: _buildContent(context, state, ref),
-          ),
+          Expanded(child: _buildContent(context, state, ref)),
         ],
       ),
     );
   }
 
-  Widget _buildContent(BuildContext context, DiscoverState state, WidgetRef ref) {
+  Widget _buildContent(
+    BuildContext context,
+    DiscoverState state,
+    WidgetRef ref,
+  ) {
     // 探索中
     if (state.isExploring) {
       return const Center(
@@ -98,27 +100,25 @@ class DiscoverScreen extends ConsumerWidget {
             Icon(
               Icons.explore_outlined,
               size: 64,
-              color: Theme.of(context)
-                  .colorScheme
-                  .onSurfaceVariant
-                  .withValues(alpha: 0.3),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
             ),
             const SizedBox(height: 16),
             Text(
               '暂无探索书源',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
               '请先添加支持探索的书源',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurfaceVariant
-                        .withValues(alpha: 0.6),
-                  ),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+              ),
             ),
           ],
         ),
@@ -135,10 +135,7 @@ class DiscoverScreen extends ConsumerWidget {
         itemCount: state.currentSources.length,
         itemBuilder: (context, index) {
           final source = state.currentSources[index];
-          return _SourceCard(
-            source: source,
-            ref: ref,
-          );
+          return _SourceCard(source: source, ref: ref);
         },
       ),
     );
@@ -151,11 +148,13 @@ class DiscoverScreen extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.search_off, size: 64,
-                color: Theme.of(context).colorScheme.onSurfaceVariant),
+            Icon(
+              Icons.search_off,
+              size: 64,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
             const SizedBox(height: 16),
-            Text('未找到探索结果',
-                style: Theme.of(context).textTheme.titleMedium),
+            Text('未找到探索结果', style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
       );
@@ -234,7 +233,8 @@ class _SourceCard extends StatelessWidget {
         .where((line) => line.isNotEmpty)
         .map((line) {
           return MapEntry(_extractName(line), line);
-        }).toList();
+        })
+        .toList();
   }
 
   String _extractName(String url) {
@@ -297,7 +297,10 @@ class _SourceCard extends StatelessWidget {
                 runSpacing: 6,
                 children: categories.map((entry) {
                   return ActionChip(
-                    label: Text(entry.key, style: const TextStyle(fontSize: 12)),
+                    label: Text(
+                      entry.key,
+                      style: const TextStyle(fontSize: 12),
+                    ),
                     onPressed: () {
                       ref
                           .read(discoverProvider.notifier)
@@ -312,7 +315,9 @@ class _SourceCard extends StatelessWidget {
               Text(
                 '该书源尚未配置探索分类',
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                  color: theme.colorScheme.onSurfaceVariant.withValues(
+                    alpha: 0.6,
+                  ),
                 ),
               ),
           ],

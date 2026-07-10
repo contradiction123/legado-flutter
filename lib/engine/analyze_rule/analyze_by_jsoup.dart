@@ -87,6 +87,9 @@ class AnalyzeByJSoup {
   List<String> getList(String htmlContent, String rule) {
     final (selector, attr) = parseRule(rule);
     final els = elements(htmlContent, selector);
-    return els.map((el) => getAttr(el, attr) ?? '').where((s) => s.isNotEmpty).toList();
+    return els
+        .map((el) => getAttr(el, attr) ?? '')
+        .where((s) => s.isNotEmpty)
+        .toList();
   }
 }

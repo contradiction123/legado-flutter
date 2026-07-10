@@ -16,6 +16,8 @@ import '../providers/read_record_provider.dart';
 import '../providers/reader_provider.dart';
 import '../providers/replace_rule_provider.dart';
 import '../services/replace_rule_service.dart';
+import '../../../core/utils/chinese_convert.dart';
+import '../dictionary/dict_sheet.dart';
 import '../widgets/page_views/page_view_selector.dart';
 import '../widgets/paginated_reader_view.dart';
 
@@ -23,10 +25,7 @@ import '../widgets/paginated_reader_view.dart';
 class ReaderScreen extends ConsumerStatefulWidget {
   final Book book;
 
-  const ReaderScreen({
-    super.key,
-    required this.book,
-  });
+  const ReaderScreen({super.key, required this.book});
 
   @override
   ConsumerState<ReaderScreen> createState() => _ReaderScreenState();
@@ -34,6 +33,59 @@ class ReaderScreen extends ConsumerStatefulWidget {
 
 class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   bool _isMenuVisible = false;
+  bool _isSimplified = true;
+
+  /// 获取经过简繁转换的文本
+  String _convertText(String text) {
+    if (_isSimplified) {
+      // 转为简体
+      if (ChineseConvert.isTraditional(text)) {
+        return ChineseConvert.t2s(text);
+      }
+      return text;
+    } else {
+      // 转为繁体
+      if (ChineseConvert.isSimplified(text)) {
+        return ChineseConvert.s2t(text);
+      }
+      return text;
+    }
+  }
+
+  /// 显示查词弹窗
+  void _showDictLookup(BuildContext context) {
+    final wordCtrl = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('查词'),
+        content: TextField(
+          controller: wordCtrl,
+          decoration: const InputDecoration(
+            hintText: '输入要查询的单词',
+            border: OutlineInputBorder(),
+          ),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            onPressed: () {
+              final word = wordCtrl.text.trim();
+              if (word.isNotEmpty) {
+                Navigator.pop(ctx);
+                DictSheet.open(context, word);
+              }
+            },
+            child: const Text('查询'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -41,17 +93,15 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     _enterFullScreen();
     // 加载本书的书签
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(bookmarkProvider.notifier).loadByBook(
-        widget.book.name,
-        widget.book.author,
-      );
+      ref
+          .read(bookmarkProvider.notifier)
+          .loadByBook(widget.book.name, widget.book.author);
     });
     // 开始阅读会话计时
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(readStatsProvider.notifier).startReadingSession(
-        widget.book.name,
-        widget.book.author,
-      );
+      ref
+          .read(readStatsProvider.notifier)
+          .startReadingSession(widget.book.name, widget.book.author);
     });
   }
 
@@ -59,7 +109,10 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   void dispose() {
     // 结束阅读会话，记录阅读时长（fire-and-forget，捕获异常防止 Zone 级崩溃）
     unawaited(
-      ref.read(readStatsProvider.notifier).endReadingSession().catchError((_) {}),
+      ref
+          .read(readStatsProvider.notifier)
+          .endReadingSession()
+          .catchError((_) {}),
     );
     _exitFullScreen();
     super.dispose();
@@ -93,15 +146,17 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     } else {
       final chapter = state.currentChapter;
       if (chapter != null) {
-        bmProvider.addBookmark(bookmark_model.Bookmark(
-          bookName: widget.book.name,
-          bookAuthor: widget.book.author,
-          chapterIndex: state.currentIndex,
-          chapterPos: 0,
-          chapterName: chapter.title,
-          bookText: '',
-          content: '',
-        ));
+        bmProvider.addBookmark(
+          bookmark_model.Bookmark(
+            bookName: widget.book.name,
+            bookAuthor: widget.book.author,
+            chapterIndex: state.currentIndex,
+            chapterPos: 0,
+            chapterName: chapter.title,
+            bookText: '',
+            content: '',
+          ),
+        );
       }
     }
   }
@@ -113,7 +168,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     final config = ref.watch(readerConfigProvider);
     final bmState = ref.watch(bookmarkProvider);
     final replaceState = ref.watch(replaceRuleProvider);
-    final hasBm = bmState.bookmarks.any((b) => b.chapterIndex == state.currentIndex);
+    final hasBm = bmState.bookmarks.any(
+      (b) => b.chapterIndex == state.currentIndex,
+    );
 
     return Scaffold(
       backgroundColor: config.theme.bgColor,
@@ -157,7 +214,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           padding: const EdgeInsets.all(32),
           child: Text(
             state.error!,
-            style: TextStyle(color: config.theme.textColor.withValues(alpha: 0.7)),
+            style: TextStyle(
+              color: config.theme.textColor.withValues(alpha: 0.7),
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -168,7 +227,9 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
       return Center(
         child: Text(
           '暂无章节',
-          style: TextStyle(color: config.theme.textColor.withValues(alpha: 0.7)),
+          style: TextStyle(
+            color: config.theme.textColor.withValues(alpha: 0.7),
+          ),
         ),
       );
     }
@@ -199,7 +260,7 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              state.chapters[index].title,
+              _convertText(state.chapters[index].title),
               style: TextStyle(
                 color: config.theme.textColor,
                 fontSize: config.fontSize + 2,
@@ -210,11 +271,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
             SelectableText(
               replaceState.replaceEnabled
                   ? service.applyRules(
-                      content: content,
+                      content: _convertText(content),
                       rules: replaceState.enabledRules,
-                      chapterTitle: state.chapters[index].title,
+                      chapterTitle: _convertText(state.chapters[index].title),
                     )
-                  : content,
+                  : _convertText(content),
               style: TextStyle(
                 color: config.theme.textColor,
                 fontSize: config.fontSize,
@@ -316,16 +377,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
               Navigator.pop(context);
             },
           ),
-          title: Text(
-            state.book.name,
-            style: const TextStyle(fontSize: 16),
-          ),
+          title: Text(state.book.name, style: const TextStyle(fontSize: 16)),
           centerTitle: true,
           actions: [
             IconButton(
-              icon: Icon(
-                hasBookmark ? Icons.bookmark : Icons.bookmark_border,
-              ),
+              icon: Icon(hasBookmark ? Icons.bookmark : Icons.bookmark_border),
               tooltip: hasBookmark ? '删除书签' : '添加书签',
               onPressed: () => _toggleBookmark(state),
             ),
@@ -335,7 +391,11 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
     );
   }
 
-  Widget _buildBottomBar(BuildContext context, ReaderState state, ReaderProvider provider) {
+  Widget _buildBottomBar(
+    BuildContext context,
+    ReaderState state,
+    ReaderProvider provider,
+  ) {
     final config = ref.watch(readerConfigProvider);
     final bmState = ref.watch(bookmarkProvider);
 
@@ -373,7 +433,8 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                   _BottomBarButton(
                     icon: Icons.format_list_bulleted,
                     label: '目录',
-                    onPressed: () => _showChapterList(context, state, provider, config),
+                    onPressed: () =>
+                        _showChapterList(context, state, provider, config),
                   ),
                   _BottomBarButton(
                     icon: Icons.bookmark_outline,
@@ -385,14 +446,24 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
                     ),
                   ),
                   _BottomBarButton(
+                    icon: Icons.text_fields,
+                    label: '简繁',
+                    onPressed: () {
+                      setState(() {
+                        _isSimplified = !_isSimplified;
+                      });
+                    },
+                  ),
+                  _BottomBarButton(
                     icon: Icons.volume_up_outlined,
                     label: '朗读',
-                    onPressed: () => _showTtsControl(
-                      context,
-                      ref,
-                      state,
-                      provider,
-                    ),
+                    onPressed: () =>
+                        _showTtsControl(context, ref, state, provider),
+                  ),
+                  _BottomBarButton(
+                    icon: Icons.menu_book,
+                    label: '查词',
+                    onPressed: () => _showDictLookup(context),
                   ),
                   _BottomBarButton(
                     icon: Icons.settings,
@@ -432,13 +503,13 @@ void _showChapterList(
             padding: const EdgeInsets.all(16),
             child: Text(
               '目录 (${state.chapters.length} 章)',
-              style: TextStyle(
-                color: config.theme.textColor,
-                fontSize: 16,
-              ),
+              style: TextStyle(color: config.theme.textColor, fontSize: 16),
             ),
           ),
-          Divider(color: config.theme.textColor.withValues(alpha: 0.2), height: 1),
+          Divider(
+            color: config.theme.textColor.withValues(alpha: 0.2),
+            height: 1,
+          ),
           Flexible(
             child: ListView.builder(
               shrinkWrap: true,
@@ -449,7 +520,9 @@ void _showChapterList(
                 return ListTile(
                   dense: true,
                   selected: isCurrent,
-                  selectedTileColor: config.theme.textColor.withValues(alpha: 0.1),
+                  selectedTileColor: config.theme.textColor.withValues(
+                    alpha: 0.1,
+                  ),
                   title: Text(
                     chapter.title,
                     maxLines: 1,
@@ -458,12 +531,17 @@ void _showChapterList(
                       color: isCurrent
                           ? config.theme.textColor
                           : config.theme.textColor.withValues(alpha: 0.7),
-                      fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isCurrent
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                     ),
                   ),
                   trailing: isCurrent
-                      ? Icon(Icons.chevron_right,
-                          color: config.theme.textColor.withValues(alpha: 0.5), size: 18)
+                      ? Icon(
+                          Icons.chevron_right,
+                          color: config.theme.textColor.withValues(alpha: 0.5),
+                          size: 18,
+                        )
                       : null,
                   onTap: () {
                     Navigator.pop(context);
@@ -503,10 +581,7 @@ void _showBookmarkList(
           if (bmState.bookmarks.isEmpty)
             const Expanded(
               child: Center(
-                child: Text(
-                  '暂无书签',
-                  style: TextStyle(color: Colors.white54),
-                ),
+                child: Text('暂无书签', style: TextStyle(color: Colors.white54)),
               ),
             )
           else
@@ -536,7 +611,11 @@ void _showBookmarkList(
                           )
                         : null,
                     trailing: IconButton(
-                      icon: const Icon(Icons.delete_outline, color: Colors.white38, size: 18),
+                      icon: const Icon(
+                        Icons.delete_outline,
+                        color: Colors.white38,
+                        size: 18,
+                      ),
                       onPressed: () {
                         if (bm.time != null) {
                           bmProvider.removeBookmark(bm.time!);
@@ -606,10 +685,7 @@ void _showTtsControl(
         });
       }
 
-      return SizedBox(
-        height: 400,
-        child: const TtsControlSheet(),
-      );
+      return SizedBox(height: 400, child: const TtsControlSheet());
     },
   );
 }
@@ -647,7 +723,11 @@ class _BottomBarButton extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: onPressed != null ? Colors.white70 : Colors.white30, size: 20),
+            Icon(
+              icon,
+              color: onPressed != null ? Colors.white70 : Colors.white30,
+              size: 20,
+            ),
             const SizedBox(height: 4),
             Text(
               label,

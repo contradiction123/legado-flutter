@@ -43,8 +43,10 @@ class BookListItem extends StatelessWidget {
                     ? CachedNetworkImage(
                         imageUrl: coverUrl,
                         fit: BoxFit.cover,
-                        placeholder: (context, url) => _placeholder(colorScheme),
-                        errorWidget: (context, url, error) => _placeholder(colorScheme),
+                        placeholder: (context, url) =>
+                            _placeholder(colorScheme),
+                        errorWidget: (context, url, error) =>
+                            _placeholder(colorScheme),
                       )
                     : _placeholder(colorScheme),
               ),
@@ -78,7 +80,9 @@ class BookListItem extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
+                      color: colorScheme.onSurfaceVariant.withValues(
+                        alpha: 0.7,
+                      ),
                     ),
                   ),
                 ],

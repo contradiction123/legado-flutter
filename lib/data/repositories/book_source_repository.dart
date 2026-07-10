@@ -54,8 +54,7 @@ class BookSourceRepository {
       _dao.setEnabled(url, enabled).then((_) {});
 
   /// 删除书源
-  Future<void> deleteByUrl(String url) =>
-      _dao.deleteByUrl(url).then((_) {});
+  Future<void> deleteByUrl(String url) => _dao.deleteByUrl(url).then((_) {});
 
   /// 获取启用的书源数量
   Future<int> countEnabled() async {

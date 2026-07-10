@@ -11,6 +11,8 @@ import '../../features/discover/screens/discover_screen.dart';
 import '../../features/reader/epub/epub_reader_screen.dart';
 import '../../features/reader/pdf/pdf_reader_screen.dart';
 import '../../features/reader/screens/reader_screen.dart';
+import '../../features/rss/screens/rss_source_list_screen.dart';
+import '../../features/profile/screens/profile_screen.dart';
 import '../../features/search/screens/search_screen.dart';
 
 /// 应用路由定义
@@ -21,104 +23,86 @@ class AppRouter {
   final GoRouter router;
 
   AppRouter()
-      : router = GoRouter(
-          initialLocation: '/bookshelf',
-          routes: [
-            GoRoute(
-              path: '/search',
-              pageBuilder: (context, state) => const MaterialPage(
-                child: SearchScreen(),
+    : router = GoRouter(
+        initialLocation: '/bookshelf',
+        routes: [
+          GoRoute(
+            path: '/search',
+            pageBuilder: (context, state) =>
+                const MaterialPage(child: SearchScreen()),
+          ),
+          GoRoute(
+            path: '/book-detail',
+            pageBuilder: (context, state) {
+              final searchBook = state.extra as SearchBook;
+              return MaterialPage(
+                child: BookDetailScreen(searchBook: searchBook),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/reader',
+            pageBuilder: (context, state) {
+              final book = state.extra as Book;
+              return MaterialPage(child: ReaderScreen(book: book));
+            },
+          ),
+          GoRoute(
+            path: '/epub-reader',
+            pageBuilder: (context, state) {
+              final book = state.extra as Book;
+              return MaterialPage(child: EpubReaderScreen(book: book));
+            },
+          ),
+          GoRoute(
+            path: '/pdf-reader',
+            pageBuilder: (context, state) {
+              final book = state.extra as Book;
+              return MaterialPage(child: PdfReaderScreen(book: book));
+            },
+          ),
+          GoRoute(
+            path: '/import-books',
+            pageBuilder: (context, state) =>
+                MaterialPage(child: const ImportScreen()),
+          ),
+          ShellRoute(
+            builder: (context, state, child) =>
+                ScaffoldWithNavBar(child: child),
+            routes: [
+              GoRoute(
+                path: '/bookshelf',
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: BookshelfScreen()),
               ),
-            ),
-            GoRoute(
-              path: '/book-detail',
-              pageBuilder: (context, state) {
-                final searchBook = state.extra as SearchBook;
-                return MaterialPage(
-                  child: BookDetailScreen(searchBook: searchBook),
-                );
-              },
-            ),
-            GoRoute(
-              path: '/reader',
-              pageBuilder: (context, state) {
-                final book = state.extra as Book;
-                return MaterialPage(
-                  child: ReaderScreen(book: book),
-                );
-              },
-            ),
-            GoRoute(
-              path: '/epub-reader',
-              pageBuilder: (context, state) {
-                final book = state.extra as Book;
-                return MaterialPage(
-                  child: EpubReaderScreen(book: book),
-                );
-              },
-            ),
-            GoRoute(
-              path: '/pdf-reader',
-              pageBuilder: (context, state) {
-                final book = state.extra as Book;
-                return MaterialPage(
-                  child: PdfReaderScreen(book: book),
-                );
-              },
-            ),
-            GoRoute(
-              path: '/import-books',
-              pageBuilder: (context, state) => MaterialPage(
-                child: const ImportScreen(),
+              GoRoute(
+                path: '/discover',
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: DiscoverScreen()),
               ),
-            ),
-            ShellRoute(
-              builder: (context, state, child) =>
-                  ScaffoldWithNavBar(child: child),
-              routes: [
-                GoRoute(
-                  path: '/bookshelf',
-                  pageBuilder: (context, state) => const NoTransitionPage(
-                    child: BookshelfScreen(),
+              GoRoute(
+                path: '/rss',
+                pageBuilder: (context, state) =>
+                    const NoTransitionPage(child: RssSourceListScreen()),
+              ),
+              GoRoute(
+                path: '/ai',
+                pageBuilder: (context, state) => NoTransitionPage(
+                  child: _PlaceholderPage(
+                    label: 'AI',
+                    icon: Icons.auto_awesome,
                   ),
                 ),
-                GoRoute(
-                  path: '/discover',
-                  pageBuilder: (context, state) => const NoTransitionPage(
-                    child: DiscoverScreen(),
-                  ),
-                ),
-                GoRoute(
-                  path: '/rss',
-                  pageBuilder: (context, state) => NoTransitionPage(
-                    child: _PlaceholderPage(
-                      label: 'RSS',
-                      icon: Icons.rss_feed,
-                    ),
-                  ),
-                ),
-                GoRoute(
-                  path: '/ai',
-                  pageBuilder: (context, state) => NoTransitionPage(
-                    child: _PlaceholderPage(
-                      label: 'AI',
-                      icon: Icons.auto_awesome,
-                    ),
-                  ),
-                ),
-                GoRoute(
-                  path: '/profile',
-                  pageBuilder: (context, state) => NoTransitionPage(
-                    child: _PlaceholderPage(
-                      label: '我的',
-                      icon: Icons.person,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
+              ),
+              GoRoute(
+                path: '/profile',
+                pageBuilder: (context, state) =>
+                    NoTransitionPage(child: ProfileScreen()),
+              ),
+            ],
+          ),
+        ],
+      );
 }
 
 /// 底部导航栏骨架
@@ -195,10 +179,7 @@ class _PlaceholderPage extends StatelessWidget {
   final String label;
   final IconData icon;
 
-  const _PlaceholderPage({
-    required this.label,
-    required this.icon,
-  });
+  const _PlaceholderPage({required this.label, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -209,7 +190,11 @@ class _PlaceholderPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 64, color: theme.colorScheme.primary.withValues(alpha: 0.5)),
+            Icon(
+              icon,
+              size: 64,
+              color: theme.colorScheme.primary.withValues(alpha: 0.5),
+            ),
             const SizedBox(height: 16),
             Text(
               label,

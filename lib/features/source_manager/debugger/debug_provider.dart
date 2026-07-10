@@ -98,7 +98,9 @@ class DebugState {
     bool clearError = false,
   }) {
     return DebugState(
-      selectedSource: clearSelectedSource ? null : (selectedSource ?? this.selectedSource),
+      selectedSource: clearSelectedSource
+          ? null
+          : (selectedSource ?? this.selectedSource),
       inputText: inputText ?? this.inputText,
       results: results ?? this.results,
       runningStep: clearRunningStep ? null : (runningStep ?? this.runningStep),
@@ -116,11 +118,10 @@ class DebugState {
   bool get hasAnyResult => results.isNotEmpty;
 
   /// 所有步骤都成功
-  bool get allSuccess =>
-      DebugStep.values.every((step) {
-        final r = results[step];
-        return r != null && r.error == null;
-      });
+  bool get allSuccess => DebugStep.values.every((step) {
+    final r = results[step];
+    return r != null && r.error == null;
+  });
 }
 
 /// 书源调试器状态管理
@@ -145,11 +146,7 @@ class DebugProvider extends StateNotifier<DebugState> {
 
   /// 重置所有调试结果
   void clearResults() {
-    state = state.copyWith(
-      results: {},
-      error: null,
-      clearRunningStep: true,
-    );
+    state = state.copyWith(results: {}, error: null, clearRunningStep: true);
   }
 
   /// 运行单个调试步骤
@@ -165,10 +162,7 @@ class DebugProvider extends StateNotifier<DebugState> {
       return;
     }
 
-    state = state.copyWith(
-      runningStep: step,
-      error: null,
-    );
+    state = state.copyWith(runningStep: step, error: null);
 
     try {
       // 根据步骤类型执行对应的调试逻辑
@@ -193,10 +187,7 @@ class DebugProvider extends StateNotifier<DebugState> {
       final updatedResults = Map<DebugStep, DebugStepResult>.from(state.results)
         ..[step] = result;
 
-      state = state.copyWith(
-        results: updatedResults,
-        clearRunningStep: true,
-      );
+      state = state.copyWith(results: updatedResults, clearRunningStep: true);
     } catch (e) {
       final errorResult = DebugStepResult(
         step: step,
@@ -207,10 +198,7 @@ class DebugProvider extends StateNotifier<DebugState> {
       final updatedResults = Map<DebugStep, DebugStepResult>.from(state.results)
         ..[step] = errorResult;
 
-      state = state.copyWith(
-        results: updatedResults,
-        clearRunningStep: true,
-      );
+      state = state.copyWith(results: updatedResults, clearRunningStep: true);
     }
   }
 

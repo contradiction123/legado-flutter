@@ -49,10 +49,7 @@ class _EpubReaderScreenState extends ConsumerState<EpubReaderScreen> {
           _buildContent(state),
 
           // 菜单层
-          if (_isMenuVisible) ...[
-            _buildAppBar(state),
-            _buildBottomBar(state),
-          ],
+          if (_isMenuVisible) ...[_buildAppBar(state), _buildBottomBar(state)],
 
           // 点击区域
           _buildTapOverlay(state),
@@ -100,7 +97,8 @@ class _EpubReaderScreenState extends ConsumerState<EpubReaderScreen> {
             bgColor: Color(0xFFF5F0E6),
             textColor: Color(0xFF3A3A3A),
           ),
-          onContentTapped: () => setState(() => _isMenuVisible = !_isMenuVisible),
+          onContentTapped: () =>
+              setState(() => _isMenuVisible = !_isMenuVisible),
         );
       },
     );
@@ -179,10 +177,7 @@ class _EpubReaderScreenState extends ConsumerState<EpubReaderScreen> {
               icon: const Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context),
             ),
-            title: Text(
-              state.bookTitle,
-              style: const TextStyle(fontSize: 16),
-            ),
+            title: Text(state.bookTitle, style: const TextStyle(fontSize: 16)),
             centerTitle: true,
             actions: [
               IconButton(
@@ -215,20 +210,14 @@ class _EpubReaderScreenState extends ConsumerState<EpubReaderScreen> {
             children: [
               Text(
                 currentChapter?.title ?? '',
-                style: const TextStyle(
-                  color: Color(0xFF3A3A3A),
-                  fontSize: 12,
-                ),
+                style: const TextStyle(color: Color(0xFF3A3A3A), fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 8),
               Text(
                 state.progressText,
-                style: const TextStyle(
-                  color: Color(0xFF3A3A3A),
-                  fontSize: 12,
-                ),
+                style: const TextStyle(color: Color(0xFF3A3A3A), fontSize: 12),
               ),
             ],
           ),
@@ -249,10 +238,7 @@ class _EpubReaderScreenState extends ConsumerState<EpubReaderScreen> {
               padding: const EdgeInsets.all(16),
               child: Text(
                 '目录 (${state.chapters.length} 章)',
-                style: const TextStyle(
-                  color: Color(0xFF3A3A3A),
-                  fontSize: 16,
-                ),
+                style: const TextStyle(color: Color(0xFF3A3A3A), fontSize: 16),
               ),
             ),
             const Divider(color: Color(0xFF3A3A3A), height: 1),
@@ -266,14 +252,18 @@ class _EpubReaderScreenState extends ConsumerState<EpubReaderScreen> {
                   return ListTile(
                     dense: true,
                     selected: isCurrent,
-                    selectedTileColor: const Color(0xFF3A3A3A).withValues(alpha: 0.1),
+                    selectedTileColor: const Color(
+                      0xFF3A3A3A,
+                    ).withValues(alpha: 0.1),
                     title: Text(
                       chapter.title,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: const Color(0xFF3A3A3A),
-                        fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                        fontWeight: isCurrent
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
                     ),
                     onTap: () {

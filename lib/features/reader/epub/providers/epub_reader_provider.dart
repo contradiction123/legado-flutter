@@ -42,9 +42,8 @@ class EpubReaderState {
 
   bool get hasNext => currentChapterIndex < chapters.length - 1;
   bool get hasPrevious => currentChapterIndex > 0;
-  String get progressText => chapters.isEmpty
-      ? ''
-      : '${currentChapterIndex + 1}/${chapters.length}';
+  String get progressText =>
+      chapters.isEmpty ? '' : '${currentChapterIndex + 1}/${chapters.length}';
 }
 
 /// EPUB 阅读器状态管理
@@ -53,8 +52,8 @@ class EpubReaderProvider extends StateNotifier<EpubReaderState> {
   final Book _book;
 
   EpubReaderProvider(this._book)
-      : _parser = EpubFileParser(),
-        super(const EpubReaderState()) {
+    : _parser = EpubFileParser(),
+      super(const EpubReaderState()) {
     _load();
   }
 
@@ -74,7 +73,10 @@ class EpubReaderProvider extends StateNotifier<EpubReaderState> {
         chapters: chapters,
         htmlContents: htmlContents,
         isLoading: false,
-        currentChapterIndex: _book.durChapterIndex.clamp(0, chapters.length - 1),
+        currentChapterIndex: _book.durChapterIndex.clamp(
+          0,
+          chapters.length - 1,
+        ),
       );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: '加载失败: $e');
@@ -103,5 +105,5 @@ class EpubReaderProvider extends StateNotifier<EpubReaderState> {
 
 final epubReaderProvider =
     StateNotifierProvider.family<EpubReaderProvider, EpubReaderState, Book>(
-  (ref, book) => EpubReaderProvider(book),
-);
+      (ref, book) => EpubReaderProvider(book),
+    );

@@ -28,16 +28,18 @@ class EpubFileParser implements BaseLocalBookParser {
 
     for (var i = 0; i < epub.chapters.length; i++) {
       final ch = epub.chapters[i];
-      chapters.add(BookChapter(
-        url: ch.resourceHref,
-        title: ch.title,
-        baseUrl: book.bookUrl,
-        bookUrl: book.bookUrl,
-        index: i,
-        isVolume: false,
-        isVip: false,
-        isPay: false,
-      ));
+      chapters.add(
+        BookChapter(
+          url: ch.resourceHref,
+          title: ch.title,
+          baseUrl: book.bookUrl,
+          bookUrl: book.bookUrl,
+          index: i,
+          isVolume: false,
+          isVip: false,
+          isPay: false,
+        ),
+      );
     }
 
     return chapters;
@@ -87,7 +89,9 @@ class EpubFileParser implements BaseLocalBookParser {
   String _buildChapterHtml(parser.EpubChapter chapter, parser.EpubBook book) {
     final resourceDir = chapter.resourceHref.contains('/')
         ? chapter.resourceHref.substring(
-            0, chapter.resourceHref.lastIndexOf('/') + 1)
+            0,
+            chapter.resourceHref.lastIndexOf('/') + 1,
+          )
         : '';
 
     return '''

@@ -20,12 +20,9 @@ class TextMeasurer {
   static const int _cjkStart = 0x4E00;
   static const int _cjkEnd = 0x9FA5;
 
-  TextMeasurer({
-    required TextStyle textStyle,
-  }) : _painter = TextPainter(
-          textDirection: TextDirection.ltr,
-        ),
-        _chineseCommonWidth = 0 {
+  TextMeasurer({required TextStyle textStyle})
+    : _painter = TextPainter(textDirection: TextDirection.ltr),
+      _chineseCommonWidth = 0 {
     _painter.text = TextSpan(text: '一', style: textStyle);
     _painter.layout();
     _chineseCommonWidth = _painter.width;
@@ -33,9 +30,7 @@ class TextMeasurer {
 
   /// 更新文本样式（字体变化时调用）
   void updateStyle(TextStyle textStyle) {
-    _painter = TextPainter(
-      textDirection: TextDirection.ltr,
-    );
+    _painter = TextPainter(textDirection: TextDirection.ltr);
     _painter.text = TextSpan(text: '一', style: textStyle);
     _painter.layout();
     _chineseCommonWidth = _painter.width;

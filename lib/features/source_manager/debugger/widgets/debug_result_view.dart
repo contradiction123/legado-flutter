@@ -160,11 +160,7 @@ class DebugResultView extends StatelessWidget {
           color: theme.colorScheme.errorContainer,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(
-          Icons.close,
-          size: 18,
-          color: theme.colorScheme.error,
-        ),
+        child: Icon(Icons.close, size: 18, color: theme.colorScheme.error),
       );
     }
 
@@ -176,11 +172,7 @@ class DebugResultView extends StatelessWidget {
           color: Colors.green.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Icon(
-          Icons.check,
-          size: 18,
-          color: Colors.green.shade700,
-        ),
+        child: Icon(Icons.check, size: 18, color: Colors.green.shade700),
       );
     }
 
@@ -211,9 +203,7 @@ class DebugResultView extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerLow,
         borderRadius: BorderRadius.circular(6),
-        border: Border.all(
-          color: theme.colorScheme.outlineVariant,
-        ),
+        border: Border.all(color: theme.colorScheme.outlineVariant),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

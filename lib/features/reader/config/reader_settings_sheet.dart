@@ -244,9 +244,7 @@ class _ReplaceRuleEntry extends ConsumerWidget {
             const Text('替换净化', style: TextStyle(color: Colors.white70)),
             const Spacer(),
             Text(
-              state.replaceEnabled
-                  ? '${state.enabledRules.length} 条规则'
-                  : '已禁用',
+              state.replaceEnabled ? '${state.enabledRules.length} 条规则' : '已禁用',
               style: const TextStyle(color: Colors.white38, fontSize: 12),
             ),
             const Icon(Icons.chevron_right, color: Colors.white38, size: 18),
@@ -274,11 +272,7 @@ class _ReadStatsEntry extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         child: Row(
           children: [
-            Icon(
-              Icons.bar_chart,
-              color: Colors.white70,
-              size: 20,
-            ),
+            Icon(Icons.bar_chart, color: Colors.white70, size: 20),
             const SizedBox(width: 12),
             const Text('阅读统计', style: TextStyle(color: Colors.white70)),
             const Spacer(),
@@ -325,10 +319,7 @@ class _ThemePicker extends StatelessWidget {
   final ReaderConfigState config;
   final ValueChanged<ReaderTheme> onSelect;
 
-  const _ThemePicker({
-    required this.config,
-    required this.onSelect,
-  });
+  const _ThemePicker({required this.config, required this.onSelect});
 
   @override
   Widget build(BuildContext context) {
@@ -393,10 +384,7 @@ class _PageAnimSelector extends StatelessWidget {
   final PageAnimationMode current;
   final ValueChanged<PageAnimationMode> onSelect;
 
-  const _PageAnimSelector({
-    required this.current,
-    required this.onSelect,
-  });
+  const _PageAnimSelector({required this.current, required this.onSelect});
 
   @override
   Widget build(BuildContext context) {
@@ -414,9 +402,7 @@ class _PageAnimSelector extends StatelessWidget {
           backgroundColor: isSelected
               ? Colors.white.withValues(alpha: 0.2)
               : Colors.white.withValues(alpha: 0.08),
-          side: BorderSide(
-            color: isSelected ? Colors.white54 : Colors.white12,
-          ),
+          side: BorderSide(color: isSelected ? Colors.white54 : Colors.white12),
           onPressed: () => onSelect(mode),
           padding: const EdgeInsets.symmetric(horizontal: 4),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -467,7 +453,9 @@ class _BrightnessSlider extends StatelessWidget {
                   thumbColor: Colors.white,
                   overlayColor: Colors.white.withValues(alpha: 0.12),
                   trackHeight: 2,
-                  thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                  thumbShape: const RoundSliderThumbShape(
+                    enabledThumbRadius: 6,
+                  ),
                 ),
                 child: Slider(
                   value: brightness,
@@ -496,7 +484,9 @@ class _BrightnessSlider extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(
-                    followSystem ? Icons.check_box : Icons.check_box_outline_blank,
+                    followSystem
+                        ? Icons.check_box
+                        : Icons.check_box_outline_blank,
                     color: Colors.white54,
                     size: 18,
                   ),

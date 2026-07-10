@@ -28,21 +28,17 @@ class ImportProgress extends StatelessWidget {
         if (isImporting) ...[
           LinearProgressIndicator(value: ratio),
           const SizedBox(height: 12),
-          Text(
-            '正在导入 $progress / $total...',
-            style: theme.textTheme.bodyMedium,
-          ),
+          Text('正在导入 $progress / $total...', style: theme.textTheme.bodyMedium),
         ] else if (total > 0) ...[
           Icon(
-            failedCount > 0 ? Icons.warning_amber_rounded : Icons.check_circle_outline,
+            failedCount > 0
+                ? Icons.warning_amber_rounded
+                : Icons.check_circle_outline,
             size: 48,
             color: failedCount > 0 ? Colors.orange : Colors.green,
           ),
           const SizedBox(height: 12),
-          Text(
-            '导入完成',
-            style: theme.textTheme.titleMedium,
-          ),
+          Text('导入完成', style: theme.textTheme.titleMedium),
           const SizedBox(height: 4),
           Text(
             '成功 $successCount 本' +

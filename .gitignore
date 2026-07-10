@@ -1,0 +1,24 @@
+# Flutter/Dart 构建产物
+.dart_tool/
+.packages
+build/
+*.iml
+.idea/
+.vscode/
+*.lock
+.gradle/
+local.properties
+
+# macOS 系统文件
+.DS_Store
+
+# 生成的代码文件（可选提交，取决于项目约定）
+# *.g.dart
+# *.freezed.dart
+
+# 密钥和配置文件
+*.key
+*.jks
+*.p12
+.env
+.env.*

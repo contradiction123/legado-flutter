@@ -72,17 +72,18 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           onSubmitted: (_) => _performSearch(),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: _performSearch,
-          ),
+          IconButton(icon: const Icon(Icons.search), onPressed: _performSearch),
         ],
       ),
       body: _buildBody(context, state, provider),
     );
   }
 
-  Widget _buildBody(BuildContext context, SearchState state, SearchProvider provider) {
+  Widget _buildBody(
+    BuildContext context,
+    SearchState state,
+    SearchProvider provider,
+  ) {
     if (state.isLoading) {
       return _buildLoading(state);
     }
@@ -142,7 +143,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     );
   }
 
-  Widget _buildHistory(BuildContext context, SearchState state, SearchProvider provider) {
+  Widget _buildHistory(
+    BuildContext context,
+    SearchState state,
+    SearchProvider provider,
+  ) {
     if (state.history.isEmpty) {
       return Center(
         child: Text(
@@ -160,10 +165,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '搜索历史',
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
+            Text('搜索历史', style: Theme.of(context).textTheme.titleSmall),
             TextButton(
               onPressed: provider.clearHistory,
               child: const Text('清空'),
@@ -197,7 +199,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           Icon(
             Icons.search_off,
             size: 64,
-            color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 16),
           Text(

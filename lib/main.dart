@@ -12,11 +12,7 @@ void main() async {
   await di.initDependencyInjection();
 
   // 启动应用
-  runApp(
-    const ProviderScope(
-      child: LegadoApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: LegadoApp()));
 }
 
 class LegadoApp extends ConsumerWidget {

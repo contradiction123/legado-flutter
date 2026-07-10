@@ -13,9 +13,9 @@ class CookieDao {
 
   /// 根据 URL 获取 Cookie
   Future<Cookie?> getByUrl(String url) async {
-    final item = await (_database.select(_database.cookies)
-          ..where((t) => t.url.equals(url)))
-        .getSingleOrNull();
+    final item = await (_database.select(
+      _database.cookies,
+    )..where((t) => t.url.equals(url))).getSingleOrNull();
     return item != null ? _mapper.fromTable(item) : null;
   }
 
@@ -27,18 +27,17 @@ class CookieDao {
 
   /// 保存 Cookie（插入或替换）
   Future<int> save(String url, String cookie) {
-    return _database.into(_database.cookies).insertOnConflictUpdate(
-      db.CookiesCompanion(
-        url: Value(url),
-        cookie: Value(cookie),
-      ),
-    );
+    return _database
+        .into(_database.cookies)
+        .insertOnConflictUpdate(
+          db.CookiesCompanion(url: Value(url), cookie: Value(cookie)),
+        );
   }
 
   /// 根据 URL 删除 Cookie
   Future<int> deleteByUrl(String url) {
-    return (_database.delete(_database.cookies)
-          ..where((t) => t.url.equals(url)))
-        .go();
+    return (_database.delete(
+      _database.cookies,
+    )..where((t) => t.url.equals(url))).go();
   }
 }

@@ -126,5 +126,5 @@ class ReplaceRuleProvider extends StateNotifier<ReplaceRuleState> {
 /// 替换净化状态提供者
 final replaceRuleProvider =
     StateNotifierProvider<ReplaceRuleProvider, ReplaceRuleState>((ref) {
-  return ReplaceRuleProvider();
-});
+      return ReplaceRuleProvider();
+    });

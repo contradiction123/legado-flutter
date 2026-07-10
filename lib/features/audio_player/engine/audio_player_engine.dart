@@ -45,7 +45,8 @@ class AudioPlayerEngine {
   }
 
   Future<void> play() async {
-    if (_player.processingState == just.ProcessingState.idle && _playlist.isNotEmpty) {
+    if (_player.processingState == just.ProcessingState.idle &&
+        _playlist.isNotEmpty) {
       await _player.seek(Duration.zero, index: _currentIndex);
     }
     await _player.play();
@@ -55,7 +56,11 @@ class AudioPlayerEngine {
   Future<void> stop() async => await _player.stop();
 
   Future<void> togglePlayPause() async {
-    if (_player.playing) { await pause(); } else { await play(); }
+    if (_player.playing) {
+      await pause();
+    } else {
+      await play();
+    }
   }
 
   Future<void> seekTo(int index) async {
@@ -72,13 +77,20 @@ class AudioPlayerEngine {
     if (_currentIndex < _playlist.length - 1) await seekTo(_currentIndex + 1);
   }
 
-  Future<void> seekToPosition(Duration position) async => await _player.seek(position);
+  Future<void> seekToPosition(Duration position) async =>
+      await _player.seek(position);
 
   void toggleLoopMode() {
     switch (_loopMode) {
-      case just.LoopMode.off: _loopMode = just.LoopMode.one; break;
-      case just.LoopMode.one: _loopMode = just.LoopMode.all; break;
-      case just.LoopMode.all: _loopMode = just.LoopMode.off; break;
+      case just.LoopMode.off:
+        _loopMode = just.LoopMode.one;
+        break;
+      case just.LoopMode.one:
+        _loopMode = just.LoopMode.all;
+        break;
+      case just.LoopMode.all:
+        _loopMode = just.LoopMode.off;
+        break;
     }
     _player.setLoopMode(_loopMode);
   }
@@ -95,24 +107,29 @@ class AudioPlayerEngine {
       await _player.setSpeed(speed.clamp(0.5, 3.0));
 
   AudioPlayerState get state => AudioPlayerState(
-        isPlaying: _player.playing,
-        isPaused: _player.processingState == just.ProcessingState.ready && !_player.playing,
-        currentIndex: _currentIndex,
-        totalTracks: _playlist.length,
-        position: _player.position,
-        duration: _player.duration ?? Duration.zero,
-        loopMode: _convertLoopMode(_loopMode),
-        isShuffleEnabled: _shuffleEnabled,
-        currentChapterTitle: currentChapterTitle,
-        bookTitle: bookTitle,
-        bookAuthor: bookAuthor,
-      );
+    isPlaying: _player.playing,
+    isPaused:
+        _player.processingState == just.ProcessingState.ready &&
+        !_player.playing,
+    currentIndex: _currentIndex,
+    totalTracks: _playlist.length,
+    position: _player.position,
+    duration: _player.duration ?? Duration.zero,
+    loopMode: _convertLoopMode(_loopMode),
+    isShuffleEnabled: _shuffleEnabled,
+    currentChapterTitle: currentChapterTitle,
+    bookTitle: bookTitle,
+    bookAuthor: bookAuthor,
+  );
 
   static PlayRepeatMode _convertLoopMode(just.LoopMode mode) {
     switch (mode) {
-      case just.LoopMode.off: return PlayRepeatMode.off;
-      case just.LoopMode.one: return PlayRepeatMode.one;
-      case just.LoopMode.all: return PlayRepeatMode.all;
+      case just.LoopMode.off:
+        return PlayRepeatMode.off;
+      case just.LoopMode.one:
+        return PlayRepeatMode.one;
+      case just.LoopMode.all:
+        return PlayRepeatMode.all;
     }
   }
 
@@ -147,18 +164,20 @@ class AudioPlayerState {
     this.bookAuthor = '',
   });
 
-  double get progressPercent =>
-      duration.inMilliseconds > 0
-          ? (position.inMilliseconds / duration.inMilliseconds).clamp(0.0, 1.0)
-          : 0.0;
+  double get progressPercent => duration.inMilliseconds > 0
+      ? (position.inMilliseconds / duration.inMilliseconds).clamp(0.0, 1.0)
+      : 0.0;
 
   String get progressText => '${_fmt(position)} / ${_fmt(duration)}';
 
   String get loopModeLabel {
     switch (loopMode) {
-      case PlayRepeatMode.off: return '顺序';
-      case PlayRepeatMode.one: return '单曲';
-      case PlayRepeatMode.all: return '循环';
+      case PlayRepeatMode.off:
+        return '顺序';
+      case PlayRepeatMode.one:
+        return '单曲';
+      case PlayRepeatMode.all:
+        return '循环';
     }
   }
 

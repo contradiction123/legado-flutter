@@ -7,10 +7,7 @@ import '../../domain/models/cookie.dart' as domain;
 class CookieMapper {
   /// 将 Drift 数据类转换为 Domain 模型
   domain.Cookie fromTable(db.Cooky table) {
-    return domain.Cookie(
-      url: table.url,
-      cookie: table.cookie,
-    );
+    return domain.Cookie(url: table.url, cookie: table.cookie);
   }
 
   /// 批量转换

@@ -36,22 +36,27 @@ class _EpubChapterViewState extends State<EpubChapterView> {
     super.initState();
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(NavigationDelegate(
-        onPageFinished: (_) => _onPageLoaded(),
-        onUrlChange: (change) {
-          // 用户点击了链接
-          if (change.url != null && change.url!.isNotEmpty) {
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageFinished: (_) => _onPageLoaded(),
+          onUrlChange: (change) {
+            // 用户点击了链接
+            if (change.url != null && change.url!.isNotEmpty) {
+              widget.onContentTapped?.call();
+            }
+          },
+        ),
+      )
+      ..addJavaScriptChannel(
+        'FlutterBridge',
+        onMessageReceived: (msg) {
+          if (msg.message == 'scrollChanged') {
+            // scroll position changed - pass to parent
+          } else if (msg.message == 'contentTapped') {
             widget.onContentTapped?.call();
           }
         },
-      ))
-      ..addJavaScriptChannel('FlutterBridge', onMessageReceived: (msg) {
-        if (msg.message == 'scrollChanged') {
-          // scroll position changed - pass to parent
-        } else if (msg.message == 'contentTapped') {
-          widget.onContentTapped?.call();
-        }
-      });
+      );
   }
 
   @override
@@ -79,7 +84,8 @@ class _EpubChapterViewState extends State<EpubChapterView> {
     final config = widget.themeConfig;
     final bgColor = _colorToHex(config.bgColor);
     final textColor = _colorToHex(config.textColor);
-    final js = '''
+    final js =
+        '''
     (function() {
       var style = document.createElement('style');
       style.id = '__reader_theme';
