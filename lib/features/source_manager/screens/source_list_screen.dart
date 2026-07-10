@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../domain/models/book_source.dart';
 import '../providers/source_provider.dart';
@@ -216,39 +217,10 @@ class SourceListScreen extends ConsumerWidget {
   }
 
   void _editSource(BuildContext context, BookSource source) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('书源 JSON'),
-        content: SingleChildScrollView(
-          child: Text(
-            const JsonEncoder.withIndent('  ').convert(source.toJson()),
-            style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('关闭'),
-          ),
-        ],
-      ),
-    );
+    context.push('/source-edit', extra: source);
   }
 
   void _addSource(BuildContext context, SourceProvider provider) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('添加书源'),
-        content: const Text('从菜单选择「从剪贴板导入」来添加书源'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('确定'),
-          ),
-        ],
-      ),
-    );
+    context.push('/source-edit');
   }
 }

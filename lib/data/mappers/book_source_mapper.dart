@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../../core/database/app_database.dart' as db;
 import '../../domain/models/book_source.dart';
 
@@ -17,11 +19,7 @@ class BookSourceMapper {
       jsLib: table.jsLib,
       enabledCookieJar: table.enabledCookieJar,
       concurrentRate: table.concurrentRate,
-      header: table.header is Map<String, dynamic>
-          ? (table.header as Map<String, dynamic>).map(
-              (k, v) => MapEntry(k, v.toString()),
-            )
-          : null,
+      header: _parseHeader(table.header),
       loginUrl: table.loginUrl,
       loginUi: table.loginUi,
       loginCheckJs: table.loginCheckJs,
@@ -39,11 +37,22 @@ class BookSourceMapper {
       ruleBookInfo: table.ruleBookInfo,
       ruleToc: table.ruleToc,
       ruleContent: table.ruleContent,
+      ruleReview: table.ruleReview,
+      eventListener: table.eventListener,
+      customButton: table.customButton,
+      homepageModules: table.homepageModules,
     );
   }
 
   /// 批量转换
   List<BookSource> fromTableList(List<db.BookSource> tables) {
     return tables.map(fromTable).toList();
+  }
+
+  Map<String, String>? _parseHeader(String? header) {
+    if (header == null || header.isEmpty) return null;
+    final decoded = jsonDecode(header);
+    if (decoded is! Map<String, dynamic>) return null;
+    return decoded.map((key, value) => MapEntry(key, value.toString()));
   }
 }

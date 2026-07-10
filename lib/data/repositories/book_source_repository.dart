@@ -29,14 +29,8 @@ class BookSourceRepository {
 
   /// 保存书源（插入或更新）
   Future<bool> save(BookSource source) async {
-    final existing = await _dao.getByUrl(source.bookSourceUrl);
-    if (existing != null) {
-      await _dao.setEnabled(source.bookSourceUrl, source.enabled);
-      return true;
-    } else {
-      await _dao.insert(source);
-      return true;
-    }
+    await _dao.upsert(source);
+    return true;
   }
 
   /// 批量导入书源

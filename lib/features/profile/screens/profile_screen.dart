@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /// 个人中心页面
 ///
@@ -11,31 +12,20 @@ class ProfileScreen extends StatelessWidget {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: const Text('我的')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.person_outline,
-              size: 64,
-              color: theme.colorScheme.primary.withValues(alpha: 0.5),
+      body: ListView(
+        children: [
+          const SizedBox(height: 12),
+          ListTile(
+            leading: Icon(
+              Icons.source_outlined,
+              color: theme.colorScheme.primary,
             ),
-            const SizedBox(height: 16),
-            Text(
-              '个人中心',
-              style: theme.textTheme.headlineMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '正在开发中…',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurface.withValues(alpha: 0.3),
-              ),
-            ),
-          ],
-        ),
+            title: const Text('书源管理'),
+            subtitle: const Text('添加、导入、编辑和启用书源'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/sources'),
+          ),
+        ],
       ),
     );
   }

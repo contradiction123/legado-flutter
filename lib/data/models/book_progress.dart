@@ -9,7 +9,7 @@ part 'book_progress.g.dart';
 ///
 /// 对应原：BookProgress.kt（非 @Entity，仅用于传输阅读进度数据）
 @freezed
-class BookProgress with _$BookProgress {
+abstract class BookProgress with _$BookProgress {
   const factory BookProgress({
     required String name,
     required String author,

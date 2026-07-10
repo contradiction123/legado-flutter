@@ -10,7 +10,7 @@ part 'read_config.g.dart';
 /// 对应原：Book.ReadConfig（@Parcelize data class，通过 TypeConverter 序列化为 JSON）
 /// 存储在 Book.readConfig 字段中
 @freezed
-class ReadConfig with _$ReadConfig {
+abstract class ReadConfig with _$ReadConfig {
   const factory ReadConfig({
     @JsonKey(name: 'reverseToc') bool? reverseToc,
     @JsonKey(name: 'pageAnim') String? pageAnim,

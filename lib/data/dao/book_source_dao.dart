@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 
 import '../../core/database/app_database.dart' as db;
@@ -81,18 +83,14 @@ class BookSourceDao {
   Future<int> insert(BookSource bookSource) {
     return _database
         .into(_database.bookSources)
-        .insert(
-          db.BookSourcesCompanion(
-            bookSourceUrl: Value(bookSource.bookSourceUrl),
-            bookSourceName: Value(bookSource.bookSourceName),
-            bookSourceGroup: bookSource.bookSourceGroup != null
-                ? Value(bookSource.bookSourceGroup!)
-                : const Value.absent(),
-            bookSourceType: Value(bookSource.bookSourceType),
-            enabled: Value(bookSource.enabled),
-            enabledExplore: Value(bookSource.enabledExplore),
-          ),
-        );
+        .insert(_toCompanion(bookSource));
+  }
+
+  /// 插入或完整更新书源
+  Future<int> upsert(BookSource bookSource) {
+    return _database
+        .into(_database.bookSources)
+        .insertOnConflictUpdate(_toCompanion(bookSource));
   }
 
   /// 启用/禁用书源
@@ -113,5 +111,45 @@ class BookSourceDao {
   Future<int> count() async {
     final all = await _database.select(_database.bookSources).get();
     return all.length;
+  }
+
+  db.BookSourcesCompanion _toCompanion(BookSource bookSource) {
+    return db.BookSourcesCompanion(
+      bookSourceUrl: Value(bookSource.bookSourceUrl),
+      bookSourceName: Value(bookSource.bookSourceName),
+      bookSourceGroup: Value(bookSource.bookSourceGroup),
+      bookSourceType: Value(bookSource.bookSourceType),
+      bookUrlPattern: Value(bookSource.bookUrlPattern),
+      customOrder: Value(bookSource.customOrder),
+      enabled: Value(bookSource.enabled),
+      enabledExplore: Value(bookSource.enabledExplore),
+      jsLib: Value(bookSource.jsLib),
+      enabledCookieJar: Value(bookSource.enabledCookieJar),
+      concurrentRate: Value(bookSource.concurrentRate),
+      header: Value(
+        bookSource.header == null ? null : jsonEncode(bookSource.header),
+      ),
+      loginUrl: Value(bookSource.loginUrl),
+      loginUi: Value(bookSource.loginUi),
+      loginCheckJs: Value(bookSource.loginCheckJs),
+      coverDecodeJs: Value(bookSource.coverDecodeJs),
+      bookSourceComment: Value(bookSource.bookSourceComment),
+      variableComment: Value(bookSource.variableComment),
+      lastUpdateTime: Value(bookSource.lastUpdateTime),
+      respondTime: Value(bookSource.respondTime),
+      weight: Value(bookSource.weight),
+      exploreUrl: Value(bookSource.exploreUrl),
+      exploreScreen: Value(bookSource.exploreScreen),
+      ruleExplore: Value(bookSource.ruleExplore),
+      searchUrl: Value(bookSource.searchUrl),
+      ruleSearch: Value(bookSource.ruleSearch),
+      ruleBookInfo: Value(bookSource.ruleBookInfo),
+      ruleToc: Value(bookSource.ruleToc),
+      ruleContent: Value(bookSource.ruleContent),
+      ruleReview: Value(bookSource.ruleReview),
+      eventListener: Value(bookSource.eventListener),
+      customButton: Value(bookSource.customButton),
+      homepageModules: Value(bookSource.homepageModules),
+    );
   }
 }

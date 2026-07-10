@@ -14,6 +14,9 @@ import '../../features/reader/screens/reader_screen.dart';
 import '../../features/rss/screens/rss_source_list_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/search/screens/search_screen.dart';
+import '../../features/source_manager/screens/source_edit_screen.dart';
+import '../../features/source_manager/screens/source_list_screen.dart';
+import '../../domain/models/book_source.dart';
 
 /// 应用路由定义
 ///
@@ -65,6 +68,18 @@ class AppRouter {
             path: '/import-books',
             pageBuilder: (context, state) =>
                 MaterialPage(child: const ImportScreen()),
+          ),
+          GoRoute(
+            path: '/sources',
+            pageBuilder: (context, state) =>
+                const MaterialPage(child: SourceListScreen()),
+          ),
+          GoRoute(
+            path: '/source-edit',
+            pageBuilder: (context, state) {
+              final source = state.extra as BookSource?;
+              return MaterialPage(child: SourceEditScreen(source: source));
+            },
           ),
           ShellRoute(
             builder: (context, state, child) =>
