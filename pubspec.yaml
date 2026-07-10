@@ -83,6 +83,9 @@ dependencies:
   shared_preferences: ^2.5.5
   file_picker: ^8.1.6
 
+  # QR Code Scanner
+  mobile_scanner: ^6.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

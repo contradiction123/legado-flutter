@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/di/injection_container.dart' as di;
+import 'core/logging/app_logger.dart';
+import 'core/logging/log_tag.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 初始化依赖注入
   await di.initDependencyInjection();
+  AppLogger.instance.info(LogTag.appLifecycle, 'Application started');
 
-  // 启动应用
   runApp(const ProviderScope(child: LegadoApp()));
 }
 

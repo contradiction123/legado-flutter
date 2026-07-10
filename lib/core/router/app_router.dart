@@ -11,9 +11,11 @@ import '../../features/discover/screens/discover_screen.dart';
 import '../../features/reader/epub/epub_reader_screen.dart';
 import '../../features/reader/pdf/pdf_reader_screen.dart';
 import '../../features/reader/screens/reader_screen.dart';
+import '../../features/settings/logs/logs_screen.dart';
 import '../../features/rss/screens/rss_source_list_screen.dart';
 import '../../features/profile/screens/profile_screen.dart';
 import '../../features/search/screens/search_screen.dart';
+import '../../features/source_manager/screens/qr_scan_screen.dart';
 import '../../features/source_manager/screens/source_edit_screen.dart';
 import '../../features/source_manager/screens/source_list_screen.dart';
 import '../../domain/models/book_source.dart';
@@ -80,6 +82,16 @@ class AppRouter {
               final source = state.extra as BookSource?;
               return MaterialPage(child: SourceEditScreen(source: source));
             },
+          ),
+          GoRoute(
+            path: '/qr-scan',
+            pageBuilder: (context, state) =>
+                const MaterialPage(child: QrScanScreen()),
+          ),
+          GoRoute(
+            path: '/logs',
+            pageBuilder: (context, state) =>
+                const MaterialPage(child: LogsScreen()),
           ),
           ShellRoute(
             builder: (context, state, child) =>

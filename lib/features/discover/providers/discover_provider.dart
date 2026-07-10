@@ -5,12 +5,15 @@ import '../../../../data/dao/book_source_dao.dart';
 import '../../../../domain/models/book_source.dart';
 import '../../../../domain/models/search_book.dart';
 import '../../../../engine/web_book/web_book.dart';
+import '../models/explore_kind.dart';
+import '../utils/explore_kind_parser.dart';
 
 /// 探索页面状态
 class DiscoverState {
   final List<String> groups;
   final String selectedGroup;
   final Map<String, List<BookSource>> sourcesByGroup;
+  final Map<String, List<ExploreKind>> kindsBySource;
   final bool isLoading;
   final String? error;
   // 探索结果
@@ -22,6 +25,7 @@ class DiscoverState {
     this.groups = const [],
     this.selectedGroup = '',
     this.sourcesByGroup = const {},
+    this.kindsBySource = const {},
     this.isLoading = false,
     this.error,
     this.exploreResults,
@@ -33,6 +37,7 @@ class DiscoverState {
     List<String>? groups,
     String? selectedGroup,
     Map<String, List<BookSource>>? sourcesByGroup,
+    Map<String, List<ExploreKind>>? kindsBySource,
     bool? isLoading,
     String? error,
     List<SearchBook>? exploreResults,
@@ -44,6 +49,7 @@ class DiscoverState {
       groups: groups ?? this.groups,
       selectedGroup: selectedGroup ?? this.selectedGroup,
       sourcesByGroup: sourcesByGroup ?? this.sourcesByGroup,
+      kindsBySource: kindsBySource ?? this.kindsBySource,
       isLoading: isLoading ?? this.isLoading,
       error: error,
       exploreResults: clearExploreResults
@@ -57,6 +63,10 @@ class DiscoverState {
   List<BookSource> get currentSources => sourcesByGroup[selectedGroup] ?? [];
 
   List<String> get allTabs => ['全部', ...groups];
+
+  List<ExploreKind> kindsOf(BookSource source) {
+    return kindsBySource[source.bookSourceUrl] ?? const [];
+  }
 }
 
 /// 探索页面状态管理器
@@ -94,6 +104,10 @@ class DiscoverProvider extends StateNotifier<DiscoverState> {
 
       if (!_disposed) {
         final sourcesByGroup = <String, List<BookSource>>{};
+        final kindsBySource = <String, List<ExploreKind>>{};
+        for (final source in allSources) {
+          kindsBySource[source.bookSourceUrl] = parseExploreKinds(source);
+        }
         for (final group in groups) {
           sourcesByGroup[group] = allSources
               .where((s) => s.bookSourceGroup == group)
@@ -107,6 +121,7 @@ class DiscoverProvider extends StateNotifier<DiscoverState> {
               ? '全部'
               : state.selectedGroup,
           sourcesByGroup: sourcesByGroup,
+          kindsBySource: kindsBySource,
           isLoading: false,
         );
       }
@@ -126,12 +141,16 @@ class DiscoverProvider extends StateNotifier<DiscoverState> {
   ///
   /// [source] 书源
   /// [exploreUrl] 该分类的探索 URL（从 exploreUrl 中提取的行）
-  Future<void> exploreCategory(BookSource source, String exploreUrl) async {
+  Future<void> exploreCategory(
+    BookSource source,
+    String exploreUrl, {
+    String? title,
+  }) async {
     if (exploreUrl.isEmpty) return;
 
     state = state.copyWith(
       isExploring: true,
-      exploreCategory: _extractCategoryName(exploreUrl),
+      exploreCategory: title ?? _extractCategoryName(exploreUrl),
       clearExploreResults: true,
       error: null,
     );

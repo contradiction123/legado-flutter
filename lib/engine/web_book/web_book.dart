@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import '../../data/models/search_rule.dart';
 import '../../domain/models/book.dart';
 import '../../domain/models/book_chapter.dart';
 import '../../domain/models/book_source.dart';
@@ -8,14 +9,10 @@ import '../analyze_rule/analyze_rule.dart';
 import '../analyze_rule/analyze_url.dart';
 
 /// 网络书籍引擎
-///
-/// 对标原：WebBook.kt
-/// 实现完整的书源规则执行流程：搜索→详情→目录→正文→发现
 class WebBook {
   final AnalyzeRule _rule = AnalyzeRule();
   final AnalyzeUrl _urlBuilder = AnalyzeUrl();
 
-  /// 搜索书籍
   Future<List<SearchBook>> searchBooks(
     BookSource source,
     String keyword,
@@ -23,43 +20,52 @@ class WebBook {
   ) async {
     final searchUrl = source.searchUrl;
     final ruleSearchStr = source.ruleSearch;
+    final ruleSearch = source.parseRuleSearch();
     if (searchUrl == null ||
         searchUrl.isEmpty ||
         ruleSearchStr == null ||
-        ruleSearchStr.isEmpty)
+        ruleSearchStr.isEmpty ||
+        ruleSearch == null) {
       return [];
+    }
 
     try {
-      // 构建搜索 URL
       final url = _urlBuilder.buildUrl(searchUrl, {
         'key': keyword,
-        'page': page.toString(),
         'keyword': keyword,
+        'page': page.toString(),
       });
+      final response = await _urlBuilder.get(url, headers: source.header);
+      final html = response.body ?? '';
+      if (html.isEmpty) {
+        return [];
+      }
 
-      // 发送请求
-      final html = await _urlBuilder.fetchAsString(url, headers: source.header);
-      if (html.isEmpty) return [];
-
-      // 解析搜索结果列表规则
       _rule.setRawData(html);
-      final ruleSearch = _parseRuleSearch(ruleSearchStr);
-      final bookListItems = _rule.getStrings(
+      final responseBaseUrl = response.url.isNotEmpty ? response.url : url;
+      final bookListItems = _resolveBookListItems(
         ruleSearch.bookList ?? ruleSearchStr,
       );
 
       final books = <SearchBook>[];
       for (final item in bookListItems) {
-        final book = _parseSearchItem(item, source);
-        if (book != null) books.add(book);
+        final book = _parseSearchItem(
+          item,
+          source,
+          ruleSearch,
+          responseBaseUrl,
+          response.callTime,
+        );
+        if (book != null) {
+          books.add(book);
+        }
       }
       return books;
-    } catch (e) {
+    } catch (_) {
       return [];
     }
   }
 
-  /// 获取书籍详情
   Future<Book?> getBookInfo(BookSource source, SearchBook searchResult) async {
     final ruleBookInfoStr = source.ruleBookInfo;
     if (ruleBookInfoStr == null || ruleBookInfoStr.isEmpty) {
@@ -71,7 +77,9 @@ class WebBook {
         searchResult.bookUrl,
         headers: source.header,
       );
-      if (html.isEmpty) return null;
+      if (html.isEmpty) {
+        return null;
+      }
 
       _rule.setRawData(html);
       final rule = _parseBookInfo(ruleBookInfoStr);
@@ -82,10 +90,7 @@ class WebBook {
         origin: source.bookSourceUrl,
         originName: source.bookSourceName,
         name:
-            _takeNonEmpty(
-              _rule.getString(rule.name ?? ''),
-              searchResult.name,
-            ) ??
+            _takeNonEmpty(_rule.getString(rule.name ?? ''), searchResult.name) ??
             searchResult.name,
         author:
             _takeNonEmpty(
@@ -108,15 +113,16 @@ class WebBook {
           searchResult.latestChapterTitle,
         ),
       );
-    } catch (e) {
+    } catch (_) {
       return _searchResultToBook(source, searchResult);
     }
   }
 
-  /// 获取章节列表
   Future<List<BookChapter>> getChapterList(BookSource source, Book book) async {
     final ruleTocStr = source.ruleToc;
-    if (ruleTocStr == null || ruleTocStr.isEmpty) return [];
+    if (ruleTocStr == null || ruleTocStr.isEmpty) {
+      return [];
+    }
 
     try {
       final tocUrl = book.tocUrl.isNotEmpty ? book.tocUrl : book.bookUrl;
@@ -124,12 +130,16 @@ class WebBook {
         tocUrl,
         headers: source.header,
       );
-      if (html.isEmpty) return [];
+      if (html.isEmpty) {
+        return [];
+      }
 
       _rule.setRawData(html);
       final rule = _parseToc(ruleTocStr);
       final bookListRule = rule.bookList;
-      if (bookListRule == null || bookListRule.isEmpty) return [];
+      if (bookListRule == null || bookListRule.isEmpty) {
+        return [];
+      }
 
       final chapterItems = _rule.getStrings(bookListRule);
       final chapters = <BookChapter>[];
@@ -138,8 +148,12 @@ class WebBook {
         _rule.setRawData(chapterItems[i]);
         final title = _rule.getString(rule.name ?? '');
         final url = _rule.getString(rule.bookUrl ?? '');
-        if (title == null || title.isEmpty) continue;
-        if (url == null || url.isEmpty) continue;
+        if (title == null || title.isEmpty) {
+          continue;
+        }
+        if (url == null || url.isEmpty) {
+          continue;
+        }
 
         final resolvedUrl = _urlBuilder.resolveUrl(tocUrl, url);
         chapters.add(
@@ -156,103 +170,166 @@ class WebBook {
         );
       }
       return chapters;
-    } catch (e) {
+    } catch (_) {
       return [];
     }
   }
 
-  /// 获取正文内容
   Future<String> getBookContent(BookSource source, BookChapter chapter) async {
     final ruleContentStr = source.ruleContent;
-    if (ruleContentStr == null || ruleContentStr.isEmpty) return '';
+    if (ruleContentStr == null || ruleContentStr.isEmpty) {
+      return '';
+    }
 
     try {
       final html = await _urlBuilder.fetchAsString(
         chapter.url,
         headers: source.header,
       );
-      if (html.isEmpty) return '';
+      if (html.isEmpty) {
+        return '';
+      }
 
       _rule.setRawData(html);
       final rule = _parseContent(ruleContentStr);
       final content = _rule.getString(rule.content ?? ruleContentStr);
       return content ?? '';
-    } catch (e) {
+    } catch (_) {
       return '';
     }
   }
 
-  /// 发现页浏览
   Future<List<SearchBook>> explore(BookSource source, {String? url}) async {
     final exploreUrl = source.exploreUrl;
     final ruleExploreStr = source.ruleExplore;
     if (exploreUrl == null ||
         exploreUrl.isEmpty ||
         ruleExploreStr == null ||
-        ruleExploreStr.isEmpty)
+        ruleExploreStr.isEmpty) {
       return [];
+    }
 
     try {
-      final targetUrl = url ?? exploreUrl;
-      final html = await _urlBuilder.fetchAsString(
-        targetUrl,
-        headers: source.header,
-      );
-      if (html.isEmpty) return [];
+      final targetUrl = _urlBuilder.buildUrl(url ?? exploreUrl, {
+        'page': '1',
+      });
+      final response = await _urlBuilder.get(targetUrl, headers: source.header);
+      final html = response.body ?? '';
+      if (html.isEmpty) {
+        return [];
+      }
 
+      final responseUrl = response.url.isNotEmpty ? response.url : targetUrl;
       _rule.setRawData(html);
-      final ruleExplore = _parseRuleSearch(ruleExploreStr);
-      final items = _rule.getStrings(ruleExplore.bookList ?? ruleExploreStr);
+      final ruleExplore = _parseExploreRule(ruleExploreStr);
+      final items = _resolveBookListItems(
+        ruleExplore.bookList ?? ruleExploreStr,
+      );
 
       final books = <SearchBook>[];
       for (final item in items) {
-        final book = _parseSearchItem(item, source);
-        if (book != null) books.add(book);
+        final book = _parseExploreItem(item, source, ruleExplore, responseUrl);
+        if (book != null) {
+          books.add(book);
+        }
       }
       return books;
-    } catch (e) {
+    } catch (_) {
       return [];
     }
   }
 
-  /// ──────────────────────────────────────────────────────────────────
-  // 私有方法
-  // ──────────────────────────────────────────────────────────────────
-
-  /// 从规则结果中解析单个搜索结果
-  SearchBook? _parseSearchItem(String item, BookSource source) {
+  SearchBook? _parseSearchItem(
+    String item,
+    BookSource source,
+    SearchRule ruleSearch,
+    String responseBaseUrl,
+    int respondTime,
+  ) {
     _rule.setRawData(item);
-    final name = _rule.getString('name');
-    final bookUrl = _rule.getString('bookUrl');
-    if (name == null || name.isEmpty) return null;
-    if (bookUrl == null || bookUrl.isEmpty) return null;
+    final name = _normalizeText(_rule.getString(ruleSearch.name ?? ''));
+    final bookUrl = _normalizeText(_rule.getString(ruleSearch.bookUrl ?? ''));
+    if (name == null || name.isEmpty) {
+      return null;
+    }
 
-    final author = _rule.getString('author');
-    final coverUrl = _rule.getString('coverUrl');
-    final intro = _rule.getString('intro');
-    final tocUrl = _rule.getString('tocUrl');
-    final kind = _rule.getString('kind');
-    final wordCount = _rule.getString('wordCount');
-    final latestChapterTitle = _rule.getString('lastChapter');
+    final resolvedBookUrl = _resolvePrimaryBookUrl(responseBaseUrl, bookUrl);
+    if (resolvedBookUrl == null || resolvedBookUrl.isEmpty) {
+      return null;
+    }
+
+    final author =
+        _normalizeText(_rule.getString(ruleSearch.author ?? '')) ?? '';
+    final coverUrl = _resolveOptionalUrl(
+      responseBaseUrl,
+      _normalizeText(_rule.getString(ruleSearch.coverUrl ?? '')),
+    );
+    final intro = _normalizeText(_rule.getString(ruleSearch.intro ?? ''));
+    final kind = _normalizeText(_rule.getString(ruleSearch.kind ?? ''));
+    final wordCount = _normalizeText(_rule.getString(ruleSearch.wordCount ?? ''));
+    final latestChapterTitle = _normalizeText(
+      _rule.getString(ruleSearch.lastChapter ?? ''),
+    );
 
     return SearchBook(
-      bookUrl: _urlBuilder.resolveUrl(source.bookSourceUrl, bookUrl),
+      bookUrl: resolvedBookUrl,
       origin: source.bookSourceUrl,
       originName: source.bookSourceName,
       name: name,
-      author: author ?? '',
-      coverUrl: coverUrl != null
-          ? _urlBuilder.resolveUrl(source.bookSourceUrl, coverUrl)
-          : null,
+      author: author,
+      coverUrl: coverUrl,
       intro: intro,
       kind: kind,
       wordCount: wordCount,
       latestChapterTitle: latestChapterTitle,
-      tocUrl: _urlBuilder.resolveUrl(source.bookSourceUrl, tocUrl ?? bookUrl),
+      tocUrl: resolvedBookUrl,
+      originOrder: source.customOrder,
+      respondTime: respondTime,
     );
   }
 
-  /// 将搜索结果转为基本 Book 对象
+  SearchBook? _parseExploreItem(
+    String item,
+    BookSource source,
+    _RuleSearchParsed ruleExplore,
+    String responseBaseUrl,
+  ) {
+    _rule.setRawData(item);
+    final name = _normalizeText(_rule.getString(ruleExplore.name ?? ''));
+    final bookUrl = _normalizeText(_rule.getString(ruleExplore.bookUrl ?? ''));
+    if (name == null || name.isEmpty) {
+      return null;
+    }
+    if (bookUrl == null || bookUrl.isEmpty) {
+      return null;
+    }
+
+    final author = _normalizeText(_rule.getString(ruleExplore.author ?? ''));
+    final coverUrl = _normalizeText(_rule.getString(ruleExplore.coverUrl ?? ''));
+    final intro = _normalizeText(_rule.getString(ruleExplore.intro ?? ''));
+    final kind = _normalizeText(_rule.getString(ruleExplore.kind ?? ''));
+    final wordCount = _normalizeText(_rule.getString(ruleExplore.wordCount ?? ''));
+    final latestChapterTitle = _normalizeText(
+      _rule.getString(ruleExplore.lastChapter ?? ''),
+    );
+    final resolvedBookUrl = _urlBuilder.resolveUrl(responseBaseUrl, bookUrl);
+
+    return SearchBook(
+      bookUrl: resolvedBookUrl,
+      origin: source.bookSourceUrl,
+      originName: source.bookSourceName,
+      name: name,
+      author: author ?? '',
+      coverUrl: _resolveOptionalUrl(responseBaseUrl, coverUrl),
+      intro: intro,
+      kind: kind,
+      wordCount: wordCount,
+      latestChapterTitle: latestChapterTitle,
+      tocUrl: resolvedBookUrl,
+      originOrder: source.customOrder,
+    );
+  }
+
   Book _searchResultToBook(BookSource source, SearchBook searchResult) {
     return Book(
       bookUrl: searchResult.bookUrl,
@@ -269,15 +346,54 @@ class WebBook {
     );
   }
 
-  /// 取两个值中非空的
   String? _takeNonEmpty(String? a, String? b) {
-    if (a != null && a.isNotEmpty) return a;
-    if (b != null && b.isNotEmpty) return b;
+    if (a != null && a.isNotEmpty) {
+      return a;
+    }
+    if (b != null && b.isNotEmpty) {
+      return b;
+    }
     return null;
   }
 
-  /// 解析搜索规则 JSON
-  _RuleSearchParsed _parseRuleSearch(String json) {
+  List<String> _resolveBookListItems(String rule) {
+    if (rule.isEmpty) {
+      return const [];
+    }
+
+    var normalizedRule = rule;
+    var reverse = false;
+    if (normalizedRule.startsWith('-')) {
+      reverse = true;
+      normalizedRule = normalizedRule.substring(1);
+    }
+    if (normalizedRule.startsWith('+')) {
+      normalizedRule = normalizedRule.substring(1);
+    }
+
+    final items = _rule.getStrings(normalizedRule);
+    if (!reverse || items.length <= 1) {
+      return items;
+    }
+    return items.reversed.toList(growable: false);
+  }
+
+  String? _resolvePrimaryBookUrl(String baseUrl, String? bookUrl) {
+    if (bookUrl == null || bookUrl.isEmpty) {
+      return baseUrl;
+    }
+    return _urlBuilder.resolveUrl(baseUrl, bookUrl);
+  }
+
+  String? _normalizeText(String? value) {
+    if (value == null) {
+      return null;
+    }
+    final normalized = value.trim();
+    return normalized.isEmpty ? null : normalized;
+  }
+
+  _RuleSearchParsed _parseExploreRule(String json) {
     try {
       final map = jsonDecode(json) as Map<String, dynamic>;
       return _RuleSearchParsed(
@@ -334,9 +450,15 @@ class WebBook {
       return _ContentParsed(content: json);
     }
   }
+
+  String? _resolveOptionalUrl(String baseUrl, String? value) {
+    if (value == null || value.isEmpty) {
+      return null;
+    }
+    return _urlBuilder.resolveUrl(baseUrl, value);
+  }
 }
 
-/// 搜索规则解析结果
 class _RuleSearchParsed {
   final String? bookList;
   final String? name;

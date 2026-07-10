@@ -5,6 +5,8 @@ import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqlite3_flutter_libs/sqlite3_flutter_libs.dart';
+import '../logging/app_logger.dart';
+import '../logging/drift_sql_interceptor.dart';
 
 part 'app_database.g.dart';
 
@@ -1026,15 +1028,19 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 1;
 
   /// 创建数据库实例（使用 Native SQLite）
-  static Future<AppDatabase> create() async {
+  static Future<AppDatabase> create({AppLogger? logger}) async {
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'legado.db'));
+    final appLogger = logger ?? AppLogger.instance;
 
     // 确保 sqlite3 库已加载
     await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();
 
     // 使用 NativeDatabase 运行
-    final database = AppDatabase(NativeDatabase(file));
+    final executor = NativeDatabase(file).interceptWith(
+      DriftSqlInterceptor(appLogger),
+    );
+    final database = AppDatabase(executor);
     return database;
   }
 }

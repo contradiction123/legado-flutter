@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../domain/models/book_source.dart';
 import '../providers/source_provider.dart';
+import '../widgets/import_export_dialog.dart';
 import '../widgets/source_card.dart';
 
-/// 书源列表页面
 class SourceListScreen extends ConsumerWidget {
   const SourceListScreen({super.key});
 
@@ -24,9 +21,14 @@ class SourceListScreen extends ConsumerWidget {
         title: const Text('书源管理'),
         actions: [
           IconButton(
+            icon: const Icon(Icons.qr_code_scanner),
+            tooltip: '扫码添加书源',
+            onPressed: () => _scanQrCode(context, provider),
+          ),
+          IconButton(
             icon: const Icon(Icons.import_export),
             tooltip: '导入/导出',
-            onPressed: () => _showImportExportDialog(context, provider),
+            onPressed: () => showImportExportDialog(context),
           ),
           IconButton(
             icon: const Icon(Icons.group_work),
@@ -37,7 +39,6 @@ class SourceListScreen extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          // 搜索栏
           Padding(
             padding: const EdgeInsets.all(8),
             child: TextField(
@@ -46,10 +47,9 @@ class SourceListScreen extends ConsumerWidget {
                 prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(),
               ),
-              onChanged: (value) => provider.search(value),
+              onChanged: provider.search,
             ),
           ),
-          // 分组标签
           SizedBox(
             height: 40,
             child: ListView(
@@ -57,16 +57,12 @@ class SourceListScreen extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               children: [
                 _buildGroupChip(
-                  context,
                   '全部',
-                  null,
                   state.selectedGroup == null,
                   () => provider.filterByGroup(null),
                 ),
                 ...state.groups.map(
                   (group) => _buildGroupChip(
-                    context,
-                    group,
                     group,
                     state.selectedGroup == group,
                     () => provider.filterByGroup(group),
@@ -75,14 +71,13 @@ class SourceListScreen extends ConsumerWidget {
               ],
             ),
           ),
-          // 书源列表
           Expanded(
             child: state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null
                 ? Center(child: Text('加载失败: ${state.error}'))
                 : RefreshIndicator(
-                    onRefresh: () => provider.loadSources(),
+                    onRefresh: provider.loadSources,
                     child: ListView.builder(
                       itemCount: filteredSources.length,
                       itemBuilder: (context, index) {
@@ -90,7 +85,7 @@ class SourceListScreen extends ConsumerWidget {
                         return SourceCard(
                           source: source,
                           onTap: () => _editSource(context, source),
-                          onToggleEnabled: (enabled) =>
+                          onToggleEnabled: (_) =>
                               provider.toggleEnabled(source.bookSourceUrl),
                         );
                       },
@@ -100,16 +95,14 @@ class SourceListScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _addSource(context, provider),
+        onPressed: () => _addSource(context),
         child: const Icon(Icons.add),
       ),
     );
   }
 
   Widget _buildGroupChip(
-    BuildContext context,
     String label,
-    String? value,
     bool selected,
     VoidCallback onTap,
   ) {
@@ -123,76 +116,35 @@ class SourceListScreen extends ConsumerWidget {
     );
   }
 
-  void _showImportExportDialog(BuildContext context, SourceProvider provider) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('导入/导出'),
-        content: const Text('选择操作:'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _importFromClipboard(context, provider);
-            },
-            child: const Text('从剪贴板导入'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              _exportToClipboard(context, provider);
-            },
-            child: const Text('导出到剪贴板'),
-          ),
-        ],
-      ),
-    );
-  }
+  void _scanQrCode(BuildContext context, SourceProvider provider) async {
+    final result = await context.push<String>('/qr-scan');
+    if (result == null || result.isEmpty || !context.mounted) return;
 
-  void _importFromClipboard(
-    BuildContext context,
-    SourceProvider provider,
-  ) async {
-    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-    final data = clipboardData?.text;
-    if (data == null || data.isEmpty) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('剪贴板为空')));
-      }
-      return;
-    }
-
-    final count = await provider.importFromJson(data);
-    if (context.mounted) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('成功导入 $count 个书源')));
-    }
-  }
-
-  void _exportToClipboard(BuildContext context, SourceProvider provider) async {
-    final jsonList = provider.filteredSources.map((s) => s.toJson()).toList();
-    final jsonStr = const JsonEncoder.withIndent('  ').convert(jsonList);
-    await Clipboard.setData(ClipboardData(text: jsonStr));
-    if (context.mounted) {
+    _showImportingIndicator(context);
+    try {
+      final count = await provider.importFromText(result);
+      if (!context.mounted) return;
+      Navigator.of(context, rootNavigator: true).pop();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('已导出 ${provider.filteredSources.length} 个书源到剪贴板'),
-        ),
+        SnackBar(content: Text('成功导入 $count 个书源')),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      Navigator.of(context, rootNavigator: true).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('导入失败: $e')),
       );
     }
   }
 
   void _showGroupDialog(BuildContext context, SourceProvider provider) {
     final groups = provider.filteredSources
-        .map((s) => s.bookSourceGroup)
+        .map((source) => source.bookSourceGroup)
         .whereType<String>()
         .toSet()
         .toList();
 
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('分组管理'),
@@ -201,9 +153,8 @@ class SourceListScreen extends ConsumerWidget {
           child: groups.isEmpty
               ? const Text('暂无分组')
               : ListView(
-                  children: groups
-                      .map((group) => ListTile(title: Text(group)))
-                      .toList(),
+                  children:
+                      groups.map((group) => ListTile(title: Text(group))).toList(),
                 ),
         ),
         actions: [
@@ -220,7 +171,30 @@ class SourceListScreen extends ConsumerWidget {
     context.push('/source-edit', extra: source);
   }
 
-  void _addSource(BuildContext context, SourceProvider provider) {
+  void _addSource(BuildContext context) {
     context.push('/source-edit');
+  }
+
+  void _showImportingIndicator(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => const PopScope(
+        canPop: false,
+        child: AlertDialog(
+          content: Row(
+            children: [
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              SizedBox(width: 12),
+              Expanded(child: Text('正在导入书源...')),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

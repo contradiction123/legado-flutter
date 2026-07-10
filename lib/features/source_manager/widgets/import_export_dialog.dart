@@ -4,16 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../domain/models/book_source.dart';
 import '../providers/source_provider.dart';
+import '../utils/book_source_import_parser.dart';
 
-/// 导入/导出书源对话框
-///
-/// 支持以下方式：
-/// - 从剪贴板导入 JSON
-/// - 从 URL 导入 JSON
-/// - 导出当前列表为 JSON
 class ImportExportDialog extends ConsumerStatefulWidget {
   const ImportExportDialog({super.key});
 
@@ -26,12 +22,9 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
   bool _isExporting = false;
   String? _error;
   String? _successMessage;
-
-  // 导入预览数据
   List<BookSource>? _previewSources;
   String? _previewRaw;
 
-  // URL 导入
   final _urlController = TextEditingController();
 
   @override
@@ -53,20 +46,21 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ---- 导入区域 ----
               _buildSectionHeader(theme, '导入', Icons.file_download),
-
-              // 从剪贴板导入
+              _buildActionTile(
+                icon: Icons.qr_code_scanner,
+                title: '扫码导入',
+                subtitle: '扫描二维码添加书源',
+                onTap: () => _scanQrCode(context),
+              ),
+              const Divider(height: 4),
               _buildActionTile(
                 icon: Icons.content_paste,
                 title: '从剪贴板导入',
-                subtitle: '粘贴已复制的书源 JSON',
+                subtitle: '解析剪贴板中的书源 JSON',
                 onTap: _importFromClipboard,
               ),
-
               const Divider(height: 4),
-
-              // 从 URL 导入
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Row(
@@ -105,21 +99,15 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
                   ],
                 ),
               ),
-
               const Divider(height: 4),
-
-              // ---- 导出区域 ----
               const SizedBox(height: 12),
               _buildSectionHeader(theme, '导出', Icons.file_upload),
-
               _buildActionTile(
                 icon: Icons.content_copy,
                 title: '导出到剪贴板',
-                subtitle: '将所有书源导出为 JSON 格式',
+                subtitle: '将当前列表中的书源导出为 JSON',
                 onTap: _isExporting ? null : _exportToClipboard,
               ),
-
-              // ---- 预览区域 ----
               if (_previewSources != null) ...[
                 const SizedBox(height: 16),
                 _buildSectionHeader(theme, '导入预览', Icons.preview),
@@ -146,20 +134,18 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
                           size: 18,
                           color: theme.colorScheme.primary,
                         ),
-                        title: Text(
-                          source.bookSourceName,
-                          style: theme.textTheme.bodyMedium,
-                        ),
+                        title: Text(source.bookSourceName),
                         subtitle: Text(
                           source.bookSourceUrl,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                        trailing: source.bookSourceGroup != null
-                            ? Chip(
+                        trailing: source.bookSourceGroup == null
+                            ? null
+                            : Chip(
                                 label: Text(
                                   source.bookSourceGroup!,
                                   style: const TextStyle(fontSize: 11),
@@ -168,8 +154,7 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
                                     MaterialTapTargetSize.shrinkWrap,
                                 visualDensity: VisualDensity.compact,
                                 padding: EdgeInsets.zero,
-                              )
-                            : null,
+                              ),
                       );
                     },
                   ),
@@ -177,14 +162,12 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
                 const SizedBox(height: 8),
                 Text(
                   '共 ${_previewSources!.length} 个书源',
+                  textAlign: TextAlign.right,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
-                  textAlign: TextAlign.right,
                 ),
               ],
-
-              // 确认导入按钮
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: SizedBox(
@@ -202,8 +185,6 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
                   ),
                 ),
               ),
-
-              // ---- 状态消息 ----
               if (_error != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 12),
@@ -271,7 +252,32 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
     );
   }
 
-  /// 从剪贴板导入书源 JSON
+  Future<void> _scanQrCode(BuildContext context) async {
+    Navigator.of(context).pop();
+    await Future.delayed(Duration.zero);
+    if (!context.mounted) return;
+
+    final result = await context.push<String>('/qr-scan');
+    if (result == null || result.isEmpty || !context.mounted) return;
+
+    _showImportingIndicator(context);
+    try {
+      final provider = ref.read(sourceProvider.notifier);
+      final count = await provider.importFromText(result);
+      if (!context.mounted) return;
+      Navigator.of(context, rootNavigator: true).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('成功导入 $count 个书源')),
+      );
+    } catch (e) {
+      if (!context.mounted) return;
+      Navigator.of(context, rootNavigator: true).pop();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('导入失败: $e')),
+      );
+    }
+  }
+
   Future<void> _importFromClipboard() async {
     setState(() {
       _isImporting = true;
@@ -283,7 +289,6 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
     try {
       final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
       final data = clipboardData?.text;
-
       if (data == null || data.trim().isEmpty) {
         setState(() {
           _error = '剪贴板内容为空';
@@ -291,7 +296,6 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
         });
         return;
       }
-
       await _parseAndPreview(data);
     } catch (e) {
       setState(() {
@@ -301,7 +305,6 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
     }
   }
 
-  /// 从 URL 导入书源 JSON
   Future<void> _importFromUrl() async {
     final url = _urlController.text.trim();
     if (url.isEmpty) {
@@ -317,14 +320,10 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
     });
 
     try {
-      // 使用 HTTP 请求获取远程 JSON
-      // 此处简化处理：假设可以通过 http 包获取
-      // 实际实现中应注入 HttpClient 或使用 Dio
       final httpClient = HttpClient();
       final request = await httpClient.getUrl(Uri.parse(url));
       final response = await request.close();
       final data = await response.transform(utf8.decoder).join();
-
       await _parseAndPreview(data);
     } catch (e) {
       setState(() {
@@ -334,40 +333,12 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
     }
   }
 
-  /// 解析并预览书源 JSON
   Future<void> _parseAndPreview(String jsonString) async {
     try {
-      final decoded = jsonDecode(jsonString);
-
-      List<BookSource> sources;
-      if (decoded is List) {
-        sources = decoded
-            .map((e) {
-              if (e is Map<String, dynamic>) {
-                return BookSource.fromJson(e);
-              }
-              if (e is String) {
-                return BookSource.fromJson(
-                  jsonDecode(e) as Map<String, dynamic>,
-                );
-              }
-              return null;
-            })
-            .whereType<BookSource>()
-            .toList();
-      } else if (decoded is Map<String, dynamic>) {
-        sources = [BookSource.fromJson(decoded)];
-      } else {
-        setState(() {
-          _error = '无法解析的书源数据格式';
-          _isImporting = false;
-        });
-        return;
-      }
-
+      final sources = BookSourceImportParser.parseJsonText(jsonString);
       if (sources.isEmpty) {
         setState(() {
-          _error = '未解析到有效的书源';
+          _error = '未解析到有效书源';
           _isImporting = false;
         });
         return;
@@ -387,7 +358,6 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
     }
   }
 
-  /// 确认导入预览中的书源
   Future<void> _confirmImport() async {
     if (_previewSources == null || _previewRaw == null) return;
 
@@ -400,7 +370,6 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
     try {
       final provider = ref.read(sourceProvider.notifier);
       final count = await provider.importFromJson(_previewRaw!);
-
       setState(() {
         _previewSources = null;
         _previewRaw = null;
@@ -415,7 +384,6 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
     }
   }
 
-  /// 导出书源到剪贴板
   Future<void> _exportToClipboard() async {
     setState(() {
       _isExporting = true;
@@ -426,7 +394,6 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
     try {
       final provider = ref.read(sourceProvider.notifier);
       final sources = provider.filteredSources;
-
       if (sources.isEmpty) {
         setState(() {
           _error = '没有可导出的书源';
@@ -435,9 +402,8 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
         return;
       }
 
-      final jsonList = sources.map((s) => s.toJson()).toList();
+      final jsonList = sources.map((source) => source.toJson()).toList();
       final jsonStr = const JsonEncoder.withIndent('  ').convert(jsonList);
-
       await Clipboard.setData(ClipboardData(text: jsonStr));
 
       setState(() {
@@ -451,9 +417,31 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
       });
     }
   }
+
+  void _showImportingIndicator(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => const PopScope(
+        canPop: false,
+        child: AlertDialog(
+          content: Row(
+            children: [
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+              SizedBox(width: 12),
+              Expanded(child: Text('正在导入书源...')),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-/// 便捷方法：显示导入导出对话框
 Future<void> showImportExportDialog(BuildContext context) {
   return showDialog(
     context: context,

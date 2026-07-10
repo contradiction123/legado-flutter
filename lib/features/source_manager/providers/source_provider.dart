@@ -1,32 +1,31 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
 import '../../../core/di/injection_container.dart';
+import '../../../core/network/dio_client.dart';
 import '../../../data/dao/book_source_dao.dart';
 import '../../../data/repositories/book_source_repository.dart';
 import '../../../domain/models/book_source.dart';
+import '../utils/book_source_import_parser.dart';
 
 const _unset = Object();
 
-/// 书源状态管理器
-///
-/// 使用懒初始化模式（同 ReadRecordProvider），在首次使用时自动创建 DAO。
 class SourceProvider extends StateNotifier<SourceState> {
   SourceProvider() : super(SourceState.initial()) {
     loadSources();
   }
 
   bool _disposed = false;
+  BookSourceRepository? _repo;
+  BookSourceDao? _dao;
 
   @override
   void dispose() {
     _disposed = true;
     super.dispose();
   }
-
-  BookSourceRepository? _repo;
-  BookSourceDao? _dao;
 
   Future<BookSourceRepository> _getRepo() async {
     if (_repo == null) {
@@ -37,7 +36,6 @@ class SourceProvider extends StateNotifier<SourceState> {
     return _repo!;
   }
 
-  /// 加载书源列表
   Future<void> loadSources() async {
     state = state.copyWith(isLoading: true);
     try {
@@ -46,22 +44,19 @@ class SourceProvider extends StateNotifier<SourceState> {
       final sources = await repo.getAll();
       if (_disposed) return;
       final groups = await repo.getDistinctGroups();
-      if (!_disposed) {
-        state = state.copyWith(
-          sources: sources,
-          groups: groups,
-          isLoading: false,
-          error: null,
-        );
-      }
+      if (_disposed) return;
+      state = state.copyWith(
+        sources: sources,
+        groups: groups,
+        isLoading: false,
+        error: null,
+      );
     } catch (e) {
-      if (!_disposed) {
-        state = state.copyWith(isLoading: false, error: e.toString());
-      }
+      if (_disposed) return;
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 
-  /// 切换书源启用状态
   Future<void> toggleEnabled(String url) async {
     final repo = await _getRepo();
     final source = state.sources.firstWhere((s) => s.bookSourceUrl == url);
@@ -69,17 +64,14 @@ class SourceProvider extends StateNotifier<SourceState> {
     await loadSources();
   }
 
-  /// 搜索书源
   void search(String keyword) {
     state = state.copyWith(searchKeyword: keyword);
   }
 
-  /// 按分组过滤
   void filterByGroup(String? group) {
     state = state.copyWith(selectedGroup: group);
   }
 
-  /// 获取过滤后的书源列表
   List<BookSource> get filteredSources {
     var list = state.sources;
     if (state.searchKeyword.isNotEmpty) {
@@ -95,47 +87,99 @@ class SourceProvider extends StateNotifier<SourceState> {
     return list;
   }
 
-  /// 导入书源（JSON 字符串）
   Future<int> importFromJson(String jsonString) async {
     try {
       final repo = await _getRepo();
-      final decoded = jsonDecode(jsonString);
-      final list = decoded is List ? decoded : [decoded];
-      final sources = list
-          .map((e) {
-            if (e is Map<String, dynamic>) {
-              return BookSource.fromJson(e);
-            }
-            if (e is String) {
-              return BookSource.fromJson(jsonDecode(e) as Map<String, dynamic>);
-            }
-            return null;
-          })
-          .whereType<BookSource>()
-          .toList();
+      final sources = BookSourceImportParser.parseJsonText(jsonString);
+      if (sources.isEmpty) {
+        throw Exception('No valid book sources found');
+      }
 
       await repo.importAll(sources);
       await loadSources();
+      if (!_disposed) {
+        state = state.copyWith(error: null);
+      }
       return sources.length;
     } catch (e) {
-      state = state.copyWith(error: '导入失败: $e');
-      return 0;
+      state = state.copyWith(error: 'Import failed: $e');
+      rethrow;
     }
   }
 
-  /// 保存书源（插入或更新）
+  Future<int> importFromText(String text) async {
+    final trimmed = text.trim();
+    if (trimmed.isEmpty) {
+      throw Exception('Content is empty');
+    }
+
+    if (_isUrl(trimmed)) {
+      final body = await _fetchSourceText(trimmed);
+      return importFromText(body);
+    }
+
+    if (trimmed.contains('ruleSearchUrl') || trimmed.contains('ruleFindUrl')) {
+      throw Exception('Legacy source format is not supported');
+    }
+
+    if (trimmed.startsWith('[')) {
+      return importFromJson(trimmed);
+    }
+
+    if (trimmed.startsWith('{')) {
+      final decoded = jsonDecode(trimmed);
+      if (decoded is Map<String, dynamic>) {
+        final sourceUrls = decoded['sourceUrls'];
+        if (sourceUrls is List) {
+          var total = 0;
+          for (final item in sourceUrls) {
+            if (item is String && item.trim().isNotEmpty) {
+              total += await importFromText(item);
+            }
+          }
+          return total;
+        }
+      }
+      return importFromJson(trimmed);
+    }
+
+    throw Exception('Unsupported source format');
+  }
+
+  Future<String> _fetchSourceText(String url) async {
+    final dio = DioClient.instance.dio;
+    final requestWithoutUa = url.endsWith('#requestWithoutUA');
+    final requestUrl = requestWithoutUa
+        ? url.substring(0, url.length - '#requestWithoutUA'.length)
+        : url;
+    final response = await dio.get<String>(
+      requestUrl,
+      options: requestWithoutUa
+          ? Options(headers: const {'User-Agent': 'null'})
+          : null,
+    );
+    final body = response.data;
+    if (body == null || body.isEmpty) {
+      throw Exception('Fetched source content is empty');
+    }
+    return body;
+  }
+
+  bool _isUrl(String text) {
+    return text.startsWith('http://') || text.startsWith('https://');
+  }
+
   Future<void> saveSource(BookSource source) async {
     try {
       final repo = await _getRepo();
       await repo.save(source);
       await loadSources();
     } catch (e) {
-      state = state.copyWith(error: '保存失败: $e');
+      state = state.copyWith(error: 'Save failed: $e');
       rethrow;
     }
   }
 
-  /// 删除书源
   Future<void> deleteByUrl(String url) async {
     final repo = await _getRepo();
     await repo.deleteByUrl(url);
@@ -143,7 +187,6 @@ class SourceProvider extends StateNotifier<SourceState> {
   }
 }
 
-/// 书源状态
 class SourceState {
   final List<BookSource> sources;
   final List<String> groups;
@@ -184,11 +227,6 @@ class SourceState {
   }
 }
 
-/// 书源状态提供者
-///
-/// 自动懒初始化 DAO+Repository，无需外部 DI 注入。
-final sourceProvider = StateNotifierProvider<SourceProvider, SourceState>((
-  ref,
-) {
+final sourceProvider = StateNotifierProvider<SourceProvider, SourceState>((ref) {
   return SourceProvider();
 });

@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../providers/search_provider.dart';
 import '../widgets/search_result_card.dart';
 
-/// 搜索页面
 class SearchScreen extends ConsumerStatefulWidget {
   const SearchScreen({super.key});
 
@@ -22,7 +21,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     super.initState();
     _controller = TextEditingController();
     _focusNode = FocusNode();
-    // 延迟加载历史记录
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(searchProvider.notifier).loadHistory();
     });
@@ -37,10 +35,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   void _performSearch() {
     final keyword = _controller.text.trim();
-    if (keyword.isNotEmpty) {
-      _focusNode.unfocus();
-      ref.read(searchProvider.notifier).search(keyword);
+    if (keyword.isEmpty) {
+      return;
     }
+    _focusNode.unfocus();
+    ref.read(searchProvider.notifier).search(keyword);
   }
 
   @override
@@ -56,7 +55,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           autofocus: true,
           textInputAction: TextInputAction.search,
           decoration: InputDecoration(
-            hintText: '搜索书名或作者',
+            hintText: '搜索小说名或作者',
             border: InputBorder.none,
             suffixIcon: _controller.text.isNotEmpty
                 ? IconButton(
@@ -84,12 +83,12 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     SearchState state,
     SearchProvider provider,
   ) {
-    if (state.isLoading) {
-      return _buildLoading(state);
+    if (state.isLoading && state.results.isEmpty) {
+      return _buildLoading(context, state);
     }
 
-    if (state.error != null) {
-      return _buildError(state);
+    if (state.error != null && state.results.isEmpty) {
+      return _buildError(context, state.error!);
     }
 
     if (!state.hasSearched) {
@@ -97,13 +96,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     }
 
     if (state.results.isEmpty) {
-      return _buildEmpty();
+      return _buildEmpty(context, state);
     }
 
-    return _buildResults(state);
+    return Column(
+      children: [
+        if (state.isLoading) _buildProgressHeader(context, state),
+        if (state.error != null) _buildInlineError(context, state.error!),
+        Expanded(child: _buildResults(state)),
+      ],
+    );
   }
 
-  Widget _buildLoading(SearchState state) {
+  Widget _buildLoading(BuildContext context, SearchState state) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -111,7 +116,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           const CircularProgressIndicator(),
           const SizedBox(height: 16),
           Text(
-            '正在搜索... (${state.completedSources}/${state.totalSources})',
+            '正在搜索小说... (${state.completedSources}/${state.totalSources})',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ],
@@ -119,7 +124,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     );
   }
 
-  Widget _buildError(SearchState state) {
+  Widget _buildError(BuildContext context, String error) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -133,9 +138,35 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              state.error!,
+              error,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInlineError(BuildContext context, String error) {
+    return Material(
+      color: Theme.of(context).colorScheme.errorContainer,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        child: Row(
+          children: [
+            Icon(
+              Icons.warning_amber_rounded,
+              color: Theme.of(context).colorScheme.onErrorContainer,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                error,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                ),
+              ),
             ),
           ],
         ),
@@ -151,7 +182,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     if (state.history.isEmpty) {
       return Center(
         child: Text(
-          '输入关键词开始搜索',
+          '输入小说名或作者开始搜索',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
@@ -167,7 +198,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           children: [
             Text('搜索历史', style: Theme.of(context).textTheme.titleSmall),
             TextButton(
-              onPressed: provider.clearHistory,
+              onPressed: () => provider.clearHistory(),
               child: const Text('清空'),
             ),
           ],
@@ -185,13 +216,14 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               },
               onDeleted: () => provider.removeHistory(keyword),
             );
-          }).toList(),
+          }).toList(growable: false),
         ),
       ],
     );
   }
 
-  Widget _buildEmpty() {
+  Widget _buildEmpty(BuildContext context, SearchState state) {
+    final message = state.error ?? '没有找到相关小说';
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -205,9 +237,41 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           ),
           const SizedBox(height: 16),
           Text(
-            '未找到相关书籍',
+            message,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProgressHeader(BuildContext context, SearchState state) {
+    final progress = state.totalSources == 0
+        ? null
+        : state.completedSources / state.totalSources;
+    return Material(
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
+      child: Column(
+        children: [
+          LinearProgressIndicator(value: progress),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '正在搜索全部书源',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+                Text(
+                  '${state.completedSources}/${state.totalSources}',
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ],
             ),
           ),
         ],

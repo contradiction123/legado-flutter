@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 
 import '../database/app_database.dart';
+import '../logging/app_logger.dart';
 import '../network/dio_client.dart';
 
 import '../../data/dao/book_dao.dart';
@@ -52,10 +53,14 @@ final sl = GetIt.instance;
 
 /// 初始化依赖注入
 Future<void> initDependencyInjection() async {
+  await AppLogger.instance.initialize();
+
   // ═══════════════════════════════════════════════════════════════════
   // 基础设施（懒加载单例）
   // ═══════════════════════════════════════════════════════════════════
-  sl.registerLazySingletonAsync<AppDatabase>(() => AppDatabase.create());
+  sl.registerLazySingletonAsync<AppDatabase>(
+    () => AppDatabase.create(logger: AppLogger.instance),
+  );
 
   sl.registerLazySingleton<DioClient>(() => DioClient.instance);
 

@@ -1,15 +1,16 @@
 import 'dart:async';
+import 'dart:collection';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
+import '../../../../core/constants/book_type.dart';
 import '../../../../core/di/injection_container.dart';
-import '../../../../data/dao/book_source_dao.dart';
+import '../../../../data/repositories/book_source_repository.dart';
+import '../../../../data/repositories/search_history_repository.dart';
 import '../../../../domain/models/book_source.dart';
 import '../../../../domain/models/search_book.dart';
 import '../../../../engine/web_book/web_book.dart';
 
-/// 搜索状态
 class SearchState {
   final String keyword;
   final List<String> history;
@@ -56,7 +57,6 @@ class SearchState {
   factory SearchState.initial() => const SearchState();
 }
 
-/// 简单的信号量，用于控制并发搜索源数
 class _Semaphore {
   final int maxCount;
   int _current = 0;
@@ -77,30 +77,34 @@ class _Semaphore {
   void release() {
     if (_queue.isNotEmpty) {
       _queue.removeAt(0).complete();
-    } else {
-      _current--;
+      return;
     }
+    _current--;
   }
 }
 
-/// 搜索状态管理器
 class SearchProvider extends StateNotifier<SearchState> {
   SearchProvider() : super(SearchState.initial());
 
-  final _webBook = WebBook();
-  final _semaphore = _Semaphore(5);
+  final WebBook _webBook = WebBook();
+  final _Semaphore _semaphore = _Semaphore(5);
+  int _activeSearchToken = 0;
 
-  /// 加载搜索历史（从内存，后续可接入数据库）
   Future<void> loadHistory() async {
-    // TODO: 接入 SearchKeywordDao 持久化
-    state = state.copyWith(history: const []);
+    final repository = await sl.getAsync<SearchHistoryRepository>();
+    final items = await repository.getAll();
+    state = state.copyWith(
+      history: items.map((item) => item.word).toList(growable: false),
+    );
   }
 
-  /// 执行搜索
   Future<void> search(String keyword) async {
-    if (keyword.trim().isEmpty) return;
-
     final trimmed = keyword.trim();
+    if (trimmed.isEmpty) {
+      return;
+    }
+
+    final searchToken = ++_activeSearchToken;
     state = state.copyWith(
       keyword: trimmed,
       isLoading: true,
@@ -112,89 +116,253 @@ class SearchProvider extends StateNotifier<SearchState> {
     );
 
     try {
-      final db = await databaseInstance;
-      final sourceDao = BookSourceDao(db);
+      final bookSourceRepository = await sl.getAsync<BookSourceRepository>();
+      final historyRepository = await sl.getAsync<SearchHistoryRepository>();
+      final sources = await _loadSearchableSources(bookSourceRepository);
 
-      final sources = await sourceDao.getEnabled();
+      if (searchToken != _activeSearchToken) {
+        return;
+      }
 
       if (sources.isEmpty) {
-        state = state.copyWith(isLoading: false, error: '没有可用的书源，请先导入或启用书源');
+        state = state.copyWith(
+          isLoading: false,
+          error: '没有可搜索的小说书源，请先导入并启用支持搜索的文本书源',
+        );
         return;
       }
 
       state = state.copyWith(totalSources: sources.length);
+      await historyRepository.add(trimmed);
+      await loadHistory();
 
-      final allResults = <SearchBook>[];
-      var completed = 0;
-
-      // 分批并发搜索，每批最多 5 个
+      final aggregator = _SearchResultAggregator(trimmed);
       final futures = <Future<void>>[];
+      var completed = 0;
+      var failed = 0;
+
       for (final source in sources) {
         futures.add(
-          _searchSingleSource(source, trimmed, allResults, () {
+          _searchSingleSource(source, trimmed).then((result) {
+            if (searchToken != _activeSearchToken) {
+              return;
+            }
+
             completed++;
-            state = state.copyWith(completedSources: completed);
+            if (result.failed) {
+              failed++;
+            } else {
+              aggregator.merge(result.books);
+            }
+
+            state = state.copyWith(
+              results: aggregator.results,
+              completedSources: completed,
+              totalSources: sources.length,
+            );
           }),
         );
       }
 
       await Future.wait(futures);
-
-      // 去重：按 bookUrl 去重，保留第一个
-      final seen = <String>{};
-      final unique = <SearchBook>[];
-      for (final book in allResults) {
-        if (seen.add(book.bookUrl)) {
-          unique.add(book);
-        }
+      if (searchToken != _activeSearchToken) {
+        return;
       }
 
-      // 更新历史记录
-      final newHistory = [trimmed, ...state.history.where((h) => h != trimmed)];
       state = state.copyWith(
-        results: unique,
+        results: aggregator.results,
         isLoading: false,
-        history: newHistory.take(20).toList(),
+        completedSources: completed,
+        totalSources: sources.length,
+        error: aggregator.results.isEmpty && failed == sources.length
+            ? '所有书源搜索失败，请检查书源可用性或网络状态'
+            : null,
       );
     } catch (e) {
+      if (searchToken != _activeSearchToken) {
+        return;
+      }
       state = state.copyWith(isLoading: false, error: '搜索失败: $e');
     }
   }
 
-  Future<void> _searchSingleSource(
+  Future<List<BookSource>> _loadSearchableSources(
+    BookSourceRepository repository,
+  ) async {
+    final enabledSources = await repository.getEnabled();
+    final searchableSources = enabledSources.where(_isSearchableSource).toList();
+    searchableSources.sort(_sortSources);
+
+    final textSources = searchableSources
+        .where((source) => source.bookSourceType == BookTypeConst.text)
+        .toList(growable: false);
+    if (textSources.isNotEmpty) {
+      return textSources;
+    }
+    return searchableSources;
+  }
+
+  bool _isSearchableSource(BookSource source) {
+    final searchUrl = source.searchUrl;
+    final ruleSearch = source.ruleSearch;
+    return searchUrl != null &&
+        searchUrl.isNotEmpty &&
+        ruleSearch != null &&
+        ruleSearch.isNotEmpty;
+  }
+
+  int _sortSources(BookSource a, BookSource b) {
+    final orderCompare = a.customOrder.compareTo(b.customOrder);
+    if (orderCompare != 0) {
+      return orderCompare;
+    }
+    final weightCompare = b.weight.compareTo(a.weight);
+    if (weightCompare != 0) {
+      return weightCompare;
+    }
+    return a.bookSourceName.compareTo(b.bookSourceName);
+  }
+
+  Future<_SourceSearchResult> _searchSingleSource(
     BookSource source,
     String keyword,
-    List<SearchBook> accumulator,
-    VoidCallback onComplete,
   ) async {
     await _semaphore.acquire();
     try {
-      final results = await _webBook.searchBooks(source, keyword, 1);
-      accumulator.addAll(results);
+      final books = await _webBook.searchBooks(source, keyword, 1);
+      return _SourceSearchResult(books: books, failed: false);
     } catch (_) {
-      // 单个书源搜索失败不影响整体
+      return const _SourceSearchResult(books: [], failed: true);
     } finally {
       _semaphore.release();
-      onComplete();
     }
   }
 
-  /// 清空历史记录
-  void clearHistory() {
+  Future<void> clearHistory() async {
+    final repository = await sl.getAsync<SearchHistoryRepository>();
+    await repository.clear();
     state = state.copyWith(history: const []);
   }
 
-  /// 删除单条历史
-  void removeHistory(String keyword) {
+  Future<void> removeHistory(String keyword) async {
+    final repository = await sl.getAsync<SearchHistoryRepository>();
+    await repository.delete(keyword);
     state = state.copyWith(
-      history: state.history.where((h) => h != keyword).toList(),
+      history: state.history.where((item) => item != keyword).toList(),
     );
   }
 }
 
-/// 搜索状态提供者
-final searchProvider = StateNotifierProvider<SearchProvider, SearchState>((
-  ref,
-) {
+class _SourceSearchResult {
+  final List<SearchBook> books;
+  final bool failed;
+
+  const _SourceSearchResult({required this.books, required this.failed});
+}
+
+class _SearchResultAggregator {
+  _SearchResultAggregator(this.keyword);
+
+  final String keyword;
+  final LinkedHashMap<String, SearchBook> _exactMatches =
+      LinkedHashMap<String, SearchBook>();
+  final LinkedHashMap<String, SearchBook> _kindMatches =
+      LinkedHashMap<String, SearchBook>();
+  final LinkedHashMap<String, SearchBook> _containsMatches =
+      LinkedHashMap<String, SearchBook>();
+  final LinkedHashMap<String, SearchBook> _otherMatches =
+      LinkedHashMap<String, SearchBook>();
+
+  List<SearchBook> get results => <SearchBook>[
+    ..._exactMatches.values,
+    ..._kindMatches.values,
+    ..._containsMatches.values,
+    ..._otherMatches.values,
+  ];
+
+  void merge(List<SearchBook> books) {
+    for (final book in books) {
+      final bucket = _selectBucket(book);
+      final key = _buildKey(book);
+      final current = bucket[key];
+      if (current == null) {
+        bucket[key] = book;
+        continue;
+      }
+      bucket[key] = _pickPreferred(current, book);
+    }
+  }
+
+  LinkedHashMap<String, SearchBook> _selectBucket(SearchBook book) {
+    final lowerKeyword = keyword.toLowerCase();
+    final lowerName = book.name.toLowerCase();
+    final lowerAuthor = book.author.toLowerCase();
+    final lowerKind = book.kind?.toLowerCase();
+
+    if (lowerName == lowerKeyword || lowerAuthor == lowerKeyword) {
+      return _exactMatches;
+    }
+    if (lowerKind != null && lowerKind.contains(lowerKeyword)) {
+      return _kindMatches;
+    }
+    if (lowerName.contains(lowerKeyword) || lowerAuthor.contains(lowerKeyword)) {
+      return _containsMatches;
+    }
+    return _otherMatches;
+  }
+
+  String _buildKey(SearchBook book) {
+    return '${book.name.trim().toLowerCase()}::${book.author.trim().toLowerCase()}';
+  }
+
+  SearchBook _pickPreferred(SearchBook current, SearchBook incoming) {
+    final preferred = _comparePriority(incoming, current) < 0
+        ? incoming
+        : current;
+    final fallback = identical(preferred, incoming) ? current : incoming;
+
+    return preferred.copyWith(
+      coverUrl: preferred.coverUrl ?? fallback.coverUrl,
+      intro: preferred.intro ?? fallback.intro,
+      kind: preferred.kind ?? fallback.kind,
+      wordCount: preferred.wordCount ?? fallback.wordCount,
+      latestChapterTitle:
+          preferred.latestChapterTitle ?? fallback.latestChapterTitle,
+      respondTime: _mergeRespondTime(
+        preferred.respondTime,
+        fallback.respondTime,
+      ),
+    );
+  }
+
+  int _comparePriority(SearchBook a, SearchBook b) {
+    final originOrderCompare = a.originOrder.compareTo(b.originOrder);
+    if (originOrderCompare != 0) {
+      return originOrderCompare;
+    }
+
+    final aRespond = a.respondTime < 0 ? 1 << 30 : a.respondTime;
+    final bRespond = b.respondTime < 0 ? 1 << 30 : b.respondTime;
+    final respondCompare = aRespond.compareTo(bRespond);
+    if (respondCompare != 0) {
+      return respondCompare;
+    }
+
+    return a.bookUrl.compareTo(b.bookUrl);
+  }
+
+  int _mergeRespondTime(int current, int incoming) {
+    if (current < 0) {
+      return incoming;
+    }
+    if (incoming < 0) {
+      return current;
+    }
+    return current < incoming ? current : incoming;
+  }
+}
+
+final searchProvider =
+    StateNotifierProvider<SearchProvider, SearchState>((ref) {
   return SearchProvider();
 });

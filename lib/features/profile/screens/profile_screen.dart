@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// 个人中心页面
-///
-/// 对标原：MyActivity.kt
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -24,6 +21,16 @@ class ProfileScreen extends StatelessWidget {
             subtitle: const Text('添加、导入、编辑和启用书源'),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.push('/sources'),
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.description_outlined,
+              color: theme.colorScheme.primary,
+            ),
+            title: const Text('日志管理'),
+            subtitle: const Text('查看、导出、分享、删除和回放日志'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => context.push('/logs'),
           ),
         ],
       ),
