@@ -1,0 +1,435 @@
+Launching lib\main.dart on sdk gphone64 x86 64 in debug mode...
+Running Gradle task 'assembleDebug'...
+lib/data/models/read_config.dart:13:7: Error: The non-abstract class 'ReadConfig' is missing implementations for these members:
+ - _$ReadConfig.dailyChapters
+ - _$ReadConfig.delTag
+ - _$ReadConfig.fixedType
+ - _$ReadConfig.imageStyle
+ - _$ReadConfig.mangaBackground
+ - _$ReadConfig.mangaColorFilter
+ - _$ReadConfig.mangaScrollMode
+ - _$ReadConfig.pageAnim
+ - _$ReadConfig.reSegment
+ - _$ReadConfig.readSimulating
+ - _$ReadConfig.reverseToc
+ - _$ReadConfig.splitLongChapter
+ - _$ReadConfig.startChapter
+ - _$ReadConfig.startDate
+ - _$ReadConfig.toJson
+ - _$ReadConfig.translationMode
+ - _$ReadConfig.ttsEngine
+ - _$ReadConfig.useReplaceRule
+ - _$ReadConfig.webtoonSidePaddingDp
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class ReadConfig with _$ReadConfig {
+      ^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:610: Context: '_$ReadConfig.dailyChapters' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:289: Context: '_$ReadConfig.delTag' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^
+lib/data/models/read_config.freezed.dart:18:912: Context: '_$ReadConfig.fixedType' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:185: Context: '_$ReadConfig.imageStyle' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:859: Context: '_$ReadConfig.mangaBackground' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:671: Context: '_$ReadConfig.mangaColorFilter' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:731: Context: '_$ReadConfig.mangaScrollMode' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:90: Context: '_$ReadConfig.pageAnim' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                         ^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:137: Context: '_$ReadConfig.reSegment' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:451: Context: '_$ReadConfig.readSimulating' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:40: Context: '_$ReadConfig.reverseToc' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                       ^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:391: Context: '_$ReadConfig.splitLongChapter' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:556: Context: '_$ReadConfig.startChapter' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:506: Context: '_$ReadConfig.startDate' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^
+lib/data/models/read_config.freezed.dart:26:24: Context: '_$ReadConfig.toJson' is defined here.
+  Map<String, dynamic> toJson();
+                       ^^^^^^
+lib/data/models/read_config.freezed.dart:18:965: Context: '_$ReadConfig.translationMode' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:336: Context: '_$ReadConfig.ttsEngine' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:239: Context: '_$ReadConfig.useReplaceRule' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^^^
+lib/data/models/read_config.freezed.dart:18:795: Context: '_$ReadConfig.webtoonSidePaddingDp' is defined here.
+@JsonKey(name: 'reverseToc') bool? get reverseToc;@JsonKey(name: 'pageAnim') String? get pageAnim;@JsonKey(name: 'reSegment') bool? get reSegment;@JsonKey(name: 'imageStyle') int? get imageStyle;@JsonKey(name: 'useReplaceRule') bool? get useReplaceRule;@JsonKey(name: 'delTag') bool? get delTag;@JsonKey(name: 'ttsEngine') String? get ttsEngine;@JsonKey(name: 'splitLongChapter') bool? get splitLongChapter;@JsonKey(name: 'readSimulating') bool? get readSimulating;@JsonKey(name: 'startDate') String? get startDate;@JsonKey(name: 'startChapter') int? get startChapter;@JsonKey(name: 'dailyChapters') int? get dailyChapters;@JsonKey(name: 'mangaColorFilter') String? get mangaColorFilter;@JsonKey(name: 'mangaScrollMode') int? get mangaScrollMode;@JsonKey(name: 'webtoonSidePaddingDp') int? get webtoonSidePaddingDp;@JsonKey(name: 'mangaBackground') int? get mangaBackground;@JsonKey(name: 'fixedType') int? get fixedType;@JsonKey(name: 'translationMode') int? get translationMode;
+                                                                                          ^^^^^^^^^^^^^^^^^^^^
+lib/data/models/book_info_rule.dart:13:7: Error: The non-abstract class 'BookInfoRule' is missing implementations for these members:
+ - _$BookInfoRule.author
+ - _$BookInfoRule.canReName
+ - _$BookInfoRule.coverUrl
+ - _$BookInfoRule.downloadUrls
+ - _$BookInfoRule.init
+ - _$BookInfoRule.intro
+ - _$BookInfoRule.kind
+ - _$BookInfoRule.lastChapter
+ - _$BookInfoRule.name
+ - _$BookInfoRule.relatedBooks
+ - _$BookInfoRule.toJson
+ - _$BookInfoRule.tocUrl
+ - _$BookInfoRule.updateTime
+ - _$BookInfoRule.wordCount
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class BookInfoRule with _$BookInfoRule {
+      ^^^^^^^^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:118: Context: '_$BookInfoRule.author' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:495: Context: '_$BookInfoRule.canReName' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:352: Context: '_$BookInfoRule.coverUrl' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:548: Context: '_$BookInfoRule.downloadUrls' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^^^^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:36: Context: '_$BookInfoRule.init' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                   ^^^^
+lib/data/models/book_info_rule.freezed.dart:18:161: Context: '_$BookInfoRule.intro' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:202: Context: '_$BookInfoRule.kind' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^
+lib/data/models/book_info_rule.freezed.dart:18:249: Context: '_$BookInfoRule.lastChapter' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^^^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:76: Context: '_$BookInfoRule.name' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                           ^^^^
+lib/data/models/book_info_rule.freezed.dart:18:604: Context: '_$BookInfoRule.relatedBooks' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^^^^^^^^
+lib/data/models/book_info_rule.freezed.dart:26:24: Context: '_$BookInfoRule.toJson' is defined here.
+  Map<String, dynamic> toJson();
+                       ^^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:398: Context: '_$BookInfoRule.tocUrl' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:302: Context: '_$BookInfoRule.updateTime' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^^^^^^
+lib/data/models/book_info_rule.freezed.dart:18:445: Context: '_$BookInfoRule.wordCount' is defined here.
+@JsonKey(name: 'init') String? get init;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'tocUrl') String? get tocUrl;@JsonKey(name: 'wordCount') String? get wordCount;@JsonKey(name: 'canReName') String? get canReName;@JsonKey(name: 'downloadUrls') String? get downloadUrls;@JsonKey(name: 'relatedBooks') String? get relatedBooks;
+                                                                                          ^^^^^^^^^
+lib/data/models/content_rule.dart:13:7: Error: The non-abstract class 'ContentRule' is missing implementations for these members:
+ - _$ContentRule.callBackJs
+ - _$ContentRule.content
+ - _$ContentRule.imageDecode
+ - _$ContentRule.imageStyle
+ - _$ContentRule.nextContentUrl
+ - _$ContentRule.payAction
+ - _$ContentRule.replaceRegex
+ - _$ContentRule.sourceRegex
+ - _$ContentRule.subContent
+ - _$ContentRule.title
+ - _$ContentRule.toJson
+ - _$ContentRule.webJs
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class ContentRule with _$ContentRule {
+      ^^^^^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:550: Context: '_$ContentRule.callBackJs' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                          ^^^^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:39: Context: '_$ContentRule.content' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                      ^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:447: Context: '_$ContentRule.imageDecode' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                          ^^^^^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:394: Context: '_$ContentRule.imageStyle' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                          ^^^^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:186: Context: '_$ContentRule.nextContentUrl' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                          ^^^^^^^^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:499: Context: '_$ContentRule.payAction' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                          ^^^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:340: Context: '_$ContentRule.replaceRegex' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                          ^^^^^^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:285: Context: '_$ContentRule.sourceRegex' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                          ^^^^^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:88: Context: '_$ContentRule.subContent' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                       ^^^^^^^^^^
+lib/data/models/content_rule.freezed.dart:18:135: Context: '_$ContentRule.title' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                          ^^^^^
+lib/data/models/content_rule.freezed.dart:26:24: Context: '_$ContentRule.toJson' is defined here.
+  Map<String, dynamic> toJson();
+                       ^^^^^^
+lib/data/models/content_rule.freezed.dart:18:237: Context: '_$ContentRule.webJs' is defined here.
+@JsonKey(name: 'content') String? get content;@JsonKey(name: 'subContent') String? get subContent;@JsonKey(name: 'title') String? get title;@JsonKey(name: 'nextContentUrl') String? get nextContentUrl;@JsonKey(name: 'webJs') String? get webJs;@JsonKey(name: 'sourceRegex') String? get sourceRegex;@JsonKey(name: 'replaceRegex') String? get replaceRegex;@JsonKey(name: 'imageStyle') String? get imageStyle;@JsonKey(name: 'imageDecode') String? get imageDecode;@JsonKey(name: 'payAction') String? get payAction;@JsonKey(name: 'callBackJs') String? get callBackJs;
+                                                                                          ^^^^^
+lib/data/models/explore_rule.dart:13:7: Error: The non-abstract class 'ExploreRule' is missing implementations for these members:
+ - _$ExploreRule.author
+ - _$ExploreRule.bookList
+ - _$ExploreRule.bookUrl
+ - _$ExploreRule.coverUrl
+ - _$ExploreRule.intro
+ - _$ExploreRule.kind
+ - _$ExploreRule.lastChapter
+ - _$ExploreRule.name
+ - _$ExploreRule.toJson
+ - _$ExploreRule.updateTime
+ - _$ExploreRule.wordCount
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class ExploreRule with _$ExploreRule {
+      ^^^^^^^^^^^
+lib/data/models/explore_rule.freezed.dart:19:126: Context: '_$ExploreRule.author' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                                                                          ^^^^^^
+lib/data/models/explore_rule.freezed.dart:19:40: Context: '_$ExploreRule.bookList' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                       ^^^^^^^^
+lib/data/models/explore_rule.freezed.dart:19:359: Context: '_$ExploreRule.bookUrl' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                                                                          ^^^^^^^
+lib/data/models/explore_rule.freezed.dart:19:406: Context: '_$ExploreRule.coverUrl' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                                                                          ^^^^^^^^
+lib/data/models/explore_rule.freezed.dart:19:169: Context: '_$ExploreRule.intro' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                                                                          ^^^^^
+lib/data/models/explore_rule.freezed.dart:19:210: Context: '_$ExploreRule.kind' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                                                                          ^^^^
+lib/data/models/explore_rule.freezed.dart:19:257: Context: '_$ExploreRule.lastChapter' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                                                                          ^^^^^^^^^^^
+lib/data/models/explore_rule.freezed.dart:19:84: Context: '_$ExploreRule.name' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                                                                   ^^^^
+lib/data/models/explore_rule.freezed.dart:27:24: Context: '_$ExploreRule.toJson' is defined here.
+  Map<String, dynamic> toJson();
+                       ^^^^^^
+lib/data/models/explore_rule.freezed.dart:19:310: Context: '_$ExploreRule.updateTime' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                                                                          ^^^^^^^^^^
+lib/data/models/explore_rule.freezed.dart:19:455: Context: '_$ExploreRule.wordCount' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;
+                                                                                          ^^^^^^^^^
+lib/data/models/review_rule.dart:13:7: Error: The non-abstract class 'ReviewRule' is missing implementations for these members:
+ - _$ReviewRule.avatarRule
+ - _$ReviewRule.contentRule
+ - _$ReviewRule.deleteUrl
+ - _$ReviewRule.postQuoteUrl
+ - _$ReviewRule.postReviewUrl
+ - _$ReviewRule.postTimeRule
+ - _$ReviewRule.reviewQuoteUrl
+ - _$ReviewRule.reviewUrl
+ - _$ReviewRule.toJson
+ - _$ReviewRule.voteDownUrl
+ - _$ReviewRule.voteUpUrl
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class ReviewRule with _$ReviewRule {
+      ^^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:18:92: Context: '_$ReviewRule.avatarRule' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                                                                          ^^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:18:145: Context: '_$ReviewRule.contentRule' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                                                                          ^^^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:18:531: Context: '_$ReviewRule.deleteUrl' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                                                                          ^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:18:478: Context: '_$ReviewRule.postQuoteUrl' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                                                                          ^^^^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:18:421: Context: '_$ReviewRule.postReviewUrl' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                                                                          ^^^^^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:18:200: Context: '_$ReviewRule.postTimeRule' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                                                                          ^^^^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:18:258: Context: '_$ReviewRule.reviewQuoteUrl' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                                                                          ^^^^^^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:18:41: Context: '_$ReviewRule.reviewUrl' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                        ^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:26:24: Context: '_$ReviewRule.toJson' is defined here.
+  Map<String, dynamic> toJson();
+                       ^^^^^^
+lib/data/models/review_rule.freezed.dart:18:365: Context: '_$ReviewRule.voteDownUrl' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                                                                          ^^^^^^^^^^^
+lib/data/models/review_rule.freezed.dart:18:313: Context: '_$ReviewRule.voteUpUrl' is defined here.
+@JsonKey(name: 'reviewUrl') String? get reviewUrl;@JsonKey(name: 'avatarRule') String? get avatarRule;@JsonKey(name: 'contentRule') String? get contentRule;@JsonKey(name: 'postTimeRule') String? get postTimeRule;@JsonKey(name: 'reviewQuoteUrl') String? get reviewQuoteUrl;@JsonKey(name: 'voteUpUrl') String? get voteUpUrl;@JsonKey(name: 'voteDownUrl') String? get voteDownUrl;@JsonKey(name: 'postReviewUrl') String? get postReviewUrl;@JsonKey(name: 'postQuoteUrl') String? get postQuoteUrl;@JsonKey(name: 'deleteUrl') String? get deleteUrl;
+                                                                                          ^^^^^^^^^
+lib/data/models/search_rule.dart:13:7: Error: The non-abstract class 'SearchRule' is missing implementations for these members:
+ - _$SearchRule.author
+ - _$SearchRule.bookList
+ - _$SearchRule.bookUrl
+ - _$SearchRule.checkKeyWord
+ - _$SearchRule.coverUrl
+ - _$SearchRule.intro
+ - _$SearchRule.kind
+ - _$SearchRule.lastChapter
+ - _$SearchRule.name
+ - _$SearchRule.toJson
+ - _$SearchRule.updateTime
+ - _$SearchRule.wordCount
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class SearchRule with _$SearchRule {
+      ^^^^^^^^^^
+lib/data/models/search_rule.freezed.dart:19:126: Context: '_$SearchRule.author' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                                                                          ^^^^^^
+lib/data/models/search_rule.freezed.dart:19:40: Context: '_$SearchRule.bookList' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                       ^^^^^^^^
+lib/data/models/search_rule.freezed.dart:19:359: Context: '_$SearchRule.bookUrl' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                                                                          ^^^^^^^
+lib/data/models/search_rule.freezed.dart:20:44: Context: '_$SearchRule.checkKeyWord' is defined here.
+@JsonKey(name: 'checkKeyWord') String? get checkKeyWord;
+                                           ^^^^^^^^^^^^
+lib/data/models/search_rule.freezed.dart:19:406: Context: '_$SearchRule.coverUrl' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                                                                          ^^^^^^^^
+lib/data/models/search_rule.freezed.dart:19:169: Context: '_$SearchRule.intro' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                                                                          ^^^^^
+lib/data/models/search_rule.freezed.dart:19:210: Context: '_$SearchRule.kind' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                                                                          ^^^^
+lib/data/models/search_rule.freezed.dart:19:257: Context: '_$SearchRule.lastChapter' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                                                                          ^^^^^^^^^^^
+lib/data/models/search_rule.freezed.dart:19:84: Context: '_$SearchRule.name' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                                                                   ^^^^
+lib/data/models/search_rule.freezed.dart:28:24: Context: '_$SearchRule.toJson' is defined here.
+  Map<String, dynamic> toJson();
+                       ^^^^^^
+lib/data/models/search_rule.freezed.dart:19:310: Context: '_$SearchRule.updateTime' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                                                                          ^^^^^^^^^^
+lib/data/models/search_rule.freezed.dart:19:455: Context: '_$SearchRule.wordCount' is defined here.
+@JsonKey(name: 'bookList') String? get bookList;@JsonKey(name: 'name') String? get name;@JsonKey(name: 'author') String? get author;@JsonKey(name: 'intro') String? get intro;@JsonKey(name: 'kind') String? get kind;@JsonKey(name: 'lastChapter') String? get lastChapter;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'bookUrl') String? get bookUrl;@JsonKey(name: 'coverUrl') String? get coverUrl;@JsonKey(name: 'wordCount') String? get wordCount;// SearchRule 独有字段
+                                                                                          ^^^^^^^^^
+lib/data/models/toc_rule.dart:13:7: Error: The non-abstract class 'TocRule' is missing implementations for these members:
+ - _$TocRule.chapterList
+ - _$TocRule.chapterName
+ - _$TocRule.chapterUrl
+ - _$TocRule.formatJs
+ - _$TocRule.isPay
+ - _$TocRule.isVip
+ - _$TocRule.isVolume
+ - _$TocRule.nextTocUrl
+ - _$TocRule.preUpdateJs
+ - _$TocRule.toJson
+ - _$TocRule.updateTime
+Try to either
+ - provide an implementation,
+ - inherit an implementation from a superclass or mixin,
+ - mark the class as abstract, or
+ - provide a 'noSuchMethod' implementation.
+class TocRule with _$TocRule {
+      ^^^^^^^
+lib/data/models/toc_rule.freezed.dart:18:97: Context: '_$TocRule.chapterList' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                                                                          ^^^^^^^^^^^
+lib/data/models/toc_rule.freezed.dart:18:151: Context: '_$TocRule.chapterName' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                                                                          ^^^^^^^^^^^
+lib/data/models/toc_rule.freezed.dart:18:204: Context: '_$TocRule.chapterUrl' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                                                                          ^^^^^^^^^^
+lib/data/models/toc_rule.freezed.dart:18:254: Context: '_$TocRule.formatJs' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                                                                          ^^^^^^^^
+lib/data/models/toc_rule.freezed.dart:18:389: Context: '_$TocRule.isPay' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                                                                          ^^^^^
+lib/data/models/toc_rule.freezed.dart:18:347: Context: '_$TocRule.isVip' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                                                                          ^^^^^
+lib/data/models/toc_rule.freezed.dart:18:302: Context: '_$TocRule.isVolume' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                                                                          ^^^^^^^^
+lib/data/models/toc_rule.freezed.dart:18:488: Context: '_$TocRule.nextTocUrl' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                                                                          ^^^^^^^^^^
+lib/data/models/toc_rule.freezed.dart:18:43: Context: '_$TocRule.preUpdateJs' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                          ^^^^^^^^^^^
+lib/data/models/toc_rule.freezed.dart:26:24: Context: '_$TocRule.toJson' is defined here.
+  Map<String, dynamic> toJson();
+                       ^^^^^^
+lib/data/models/toc_rule.freezed.dart:18:436: Context: '_$TocRule.updateTime' is defined here.
+@JsonKey(name: 'preUpdateJs') String? get preUpdateJs;@JsonKey(name: 'chapterList') String? get chapterList;@JsonKey(name: 'chapterName') String? get chapterName;@JsonKey(name: 'chapterUrl') String? get chapterUrl;@JsonKey(name: 'formatJs') String? get formatJs;@JsonKey(name: 'isVolume') String? get isVolume;@JsonKey(name: 'isVip') String? get isVip;@JsonKey(name: 'isPay') String? get isPay;@JsonKey(name: 'updateTime') String? get updateTime;@JsonKey(name: 'nextTocUrl') String? get nextTocUrl;
+                                                                                          ^^^^^^^^^^
+Target kernel_snapshot_program failed: Exception
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileFlutterBuildDebug'.
+> Process 'command 'F:\code_tools\flutter_windows_3.44.5-stable\flutter\bin\flutter.bat'' finished with non-zero exit value 1
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1m 7s
+Error: Gradle task assembleDebug failed with exit code 1
