@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RssSource {
 
-@JsonKey(name: 'sourceUrl') String get sourceUrl;@JsonKey(name: 'sourceName') String get sourceName;@JsonKey(name: 'sourceIcon') String get sourceIcon;@JsonKey(name: 'sourceGroup') String? get sourceGroup;@JsonKey(name: 'sourceComment') String? get sourceComment;@JsonKey(name: 'enabled') bool get enabled;@JsonKey(name: 'jsLib') String? get jsLib;@JsonKey(name: 'header') Map<String, String>? get header;
+@JsonKey(name: 'sourceUrl') String get sourceUrl;@JsonKey(name: 'sourceName') String get sourceName;@JsonKey(name: 'sourceIcon') String get sourceIcon;@JsonKey(name: 'sourceGroup') String? get sourceGroup;@JsonKey(name: 'sourceComment') String? get sourceComment;@JsonKey(name: 'enabled') bool get enabled;@JsonKey(name: 'jsLib') String? get jsLib;@JsonKey(name: 'header') Map<String, String>? get header;// 规则字段
+@JsonKey(name: 'ruleArticles') String? get ruleArticles;@JsonKey(name: 'ruleTitle') String? get ruleTitle;@JsonKey(name: 'ruleLink') String? get ruleLink;@JsonKey(name: 'rulePubDate') String? get rulePubDate;@JsonKey(name: 'ruleDescription') String? get ruleDescription;@JsonKey(name: 'ruleImage') String? get ruleImage;@JsonKey(name: 'ruleContent') String? get ruleContent;@JsonKey(name: 'type') int get type;@JsonKey(name: 'sortUrl') String? get sortUrl;@JsonKey(name: 'articleStyle') int get articleStyle;
 /// Create a copy of RssSource
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $RssSourceCopyWith<RssSource> get copyWith => _$RssSourceCopyWithImpl<RssSource>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RssSource&&(identical(other.sourceUrl, sourceUrl) || other.sourceUrl == sourceUrl)&&(identical(other.sourceName, sourceName) || other.sourceName == sourceName)&&(identical(other.sourceIcon, sourceIcon) || other.sourceIcon == sourceIcon)&&(identical(other.sourceGroup, sourceGroup) || other.sourceGroup == sourceGroup)&&(identical(other.sourceComment, sourceComment) || other.sourceComment == sourceComment)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.jsLib, jsLib) || other.jsLib == jsLib)&&const DeepCollectionEquality().equals(other.header, header));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RssSource&&(identical(other.sourceUrl, sourceUrl) || other.sourceUrl == sourceUrl)&&(identical(other.sourceName, sourceName) || other.sourceName == sourceName)&&(identical(other.sourceIcon, sourceIcon) || other.sourceIcon == sourceIcon)&&(identical(other.sourceGroup, sourceGroup) || other.sourceGroup == sourceGroup)&&(identical(other.sourceComment, sourceComment) || other.sourceComment == sourceComment)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.jsLib, jsLib) || other.jsLib == jsLib)&&const DeepCollectionEquality().equals(other.header, header)&&(identical(other.ruleArticles, ruleArticles) || other.ruleArticles == ruleArticles)&&(identical(other.ruleTitle, ruleTitle) || other.ruleTitle == ruleTitle)&&(identical(other.ruleLink, ruleLink) || other.ruleLink == ruleLink)&&(identical(other.rulePubDate, rulePubDate) || other.rulePubDate == rulePubDate)&&(identical(other.ruleDescription, ruleDescription) || other.ruleDescription == ruleDescription)&&(identical(other.ruleImage, ruleImage) || other.ruleImage == ruleImage)&&(identical(other.ruleContent, ruleContent) || other.ruleContent == ruleContent)&&(identical(other.type, type) || other.type == type)&&(identical(other.sortUrl, sortUrl) || other.sortUrl == sortUrl)&&(identical(other.articleStyle, articleStyle) || other.articleStyle == articleStyle));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sourceUrl,sourceName,sourceIcon,sourceGroup,sourceComment,enabled,jsLib,const DeepCollectionEquality().hash(header));
+int get hashCode => Object.hash(runtimeType,sourceUrl,sourceName,sourceIcon,sourceGroup,sourceComment,enabled,jsLib,const DeepCollectionEquality().hash(header),ruleArticles,ruleTitle,ruleLink,rulePubDate,ruleDescription,ruleImage,ruleContent,type,sortUrl,articleStyle);
 
 @override
 String toString() {
-  return 'RssSource(sourceUrl: $sourceUrl, sourceName: $sourceName, sourceIcon: $sourceIcon, sourceGroup: $sourceGroup, sourceComment: $sourceComment, enabled: $enabled, jsLib: $jsLib, header: $header)';
+  return 'RssSource(sourceUrl: $sourceUrl, sourceName: $sourceName, sourceIcon: $sourceIcon, sourceGroup: $sourceGroup, sourceComment: $sourceComment, enabled: $enabled, jsLib: $jsLib, header: $header, ruleArticles: $ruleArticles, ruleTitle: $ruleTitle, ruleLink: $ruleLink, rulePubDate: $rulePubDate, ruleDescription: $ruleDescription, ruleImage: $ruleImage, ruleContent: $ruleContent, type: $type, sortUrl: $sortUrl, articleStyle: $articleStyle)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $RssSourceCopyWith<$Res>  {
   factory $RssSourceCopyWith(RssSource value, $Res Function(RssSource) _then) = _$RssSourceCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'sourceUrl') String sourceUrl,@JsonKey(name: 'sourceName') String sourceName,@JsonKey(name: 'sourceIcon') String sourceIcon,@JsonKey(name: 'sourceGroup') String? sourceGroup,@JsonKey(name: 'sourceComment') String? sourceComment,@JsonKey(name: 'enabled') bool enabled,@JsonKey(name: 'jsLib') String? jsLib,@JsonKey(name: 'header') Map<String, String>? header
+@JsonKey(name: 'sourceUrl') String sourceUrl,@JsonKey(name: 'sourceName') String sourceName,@JsonKey(name: 'sourceIcon') String sourceIcon,@JsonKey(name: 'sourceGroup') String? sourceGroup,@JsonKey(name: 'sourceComment') String? sourceComment,@JsonKey(name: 'enabled') bool enabled,@JsonKey(name: 'jsLib') String? jsLib,@JsonKey(name: 'header') Map<String, String>? header,@JsonKey(name: 'ruleArticles') String? ruleArticles,@JsonKey(name: 'ruleTitle') String? ruleTitle,@JsonKey(name: 'ruleLink') String? ruleLink,@JsonKey(name: 'rulePubDate') String? rulePubDate,@JsonKey(name: 'ruleDescription') String? ruleDescription,@JsonKey(name: 'ruleImage') String? ruleImage,@JsonKey(name: 'ruleContent') String? ruleContent,@JsonKey(name: 'type') int type,@JsonKey(name: 'sortUrl') String? sortUrl,@JsonKey(name: 'articleStyle') int articleStyle
 });
 
 
@@ -65,7 +66,7 @@ class _$RssSourceCopyWithImpl<$Res>
 
 /// Create a copy of RssSource
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? sourceUrl = null,Object? sourceName = null,Object? sourceIcon = null,Object? sourceGroup = freezed,Object? sourceComment = freezed,Object? enabled = null,Object? jsLib = freezed,Object? header = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? sourceUrl = null,Object? sourceName = null,Object? sourceIcon = null,Object? sourceGroup = freezed,Object? sourceComment = freezed,Object? enabled = null,Object? jsLib = freezed,Object? header = freezed,Object? ruleArticles = freezed,Object? ruleTitle = freezed,Object? ruleLink = freezed,Object? rulePubDate = freezed,Object? ruleDescription = freezed,Object? ruleImage = freezed,Object? ruleContent = freezed,Object? type = null,Object? sortUrl = freezed,Object? articleStyle = null,}) {
   return _then(_self.copyWith(
 sourceUrl: null == sourceUrl ? _self.sourceUrl : sourceUrl // ignore: cast_nullable_to_non_nullable
 as String,sourceName: null == sourceName ? _self.sourceName : sourceName // ignore: cast_nullable_to_non_nullable
@@ -75,7 +76,17 @@ as String?,sourceComment: freezed == sourceComment ? _self.sourceComment : sourc
 as String?,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
 as bool,jsLib: freezed == jsLib ? _self.jsLib : jsLib // ignore: cast_nullable_to_non_nullable
 as String?,header: freezed == header ? _self.header : header // ignore: cast_nullable_to_non_nullable
-as Map<String, String>?,
+as Map<String, String>?,ruleArticles: freezed == ruleArticles ? _self.ruleArticles : ruleArticles // ignore: cast_nullable_to_non_nullable
+as String?,ruleTitle: freezed == ruleTitle ? _self.ruleTitle : ruleTitle // ignore: cast_nullable_to_non_nullable
+as String?,ruleLink: freezed == ruleLink ? _self.ruleLink : ruleLink // ignore: cast_nullable_to_non_nullable
+as String?,rulePubDate: freezed == rulePubDate ? _self.rulePubDate : rulePubDate // ignore: cast_nullable_to_non_nullable
+as String?,ruleDescription: freezed == ruleDescription ? _self.ruleDescription : ruleDescription // ignore: cast_nullable_to_non_nullable
+as String?,ruleImage: freezed == ruleImage ? _self.ruleImage : ruleImage // ignore: cast_nullable_to_non_nullable
+as String?,ruleContent: freezed == ruleContent ? _self.ruleContent : ruleContent // ignore: cast_nullable_to_non_nullable
+as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as int,sortUrl: freezed == sortUrl ? _self.sortUrl : sortUrl // ignore: cast_nullable_to_non_nullable
+as String?,articleStyle: null == articleStyle ? _self.articleStyle : articleStyle // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 
@@ -160,10 +171,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'sourceUrl')  String sourceUrl, @JsonKey(name: 'sourceName')  String sourceName, @JsonKey(name: 'sourceIcon')  String sourceIcon, @JsonKey(name: 'sourceGroup')  String? sourceGroup, @JsonKey(name: 'sourceComment')  String? sourceComment, @JsonKey(name: 'enabled')  bool enabled, @JsonKey(name: 'jsLib')  String? jsLib, @JsonKey(name: 'header')  Map<String, String>? header)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'sourceUrl')  String sourceUrl, @JsonKey(name: 'sourceName')  String sourceName, @JsonKey(name: 'sourceIcon')  String sourceIcon, @JsonKey(name: 'sourceGroup')  String? sourceGroup, @JsonKey(name: 'sourceComment')  String? sourceComment, @JsonKey(name: 'enabled')  bool enabled, @JsonKey(name: 'jsLib')  String? jsLib, @JsonKey(name: 'header')  Map<String, String>? header, @JsonKey(name: 'ruleArticles')  String? ruleArticles, @JsonKey(name: 'ruleTitle')  String? ruleTitle, @JsonKey(name: 'ruleLink')  String? ruleLink, @JsonKey(name: 'rulePubDate')  String? rulePubDate, @JsonKey(name: 'ruleDescription')  String? ruleDescription, @JsonKey(name: 'ruleImage')  String? ruleImage, @JsonKey(name: 'ruleContent')  String? ruleContent, @JsonKey(name: 'type')  int type, @JsonKey(name: 'sortUrl')  String? sortUrl, @JsonKey(name: 'articleStyle')  int articleStyle)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RssSource() when $default != null:
-return $default(_that.sourceUrl,_that.sourceName,_that.sourceIcon,_that.sourceGroup,_that.sourceComment,_that.enabled,_that.jsLib,_that.header);case _:
+return $default(_that.sourceUrl,_that.sourceName,_that.sourceIcon,_that.sourceGroup,_that.sourceComment,_that.enabled,_that.jsLib,_that.header,_that.ruleArticles,_that.ruleTitle,_that.ruleLink,_that.rulePubDate,_that.ruleDescription,_that.ruleImage,_that.ruleContent,_that.type,_that.sortUrl,_that.articleStyle);case _:
   return orElse();
 
 }
@@ -181,10 +192,10 @@ return $default(_that.sourceUrl,_that.sourceName,_that.sourceIcon,_that.sourceGr
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'sourceUrl')  String sourceUrl, @JsonKey(name: 'sourceName')  String sourceName, @JsonKey(name: 'sourceIcon')  String sourceIcon, @JsonKey(name: 'sourceGroup')  String? sourceGroup, @JsonKey(name: 'sourceComment')  String? sourceComment, @JsonKey(name: 'enabled')  bool enabled, @JsonKey(name: 'jsLib')  String? jsLib, @JsonKey(name: 'header')  Map<String, String>? header)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'sourceUrl')  String sourceUrl, @JsonKey(name: 'sourceName')  String sourceName, @JsonKey(name: 'sourceIcon')  String sourceIcon, @JsonKey(name: 'sourceGroup')  String? sourceGroup, @JsonKey(name: 'sourceComment')  String? sourceComment, @JsonKey(name: 'enabled')  bool enabled, @JsonKey(name: 'jsLib')  String? jsLib, @JsonKey(name: 'header')  Map<String, String>? header, @JsonKey(name: 'ruleArticles')  String? ruleArticles, @JsonKey(name: 'ruleTitle')  String? ruleTitle, @JsonKey(name: 'ruleLink')  String? ruleLink, @JsonKey(name: 'rulePubDate')  String? rulePubDate, @JsonKey(name: 'ruleDescription')  String? ruleDescription, @JsonKey(name: 'ruleImage')  String? ruleImage, @JsonKey(name: 'ruleContent')  String? ruleContent, @JsonKey(name: 'type')  int type, @JsonKey(name: 'sortUrl')  String? sortUrl, @JsonKey(name: 'articleStyle')  int articleStyle)  $default,) {final _that = this;
 switch (_that) {
 case _RssSource():
-return $default(_that.sourceUrl,_that.sourceName,_that.sourceIcon,_that.sourceGroup,_that.sourceComment,_that.enabled,_that.jsLib,_that.header);case _:
+return $default(_that.sourceUrl,_that.sourceName,_that.sourceIcon,_that.sourceGroup,_that.sourceComment,_that.enabled,_that.jsLib,_that.header,_that.ruleArticles,_that.ruleTitle,_that.ruleLink,_that.rulePubDate,_that.ruleDescription,_that.ruleImage,_that.ruleContent,_that.type,_that.sortUrl,_that.articleStyle);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +212,10 @@ return $default(_that.sourceUrl,_that.sourceName,_that.sourceIcon,_that.sourceGr
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'sourceUrl')  String sourceUrl, @JsonKey(name: 'sourceName')  String sourceName, @JsonKey(name: 'sourceIcon')  String sourceIcon, @JsonKey(name: 'sourceGroup')  String? sourceGroup, @JsonKey(name: 'sourceComment')  String? sourceComment, @JsonKey(name: 'enabled')  bool enabled, @JsonKey(name: 'jsLib')  String? jsLib, @JsonKey(name: 'header')  Map<String, String>? header)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'sourceUrl')  String sourceUrl, @JsonKey(name: 'sourceName')  String sourceName, @JsonKey(name: 'sourceIcon')  String sourceIcon, @JsonKey(name: 'sourceGroup')  String? sourceGroup, @JsonKey(name: 'sourceComment')  String? sourceComment, @JsonKey(name: 'enabled')  bool enabled, @JsonKey(name: 'jsLib')  String? jsLib, @JsonKey(name: 'header')  Map<String, String>? header, @JsonKey(name: 'ruleArticles')  String? ruleArticles, @JsonKey(name: 'ruleTitle')  String? ruleTitle, @JsonKey(name: 'ruleLink')  String? ruleLink, @JsonKey(name: 'rulePubDate')  String? rulePubDate, @JsonKey(name: 'ruleDescription')  String? ruleDescription, @JsonKey(name: 'ruleImage')  String? ruleImage, @JsonKey(name: 'ruleContent')  String? ruleContent, @JsonKey(name: 'type')  int type, @JsonKey(name: 'sortUrl')  String? sortUrl, @JsonKey(name: 'articleStyle')  int articleStyle)?  $default,) {final _that = this;
 switch (_that) {
 case _RssSource() when $default != null:
-return $default(_that.sourceUrl,_that.sourceName,_that.sourceIcon,_that.sourceGroup,_that.sourceComment,_that.enabled,_that.jsLib,_that.header);case _:
+return $default(_that.sourceUrl,_that.sourceName,_that.sourceIcon,_that.sourceGroup,_that.sourceComment,_that.enabled,_that.jsLib,_that.header,_that.ruleArticles,_that.ruleTitle,_that.ruleLink,_that.rulePubDate,_that.ruleDescription,_that.ruleImage,_that.ruleContent,_that.type,_that.sortUrl,_that.articleStyle);case _:
   return null;
 
 }
@@ -216,7 +227,7 @@ return $default(_that.sourceUrl,_that.sourceName,_that.sourceIcon,_that.sourceGr
 @JsonSerializable()
 
 class _RssSource implements RssSource {
-  const _RssSource({@JsonKey(name: 'sourceUrl') required this.sourceUrl, @JsonKey(name: 'sourceName') required this.sourceName, @JsonKey(name: 'sourceIcon') this.sourceIcon = '', @JsonKey(name: 'sourceGroup') this.sourceGroup, @JsonKey(name: 'sourceComment') this.sourceComment, @JsonKey(name: 'enabled') this.enabled = true, @JsonKey(name: 'jsLib') this.jsLib, @JsonKey(name: 'header') final  Map<String, String>? header}): _header = header;
+  const _RssSource({@JsonKey(name: 'sourceUrl') required this.sourceUrl, @JsonKey(name: 'sourceName') required this.sourceName, @JsonKey(name: 'sourceIcon') this.sourceIcon = '', @JsonKey(name: 'sourceGroup') this.sourceGroup, @JsonKey(name: 'sourceComment') this.sourceComment, @JsonKey(name: 'enabled') this.enabled = true, @JsonKey(name: 'jsLib') this.jsLib, @JsonKey(name: 'header') final  Map<String, String>? header, @JsonKey(name: 'ruleArticles') this.ruleArticles, @JsonKey(name: 'ruleTitle') this.ruleTitle, @JsonKey(name: 'ruleLink') this.ruleLink, @JsonKey(name: 'rulePubDate') this.rulePubDate, @JsonKey(name: 'ruleDescription') this.ruleDescription, @JsonKey(name: 'ruleImage') this.ruleImage, @JsonKey(name: 'ruleContent') this.ruleContent, @JsonKey(name: 'type') this.type = 0, @JsonKey(name: 'sortUrl') this.sortUrl, @JsonKey(name: 'articleStyle') this.articleStyle = 0}): _header = header;
   factory _RssSource.fromJson(Map<String, dynamic> json) => _$RssSourceFromJson(json);
 
 @override@JsonKey(name: 'sourceUrl') final  String sourceUrl;
@@ -235,6 +246,17 @@ class _RssSource implements RssSource {
   return EqualUnmodifiableMapView(value);
 }
 
+// 规则字段
+@override@JsonKey(name: 'ruleArticles') final  String? ruleArticles;
+@override@JsonKey(name: 'ruleTitle') final  String? ruleTitle;
+@override@JsonKey(name: 'ruleLink') final  String? ruleLink;
+@override@JsonKey(name: 'rulePubDate') final  String? rulePubDate;
+@override@JsonKey(name: 'ruleDescription') final  String? ruleDescription;
+@override@JsonKey(name: 'ruleImage') final  String? ruleImage;
+@override@JsonKey(name: 'ruleContent') final  String? ruleContent;
+@override@JsonKey(name: 'type') final  int type;
+@override@JsonKey(name: 'sortUrl') final  String? sortUrl;
+@override@JsonKey(name: 'articleStyle') final  int articleStyle;
 
 /// Create a copy of RssSource
 /// with the given fields replaced by the non-null parameter values.
@@ -249,16 +271,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RssSource&&(identical(other.sourceUrl, sourceUrl) || other.sourceUrl == sourceUrl)&&(identical(other.sourceName, sourceName) || other.sourceName == sourceName)&&(identical(other.sourceIcon, sourceIcon) || other.sourceIcon == sourceIcon)&&(identical(other.sourceGroup, sourceGroup) || other.sourceGroup == sourceGroup)&&(identical(other.sourceComment, sourceComment) || other.sourceComment == sourceComment)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.jsLib, jsLib) || other.jsLib == jsLib)&&const DeepCollectionEquality().equals(other._header, _header));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RssSource&&(identical(other.sourceUrl, sourceUrl) || other.sourceUrl == sourceUrl)&&(identical(other.sourceName, sourceName) || other.sourceName == sourceName)&&(identical(other.sourceIcon, sourceIcon) || other.sourceIcon == sourceIcon)&&(identical(other.sourceGroup, sourceGroup) || other.sourceGroup == sourceGroup)&&(identical(other.sourceComment, sourceComment) || other.sourceComment == sourceComment)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.jsLib, jsLib) || other.jsLib == jsLib)&&const DeepCollectionEquality().equals(other._header, _header)&&(identical(other.ruleArticles, ruleArticles) || other.ruleArticles == ruleArticles)&&(identical(other.ruleTitle, ruleTitle) || other.ruleTitle == ruleTitle)&&(identical(other.ruleLink, ruleLink) || other.ruleLink == ruleLink)&&(identical(other.rulePubDate, rulePubDate) || other.rulePubDate == rulePubDate)&&(identical(other.ruleDescription, ruleDescription) || other.ruleDescription == ruleDescription)&&(identical(other.ruleImage, ruleImage) || other.ruleImage == ruleImage)&&(identical(other.ruleContent, ruleContent) || other.ruleContent == ruleContent)&&(identical(other.type, type) || other.type == type)&&(identical(other.sortUrl, sortUrl) || other.sortUrl == sortUrl)&&(identical(other.articleStyle, articleStyle) || other.articleStyle == articleStyle));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,sourceUrl,sourceName,sourceIcon,sourceGroup,sourceComment,enabled,jsLib,const DeepCollectionEquality().hash(_header));
+int get hashCode => Object.hash(runtimeType,sourceUrl,sourceName,sourceIcon,sourceGroup,sourceComment,enabled,jsLib,const DeepCollectionEquality().hash(_header),ruleArticles,ruleTitle,ruleLink,rulePubDate,ruleDescription,ruleImage,ruleContent,type,sortUrl,articleStyle);
 
 @override
 String toString() {
-  return 'RssSource(sourceUrl: $sourceUrl, sourceName: $sourceName, sourceIcon: $sourceIcon, sourceGroup: $sourceGroup, sourceComment: $sourceComment, enabled: $enabled, jsLib: $jsLib, header: $header)';
+  return 'RssSource(sourceUrl: $sourceUrl, sourceName: $sourceName, sourceIcon: $sourceIcon, sourceGroup: $sourceGroup, sourceComment: $sourceComment, enabled: $enabled, jsLib: $jsLib, header: $header, ruleArticles: $ruleArticles, ruleTitle: $ruleTitle, ruleLink: $ruleLink, rulePubDate: $rulePubDate, ruleDescription: $ruleDescription, ruleImage: $ruleImage, ruleContent: $ruleContent, type: $type, sortUrl: $sortUrl, articleStyle: $articleStyle)';
 }
 
 
@@ -269,7 +291,7 @@ abstract mixin class _$RssSourceCopyWith<$Res> implements $RssSourceCopyWith<$Re
   factory _$RssSourceCopyWith(_RssSource value, $Res Function(_RssSource) _then) = __$RssSourceCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'sourceUrl') String sourceUrl,@JsonKey(name: 'sourceName') String sourceName,@JsonKey(name: 'sourceIcon') String sourceIcon,@JsonKey(name: 'sourceGroup') String? sourceGroup,@JsonKey(name: 'sourceComment') String? sourceComment,@JsonKey(name: 'enabled') bool enabled,@JsonKey(name: 'jsLib') String? jsLib,@JsonKey(name: 'header') Map<String, String>? header
+@JsonKey(name: 'sourceUrl') String sourceUrl,@JsonKey(name: 'sourceName') String sourceName,@JsonKey(name: 'sourceIcon') String sourceIcon,@JsonKey(name: 'sourceGroup') String? sourceGroup,@JsonKey(name: 'sourceComment') String? sourceComment,@JsonKey(name: 'enabled') bool enabled,@JsonKey(name: 'jsLib') String? jsLib,@JsonKey(name: 'header') Map<String, String>? header,@JsonKey(name: 'ruleArticles') String? ruleArticles,@JsonKey(name: 'ruleTitle') String? ruleTitle,@JsonKey(name: 'ruleLink') String? ruleLink,@JsonKey(name: 'rulePubDate') String? rulePubDate,@JsonKey(name: 'ruleDescription') String? ruleDescription,@JsonKey(name: 'ruleImage') String? ruleImage,@JsonKey(name: 'ruleContent') String? ruleContent,@JsonKey(name: 'type') int type,@JsonKey(name: 'sortUrl') String? sortUrl,@JsonKey(name: 'articleStyle') int articleStyle
 });
 
 
@@ -286,7 +308,7 @@ class __$RssSourceCopyWithImpl<$Res>
 
 /// Create a copy of RssSource
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? sourceUrl = null,Object? sourceName = null,Object? sourceIcon = null,Object? sourceGroup = freezed,Object? sourceComment = freezed,Object? enabled = null,Object? jsLib = freezed,Object? header = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? sourceUrl = null,Object? sourceName = null,Object? sourceIcon = null,Object? sourceGroup = freezed,Object? sourceComment = freezed,Object? enabled = null,Object? jsLib = freezed,Object? header = freezed,Object? ruleArticles = freezed,Object? ruleTitle = freezed,Object? ruleLink = freezed,Object? rulePubDate = freezed,Object? ruleDescription = freezed,Object? ruleImage = freezed,Object? ruleContent = freezed,Object? type = null,Object? sortUrl = freezed,Object? articleStyle = null,}) {
   return _then(_RssSource(
 sourceUrl: null == sourceUrl ? _self.sourceUrl : sourceUrl // ignore: cast_nullable_to_non_nullable
 as String,sourceName: null == sourceName ? _self.sourceName : sourceName // ignore: cast_nullable_to_non_nullable
@@ -296,7 +318,17 @@ as String?,sourceComment: freezed == sourceComment ? _self.sourceComment : sourc
 as String?,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
 as bool,jsLib: freezed == jsLib ? _self.jsLib : jsLib // ignore: cast_nullable_to_non_nullable
 as String?,header: freezed == header ? _self._header : header // ignore: cast_nullable_to_non_nullable
-as Map<String, String>?,
+as Map<String, String>?,ruleArticles: freezed == ruleArticles ? _self.ruleArticles : ruleArticles // ignore: cast_nullable_to_non_nullable
+as String?,ruleTitle: freezed == ruleTitle ? _self.ruleTitle : ruleTitle // ignore: cast_nullable_to_non_nullable
+as String?,ruleLink: freezed == ruleLink ? _self.ruleLink : ruleLink // ignore: cast_nullable_to_non_nullable
+as String?,rulePubDate: freezed == rulePubDate ? _self.rulePubDate : rulePubDate // ignore: cast_nullable_to_non_nullable
+as String?,ruleDescription: freezed == ruleDescription ? _self.ruleDescription : ruleDescription // ignore: cast_nullable_to_non_nullable
+as String?,ruleImage: freezed == ruleImage ? _self.ruleImage : ruleImage // ignore: cast_nullable_to_non_nullable
+as String?,ruleContent: freezed == ruleContent ? _self.ruleContent : ruleContent // ignore: cast_nullable_to_non_nullable
+as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as int,sortUrl: freezed == sortUrl ? _self.sortUrl : sortUrl // ignore: cast_nullable_to_non_nullable
+as String?,articleStyle: null == articleStyle ? _self.articleStyle : articleStyle // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

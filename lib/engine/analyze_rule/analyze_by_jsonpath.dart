@@ -24,7 +24,10 @@ class AnalyzeByJsonPath {
       if (data == null) return [];
       final jsonPath = JsonPath(jsonPathExpr);
       final values = jsonPath.read(data);
-      return values.map((v) => v.value?.toString() ?? '').where((s) => s.isNotEmpty).toList();
+      return values
+          .map((v) => v.value?.toString() ?? '')
+          .where((s) => s.isNotEmpty)
+          .toList();
     } catch (e) {
       return [];
     }

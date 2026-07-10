@@ -44,18 +44,20 @@ class PdfParser implements BaseLocalBookParser {
       final startPage = i * pageSize;
       final endPage = ((i + 1) * pageSize).clamp(0, _pageCount);
 
-      chapters.add(BookChapter(
-        url: 'pdf_$i',
-        title: '第 ${startPage + 1}-${endPage} 页',
-        baseUrl: book.bookUrl,
-        bookUrl: book.bookUrl,
-        index: i,
-        start: startPage,
-        end: endPage - 1,
-        isVolume: false,
-        isVip: false,
-        isPay: false,
-      ));
+      chapters.add(
+        BookChapter(
+          url: 'pdf_$i',
+          title: '第 ${startPage + 1}-${endPage} 页',
+          baseUrl: book.bookUrl,
+          bookUrl: book.bookUrl,
+          index: i,
+          start: startPage,
+          end: endPage - 1,
+          isVolume: false,
+          isVip: false,
+          isPay: false,
+        ),
+      );
     }
 
     return chapters;

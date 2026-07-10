@@ -14,6 +14,10 @@ import '../../data/dao/highlight_rule_dao.dart';
 import '../../data/dao/read_record_dao.dart';
 import '../../data/dao/replace_rule_dao.dart';
 import '../../data/dao/rss_source_dao.dart';
+import '../../data/dao/rss_article_dao.dart';
+import '../../data/dao/rss_star_dao.dart';
+import '../../data/dao/rss_read_record_dao.dart';
+import '../../data/dao/dict_rule_dao.dart';
 import '../../data/dao/search_book_dao.dart';
 import '../../data/dao/search_history_dao.dart';
 
@@ -34,6 +38,9 @@ import '../../data/repositories/highlight_rule_repository.dart';
 import '../../data/repositories/read_progress_repository.dart';
 import '../../data/repositories/replace_rule_repository.dart';
 import '../../data/repositories/rss_source_repository.dart';
+import '../../data/repositories/rss_article_repository.dart';
+import '../../data/repositories/rss_star_repository.dart';
+import '../../data/repositories/dict_rule_repository.dart';
 import '../../data/repositories/search_repository.dart';
 import '../../data/repositories/search_history_repository.dart';
 
@@ -110,6 +117,26 @@ Future<void> initDependencyInjection() async {
     return RssSourceDao(db);
   });
 
+  sl.registerLazySingletonAsync<RssArticleDao>(() async {
+    final db = await sl.getAsync<AppDatabase>();
+    return RssArticleDao(db);
+  });
+
+  sl.registerLazySingletonAsync<RssStarDao>(() async {
+    final db = await sl.getAsync<AppDatabase>();
+    return RssStarDao(db);
+  });
+
+  sl.registerLazySingletonAsync<RssReadRecordDao>(() async {
+    final db = await sl.getAsync<AppDatabase>();
+    return RssReadRecordDao(db);
+  });
+
+  sl.registerLazySingletonAsync<DictRuleDao>(() async {
+    final db = await sl.getAsync<AppDatabase>();
+    return DictRuleDao(db);
+  });
+
   sl.registerLazySingletonAsync<SearchBookDao>(() async {
     final db = await sl.getAsync<AppDatabase>();
     return SearchBookDao(db);
@@ -176,6 +203,21 @@ Future<void> initDependencyInjection() async {
   sl.registerLazySingletonAsync<RssSourceRepository>(() async {
     final dao = await sl.getAsync<RssSourceDao>();
     return RssSourceRepository(dao);
+  });
+
+  sl.registerLazySingletonAsync<RssArticleRepository>(() async {
+    final dao = await sl.getAsync<RssArticleDao>();
+    return RssArticleRepository(dao);
+  });
+
+  sl.registerLazySingletonAsync<RssStarRepository>(() async {
+    final dao = await sl.getAsync<RssStarDao>();
+    return RssStarRepository(dao);
+  });
+
+  sl.registerLazySingletonAsync<DictRuleRepository>(() async {
+    final dao = await sl.getAsync<DictRuleDao>();
+    return DictRuleRepository(dao);
   });
 
   sl.registerLazySingletonAsync<SearchRepository>(() async {

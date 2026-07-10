@@ -12,9 +12,9 @@ class BookGroupDao {
 
   /// 获取所有分组（按排序字段排列）
   Future<List<BookGroup>> getAll() async {
-    final items = await (_database.select(_database.bookGroups)
-          ..orderBy([(t) => OrderingTerm.asc(t.order)]))
-        .get();
+    final items = await (_database.select(
+      _database.bookGroups,
+    )..orderBy([(t) => OrderingTerm.asc(t.order)])).get();
     return items.map((e) => BookGroupMapper().fromTable(e)).toList();
   }
 
@@ -30,8 +30,8 @@ class BookGroupDao {
 
   /// 删除分组
   Future<int> delete(int groupId) {
-    return (_database.delete(_database.bookGroups)
-          ..where((t) => t.groupId.equals(groupId)))
-        .go();
+    return (_database.delete(
+      _database.bookGroups,
+    )..where((t) => t.groupId.equals(groupId))).go();
   }
 }

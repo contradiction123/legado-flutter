@@ -8,11 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 /// - [normal]: 普通加载，等待页面渲染完成，获取完整 HTML
 /// - [sniff]: 嗅探模式，拦截匹配指定规则的资源 URL
 /// - [intercept]: 拦截模式，拦截所有请求并捕获跳转 URL
-enum HeadlessWebViewMode {
-  normal,
-  sniff,
-  intercept,
-}
+enum HeadlessWebViewMode { normal, sniff, intercept }
 
 /// 后台 WebView 封装
 ///
@@ -77,10 +73,7 @@ class HeadlessWebView {
           blockNetworkImage: true,
           allowFileAccessFromFileURLs: true,
         ),
-        initialUrlRequest: URLRequest(
-          url: WebUri(url),
-          headers: headers,
-        ),
+        initialUrlRequest: URLRequest(url: WebUri(url), headers: headers),
         onLoadStop: (controller, currentUrl) async {
           if (_isDone || _isDisposed) return;
 
@@ -103,8 +96,7 @@ class HeadlessWebView {
               await Future.delayed(const Duration(milliseconds: 500));
               if (!_isDone && !_isDisposed) {
                 final retryResult = await controller.evaluateJavascript(
-                  source:
-                      javascript ?? 'document.documentElement.outerHTML',
+                  source: javascript ?? 'document.documentElement.outerHTML',
                 );
                 final retryBody = retryResult?.toString();
                 if (retryBody != null &&

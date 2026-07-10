@@ -10,7 +10,7 @@ part 'toc_rule.g.dart';
 /// 对应原：TocRule.kt
 /// 所有字段均为 nullable 的 String，默认值 null
 @freezed
-class TocRule with _$TocRule {
+abstract class TocRule with _$TocRule {
   const factory TocRule({
     @JsonKey(name: 'preUpdateJs') String? preUpdateJs,
     @JsonKey(name: 'chapterList') String? chapterList,

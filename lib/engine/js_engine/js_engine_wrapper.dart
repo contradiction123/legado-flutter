@@ -16,8 +16,7 @@ class JsResult {
   });
 
   @override
-  String toString() =>
-      isSuccess ? stringResult : 'JS Error: $error';
+  String toString() => isSuccess ? stringResult : 'JS Error: $error';
 }
 
 /// 桥接请求，包含回调 ID 和参数
@@ -25,10 +24,7 @@ class BridgeRequest {
   final int callbackId;
   final List<dynamic> args;
 
-  const BridgeRequest({
-    required this.callbackId,
-    required this.args,
-  });
+  const BridgeRequest({required this.callbackId, required this.args});
 
   factory BridgeRequest.fromJson(String json) {
     final map = jsonDecode(json) as Map<String, dynamic>;
@@ -65,15 +61,9 @@ class JsEngine {
         script,
         sourceUrl: sourceUrl ?? 'main.js',
       );
-      return JsResult(
-        stringResult: result.stringResult,
-      );
+      return JsResult(stringResult: result.stringResult);
     } catch (e) {
-      return JsResult(
-        stringResult: '',
-        isSuccess: false,
-        error: e.toString(),
-      );
+      return JsResult(stringResult: '', isSuccess: false, error: e.toString());
     }
   }
 
@@ -92,19 +82,11 @@ class JsEngine {
           result,
           timeout: const Duration(seconds: 30),
         );
-        return JsResult(
-          stringResult: resolved.stringResult,
-        );
+        return JsResult(stringResult: resolved.stringResult);
       }
-      return JsResult(
-        stringResult: result.stringResult,
-      );
+      return JsResult(stringResult: result.stringResult);
     } catch (e) {
-      return JsResult(
-        stringResult: '',
-        isSuccess: false,
-        error: e.toString(),
-      );
+      return JsResult(stringResult: '', isSuccess: false, error: e.toString());
     }
   }
 
@@ -120,19 +102,11 @@ class JsEngine {
       if (result.stringResult == '[object Promise]') {
         // 同步模式下处理 Promise：执行 pending job 直到完成
         _executePendingJobs();
-        return JsResult(
-          stringResult: result.stringResult,
-        );
+        return JsResult(stringResult: result.stringResult);
       }
-      return JsResult(
-        stringResult: result.stringResult,
-      );
+      return JsResult(stringResult: result.stringResult);
     } catch (e) {
-      return JsResult(
-        stringResult: '',
-        isSuccess: false,
-        error: e.toString(),
-      );
+      return JsResult(stringResult: '', isSuccess: false, error: e.toString());
     }
   }
 

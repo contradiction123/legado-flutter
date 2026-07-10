@@ -10,7 +10,7 @@ part 'review_rule.g.dart';
 /// 对应原：ReviewRule.kt
 /// 所有字段均为 nullable 的 String，默认值 null
 @freezed
-class ReviewRule with _$ReviewRule {
+abstract class ReviewRule with _$ReviewRule {
   const factory ReviewRule({
     @JsonKey(name: 'reviewUrl') String? reviewUrl,
     @JsonKey(name: 'avatarRule') String? avatarRule,

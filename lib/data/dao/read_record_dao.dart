@@ -28,10 +28,12 @@ class ReadRecordDao {
 
   /// 获取单本书的阅读记录
   Future<ReadRecord?> getByBook(String bookName, String bookAuthor) async {
-    final items = await (_database.select(_database.readRecords)
-          ..where((t) =>
-              t.bookName.equals(bookName) & t.bookAuthor.equals(bookAuthor)))
-        .get();
+    final items =
+        await (_database.select(_database.readRecords)..where(
+              (t) =>
+                  t.bookName.equals(bookName) & t.bookAuthor.equals(bookAuthor),
+            ))
+            .get();
     return items.isNotEmpty ? _mapper.fromTable(items.first) : null;
   }
 
@@ -49,19 +51,21 @@ class ReadRecordDao {
 
   /// 插入或更新阅读记录
   Future<void> upsert(ReadRecord record) async {
-    await _database.into(_database.readRecords).insert(
-      _mapper.toCompanion(record),
-      mode: drift.InsertMode.insertOrReplace,
-    );
+    await _database
+        .into(_database.readRecords)
+        .insert(
+          _mapper.toCompanion(record),
+          mode: drift.InsertMode.insertOrReplace,
+        );
   }
 
   // ── ReadRecordDetails ──
 
   /// 获取某天的阅读详情
   Future<List<db.ReadRecordDetail>> getDetailsByDate(String date) async {
-    return (_database.select(_database.readRecordDetails)
-          ..where((t) => t.date.equals(date)))
-        .get();
+    return (_database.select(
+      _database.readRecordDetails,
+    )..where((t) => t.date.equals(date))).get();
   }
 
   /// 获取近 N 天的阅读时长（按天聚合）
@@ -98,35 +102,39 @@ class ReadRecordDao {
 
   /// 插入或更新阅读详情
   Future<void> upsertDetail(db.ReadRecordDetail detail) async {
-    await _database.into(_database.readRecordDetails).insert(
-      db.ReadRecordDetailsCompanion(
-        deviceId: drift.Value(detail.deviceId),
-        bookName: drift.Value(detail.bookName),
-        bookAuthor: drift.Value(detail.bookAuthor),
-        date: drift.Value(detail.date),
-        readTime: drift.Value(detail.readTime),
-        readWords: drift.Value(detail.readWords),
-        firstReadTime: drift.Value(detail.firstReadTime),
-        lastReadTime: drift.Value(detail.lastReadTime),
-      ),
-      mode: drift.InsertMode.insertOrReplace,
-    );
+    await _database
+        .into(_database.readRecordDetails)
+        .insert(
+          db.ReadRecordDetailsCompanion(
+            deviceId: drift.Value(detail.deviceId),
+            bookName: drift.Value(detail.bookName),
+            bookAuthor: drift.Value(detail.bookAuthor),
+            date: drift.Value(detail.date),
+            readTime: drift.Value(detail.readTime),
+            readWords: drift.Value(detail.readWords),
+            firstReadTime: drift.Value(detail.firstReadTime),
+            lastReadTime: drift.Value(detail.lastReadTime),
+          ),
+          mode: drift.InsertMode.insertOrReplace,
+        );
   }
 
   // ── ReadRecordSessions ──
 
   /// 插入阅读会话
   Future<int> insertSession(db.ReadRecordSession session) async {
-    return _database.into(_database.readRecordSessions).insert(
-      db.ReadRecordSessionsCompanion(
-        deviceId: drift.Value(session.deviceId),
-        bookName: drift.Value(session.bookName),
-        bookAuthor: drift.Value(session.bookAuthor),
-        startTime: drift.Value(session.startTime),
-        endTime: drift.Value(session.endTime),
-        words: drift.Value(session.words),
-      ),
-    );
+    return _database
+        .into(_database.readRecordSessions)
+        .insert(
+          db.ReadRecordSessionsCompanion(
+            deviceId: drift.Value(session.deviceId),
+            bookName: drift.Value(session.bookName),
+            bookAuthor: drift.Value(session.bookAuthor),
+            startTime: drift.Value(session.startTime),
+            endTime: drift.Value(session.endTime),
+            words: drift.Value(session.words),
+          ),
+        );
   }
 }
 

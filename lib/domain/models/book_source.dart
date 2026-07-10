@@ -64,17 +64,20 @@ extension BookSourceX on BookSource {
   SearchRule? parseRuleSearch() =>
       ruleSearch != null ? SearchRule.fromJson(_parseJson(ruleSearch!)) : null;
 
-  BookInfoRule? parseRuleBookInfo() =>
-      ruleBookInfo != null ? BookInfoRule.fromJson(_parseJson(ruleBookInfo!)) : null;
+  BookInfoRule? parseRuleBookInfo() => ruleBookInfo != null
+      ? BookInfoRule.fromJson(_parseJson(ruleBookInfo!))
+      : null;
 
   TocRule? parseRuleToc() =>
       ruleToc != null ? TocRule.fromJson(_parseJson(ruleToc!)) : null;
 
-  ContentRule? parseRuleContent() =>
-      ruleContent != null ? ContentRule.fromJson(_parseJson(ruleContent!)) : null;
+  ContentRule? parseRuleContent() => ruleContent != null
+      ? ContentRule.fromJson(_parseJson(ruleContent!))
+      : null;
 
-  ExploreRule? parseRuleExplore() =>
-      ruleExplore != null ? ExploreRule.fromJson(_parseJson(ruleExplore!)) : null;
+  ExploreRule? parseRuleExplore() => ruleExplore != null
+      ? ExploreRule.fromJson(_parseJson(ruleExplore!))
+      : null;
 
   ReviewRule? parseRuleReview() =>
       ruleReview != null ? ReviewRule.fromJson(_parseJson(ruleReview!)) : null;

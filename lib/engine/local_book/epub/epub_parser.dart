@@ -87,7 +87,8 @@ class EpubParser {
     final rootfileEl = containerDoc
         .findAllElements('rootfile')
         .firstWhere(
-          (e) => e.getAttribute('media-type') == 'application/oebps-package+xml',
+          (e) =>
+              e.getAttribute('media-type') == 'application/oebps-package+xml',
         );
     final opfPath = rootfileEl.getAttribute('full-path')!;
 
@@ -160,11 +161,13 @@ class EpubParser {
       for (var i = 0; i < spineRefs.length; i++) {
         final href = manifest[spineRefs[i]];
         if (href != null) {
-          tocEntries.add(_TocEntry(
-            title: '第${i + 1}章',
-            href: _resolvePath(opfDir, href),
-            fragmentId: null,
-          ));
+          tocEntries.add(
+            _TocEntry(
+              title: '第${i + 1}章',
+              href: _resolvePath(opfDir, href),
+              fragmentId: null,
+            ),
+          );
         }
       }
     }
@@ -204,18 +207,21 @@ class EpubParser {
       // 解析 <title> 作为后备标题
       var chapterTitle = entry.title;
       if (chapterTitle.isEmpty) {
-        final titleMatch = RegExp(r'<title[^>]*>([^<]+)</title>',
-                caseSensitive: false)
-            .firstMatch(htmlContent);
+        final titleMatch = RegExp(
+          r'<title[^>]*>([^<]+)</title>',
+          caseSensitive: false,
+        ).firstMatch(htmlContent);
         chapterTitle = titleMatch?.group(1)?.trim() ?? '第${i + 1}章';
       }
 
-      chapters.add(EpubChapter(
-        title: chapterTitle,
-        htmlContent: htmlContent,
-        resourceHref: hrefWithoutFragment,
-        index: i,
-      ));
+      chapters.add(
+        EpubChapter(
+          title: chapterTitle,
+          htmlContent: htmlContent,
+          resourceHref: hrefWithoutFragment,
+          index: i,
+        ),
+      );
     }
 
     // 6. 收集所有资源
@@ -256,7 +262,10 @@ class EpubParser {
   }
 
   /// 提取元数据文本（处理 dc: 命名空间）
-  static String? _extractMetadataText(XmlElement? metadataEl, String localName) {
+  static String? _extractMetadataText(
+    XmlElement? metadataEl,
+    String localName,
+  ) {
     if (metadataEl == null) return null;
     try {
       // 尝试带命名空间
@@ -296,7 +305,10 @@ class EpubParser {
   }
 
   /// 查找目录文件（toc）的 href
-  static String? _findTocHref(XmlDocument opfDoc, Map<String, String> manifest) {
+  static String? _findTocHref(
+    XmlDocument opfDoc,
+    Map<String, String> manifest,
+  ) {
     // 查找 spine 中的 toc 属性
     final spineEl = opfDoc.findAllElements('spine').firstOrNull;
     if (spineEl != null) {
@@ -342,7 +354,9 @@ class EpubParser {
               ? src.substring(src.indexOf('#') + 1)
               : null;
           if (src.contains('#')) src = src.substring(0, src.indexOf('#'));
-          entries.add(_TocEntry(title: title, href: src, fragmentId: fragmentId));
+          entries.add(
+            _TocEntry(title: title, href: src, fragmentId: fragmentId),
+          );
         }
       }
     } catch (_) {
@@ -370,11 +384,13 @@ class EpubParser {
               final cleanHref = href.contains('#')
                   ? href.substring(0, href.indexOf('#'))
                   : href;
-              entries.add(_TocEntry(
-                title: title,
-                href: cleanHref,
-                fragmentId: fragmentId,
-              ));
+              entries.add(
+                _TocEntry(
+                  title: title,
+                  href: cleanHref,
+                  fragmentId: fragmentId,
+                ),
+              );
             }
           }
         }
@@ -386,14 +402,21 @@ class EpubParser {
   /// 清除 HTML 中的无用元素，按 fragmentId 截取
   static String _cleanHtml(String html, {String? fragmentId}) {
     // 简单实现：用正则移除 script/style 标签
-    var cleaned = html.replaceAll(RegExp(r'<script[^>]*>[\s\S]*?</script>',
-        caseSensitive: false), '');
-    cleaned = cleaned.replaceAll(RegExp(r'<style[^>]*>[\s\S]*?</style>',
-        caseSensitive: false), '');
+    var cleaned = html.replaceAll(
+      RegExp(r'<script[^>]*>[\s\S]*?</script>', caseSensitive: false),
+      '',
+    );
     cleaned = cleaned.replaceAll(
-        RegExp(r'style\s*=\s*"[^"]*display\s*:\s*none[^"]*"',
-            caseSensitive: false),
-        '');
+      RegExp(r'<style[^>]*>[\s\S]*?</style>', caseSensitive: false),
+      '',
+    );
+    cleaned = cleaned.replaceAll(
+      RegExp(
+        r'style\s*=\s*"[^"]*display\s*:\s*none[^"]*"',
+        caseSensitive: false,
+      ),
+      '',
+    );
 
     // 如有 fragmentId，截取到对应元素
     if (fragmentId != null && fragmentId.isNotEmpty) {
@@ -406,15 +429,17 @@ class EpubParser {
       final idMatch = idPattern.firstMatch(cleaned);
       if (idMatch != null) {
         final start = idMatch.start;
-          // 查找下一个 id 元素或结尾
-          final afterStartStr = cleaned.substring(start + 1);
-          final nextIdPattern = RegExp(
-            '<[^>]+id\\s*=\\s*["\'](?!' + escapedId + ')["\'][^>]*>',
-            caseSensitive: false,
-          );
-          final nextMatch = nextIdPattern.firstMatch(afterStartStr);
-          final end = nextMatch != null ? start + 1 + nextMatch.start : cleaned.length;
-          return cleaned.substring(start, end);
+        // 查找下一个 id 元素或结尾
+        final afterStartStr = cleaned.substring(start + 1);
+        final nextIdPattern = RegExp(
+          '<[^>]+id\\s*=\\s*["\'](?!' + escapedId + ')["\'][^>]*>',
+          caseSensitive: false,
+        );
+        final nextMatch = nextIdPattern.firstMatch(afterStartStr);
+        final end = nextMatch != null
+            ? start + 1 + nextMatch.start
+            : cleaned.length;
+        return cleaned.substring(start, end);
       }
     }
 
@@ -458,9 +483,5 @@ class _TocEntry {
   final String href;
   final String? fragmentId;
 
-  const _TocEntry({
-    required this.title,
-    required this.href,
-    this.fragmentId,
-  });
+  const _TocEntry({required this.title, required this.href, this.fragmentId});
 }

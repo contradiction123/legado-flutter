@@ -8,10 +8,7 @@ class CompiledScript {
   final String source;
   final String sourceUrl;
 
-  const CompiledScript({
-    required this.source,
-    required this.sourceUrl,
-  });
+  const CompiledScript({required this.source, required this.sourceUrl});
 }
 
 /// LRU 脚本缓存
@@ -23,7 +20,7 @@ class ScriptCache {
   final LinkedHashMap<String, CompiledScript> _cache;
 
   ScriptCache({this.maxSize = 16})
-      : _cache = LinkedHashMap<String, CompiledScript>();
+    : _cache = LinkedHashMap<String, CompiledScript>();
 
   /// 获取缓存的编译脚本
   CompiledScript? get(String key) {

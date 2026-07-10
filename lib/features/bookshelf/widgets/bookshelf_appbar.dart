@@ -26,10 +26,7 @@ class BookshelfAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     if (isEditMode) {
       return AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: onDone,
-        ),
+        leading: IconButton(icon: const Icon(Icons.close), onPressed: onDone),
         title: Text('已选择 $selectedCount 本'),
         actions: [
           TextButton(

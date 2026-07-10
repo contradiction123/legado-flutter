@@ -61,10 +61,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.bookTitle ?? '有声书',
-          overflow: TextOverflow.ellipsis,
-        ),
+        title: Text(widget.bookTitle ?? '有声书', overflow: TextOverflow.ellipsis),
         actions: [
           if (state.isPlaying)
             IconButton(
@@ -107,9 +104,11 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
             state.currentChapterTitle.isNotEmpty
                 ? state.currentChapterTitle
                 : widget.titles?.isNotEmpty == true
-                    ? widget.titles![state.currentIndex.clamp(
-                        0, widget.titles!.length - 1)]
-                    : '',
+                ? widget.titles![state.currentIndex.clamp(
+                    0,
+                    widget.titles!.length - 1,
+                  )]
+                : '',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
@@ -129,10 +128,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
                 children: [
-                  Text(
-                    '章节列表',
-                    style: theme.textTheme.titleSmall,
-                  ),
+                  Text('章节列表', style: theme.textTheme.titleSmall),
                   const Spacer(),
                   Text(
                     '${state.totalTracks} 章',
@@ -163,10 +159,7 @@ class _AudioPlayerScreenState extends ConsumerState<AudioPlayerScreen> {
     final items = <PlaylistItem>[];
 
     for (var i = 0; i < urls.length && i < titles.length; i++) {
-      items.add(PlaylistItem(
-        title: titles[i],
-        url: urls[i],
-      ));
+      items.add(PlaylistItem(title: titles[i], url: urls[i]));
     }
 
     return items;

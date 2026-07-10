@@ -6,7 +6,9 @@ import '../engine/audio_player_engine.dart';
 class AudioPlayerProvider extends StateNotifier<AudioPlayerState> {
   final AudioPlayerEngine _engine;
 
-  AudioPlayerProvider() : _engine = AudioPlayerEngine(), super(const AudioPlayerState()) {
+  AudioPlayerProvider()
+    : _engine = AudioPlayerEngine(),
+      super(const AudioPlayerState()) {
     _engine.onStateChanged = () {
       state = _engine.state;
     };
@@ -54,5 +56,5 @@ class AudioPlayerProvider extends StateNotifier<AudioPlayerState> {
 
 final audioPlayerProvider =
     StateNotifierProvider<AudioPlayerProvider, AudioPlayerState>((ref) {
-  return AudioPlayerProvider();
-});
+      return AudioPlayerProvider();
+    });

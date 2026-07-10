@@ -143,21 +143,30 @@ class ReadRecordProvider extends StateNotifier<ReadStatsState> {
           '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
 
       // 更新 ReadRecords（总时长累计）
-      final existing = await dao.getByBook(_sessionBookName, _sessionBookAuthor);
+      final existing = await dao.getByBook(
+        _sessionBookName,
+        _sessionBookAuthor,
+      );
       final currentTime = existing?.readTime ?? 0;
-      await dao.upsert(ReadRecord(
-        deviceId: deviceId,
-        bookName: _sessionBookName,
-        bookAuthor: _sessionBookAuthor,
-        readTime: currentTime + durationMs,
-        lastRead: nowMs,
-      ));
+      await dao.upsert(
+        ReadRecord(
+          deviceId: deviceId,
+          bookName: _sessionBookName,
+          bookAuthor: _sessionBookAuthor,
+          readTime: currentTime + durationMs,
+          lastRead: nowMs,
+        ),
+      );
 
       // 更新 ReadRecordDetails（当天累计）
       final todayDetails = await dao.getDetailsByDate(dateStr);
-      final todayEntry = todayDetails.where(
-        (d) => d.bookName == _sessionBookName && d.bookAuthor == _sessionBookAuthor,
-      ).toList();
+      final todayEntry = todayDetails
+          .where(
+            (d) =>
+                d.bookName == _sessionBookName &&
+                d.bookAuthor == _sessionBookAuthor,
+          )
+          .toList();
       final existingDetail = todayEntry.isNotEmpty ? todayEntry.first : null;
 
       await dao.upsertDetail(
@@ -184,5 +193,5 @@ class ReadRecordProvider extends StateNotifier<ReadStatsState> {
 /// 阅读统计 Provider
 final readStatsProvider =
     StateNotifierProvider<ReadRecordProvider, ReadStatsState>((ref) {
-  return ReadRecordProvider();
-});
+      return ReadRecordProvider();
+    });

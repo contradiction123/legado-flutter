@@ -71,7 +71,11 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Row(
                   children: [
-                    Icon(Icons.link, size: 20, color: theme.colorScheme.primary),
+                    Icon(
+                      Icons.link,
+                      size: 20,
+                      color: theme.colorScheme.primary,
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: TextField(
@@ -123,16 +127,16 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
                 Container(
                   constraints: const BoxConstraints(maxHeight: 200),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: theme.colorScheme.outlineVariant,
-                    ),
+                    border: Border.all(color: theme.colorScheme.outlineVariant),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: ListView.separated(
                     shrinkWrap: true,
                     itemCount: _previewSources!.length,
-                    separatorBuilder: (_, __) =>
-                        Divider(height: 1, color: theme.colorScheme.outlineVariant),
+                    separatorBuilder: (_, __) => Divider(
+                      height: 1,
+                      color: theme.colorScheme.outlineVariant,
+                    ),
                     itemBuilder: (context, index) {
                       final source = _previewSources![index];
                       return ListTile(
@@ -180,25 +184,24 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
                 ),
               ],
 
-                // 确认导入按钮
-                Padding(
-                  padding: const EdgeInsets.only(top: 8),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: FilledButton.icon(
-                      onPressed: _isImporting ? null : _confirmImport,
-                      icon: _isImporting
-                          ? const SizedBox(
-                              width: 16,
-                              height: 16,
-                              child:
-                                  CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(Icons.check, size: 18),
-                      label: Text(_isImporting ? '导入中...' : '确认导入'),
-                    ),
+              // 确认导入按钮
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: _isImporting ? null : _confirmImport,
+                    icon: _isImporting
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Icon(Icons.check, size: 18),
+                    label: Text(_isImporting ? '导入中...' : '确认导入'),
                   ),
                 ),
+              ),
 
               // ---- 状态消息 ----
               if (_error != null)
@@ -345,7 +348,8 @@ class _ImportExportDialogState extends ConsumerState<ImportExportDialog> {
               }
               if (e is String) {
                 return BookSource.fromJson(
-                    jsonDecode(e) as Map<String, dynamic>);
+                  jsonDecode(e) as Map<String, dynamic>,
+                );
               }
               return null;
             })

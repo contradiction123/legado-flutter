@@ -9,11 +9,7 @@ class PlaylistWidget extends ConsumerWidget {
   final List<PlaylistItem> items;
   final int? activeIndex;
 
-  const PlaylistWidget({
-    super.key,
-    required this.items,
-    this.activeIndex,
-  });
+  const PlaylistWidget({super.key, required this.items, this.activeIndex});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,13 +25,18 @@ class PlaylistWidget extends ConsumerWidget {
         return ListTile(
           dense: true,
           selected: isCurrent,
-          selectedTileColor:
-              Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3),
+          selectedTileColor: Theme.of(
+            context,
+          ).colorScheme.primaryContainer.withValues(alpha: 0.3),
           leading: isCurrent
-              ? Icon(Icons.play_arrow_rounded,
-                  color: Theme.of(context).colorScheme.primary)
-              : Icon(Icons.music_note_outlined,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant),
+              ? Icon(
+                  Icons.play_arrow_rounded,
+                  color: Theme.of(context).colorScheme.primary,
+                )
+              : Icon(
+                  Icons.music_note_outlined,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
           title: Text(
             item.title,
             maxLines: 1,
@@ -71,9 +72,5 @@ class PlaylistItem {
   final String url;
   final Duration? duration;
 
-  const PlaylistItem({
-    required this.title,
-    required this.url,
-    this.duration,
-  });
+  const PlaylistItem({required this.title, required this.url, this.duration});
 }

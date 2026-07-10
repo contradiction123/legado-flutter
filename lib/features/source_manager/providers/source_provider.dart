@@ -7,6 +7,8 @@ import '../../../data/dao/book_source_dao.dart';
 import '../../../data/repositories/book_source_repository.dart';
 import '../../../domain/models/book_source.dart';
 
+const _unset = Object();
+
 /// 书源状态管理器
 ///
 /// 使用懒初始化模式（同 ReadRecordProvider），在首次使用时自动创建 DAO。
@@ -54,10 +56,7 @@ class SourceProvider extends StateNotifier<SourceState> {
       }
     } catch (e) {
       if (!_disposed) {
-        state = state.copyWith(
-          isLoading: false,
-          error: e.toString(),
-        );
+        state = state.copyWith(isLoading: false, error: e.toString());
       }
     }
   }
@@ -100,16 +99,20 @@ class SourceProvider extends StateNotifier<SourceState> {
   Future<int> importFromJson(String jsonString) async {
     try {
       final repo = await _getRepo();
-      final list = jsonDecode(jsonString) as List<dynamic>;
-      final sources = list.map((e) {
-        if (e is Map<String, dynamic>) {
-          return BookSource.fromJson(e);
-        }
-        if (e is String) {
-          return BookSource.fromJson(jsonDecode(e) as Map<String, dynamic>);
-        }
-        return null;
-      }).whereType<BookSource>().toList();
+      final decoded = jsonDecode(jsonString);
+      final list = decoded is List ? decoded : [decoded];
+      final sources = list
+          .map((e) {
+            if (e is Map<String, dynamic>) {
+              return BookSource.fromJson(e);
+            }
+            if (e is String) {
+              return BookSource.fromJson(jsonDecode(e) as Map<String, dynamic>);
+            }
+            return null;
+          })
+          .whereType<BookSource>()
+          .toList();
 
       await repo.importAll(sources);
       await loadSources();
@@ -128,6 +131,7 @@ class SourceProvider extends StateNotifier<SourceState> {
       await loadSources();
     } catch (e) {
       state = state.copyWith(error: '保存失败: $e');
+      rethrow;
     }
   }
 
@@ -162,7 +166,7 @@ class SourceState {
   SourceState copyWith({
     List<BookSource>? sources,
     List<String>? groups,
-    String? selectedGroup,
+    Object? selectedGroup = _unset,
     String? searchKeyword,
     bool? isLoading,
     String? error,
@@ -170,7 +174,9 @@ class SourceState {
     return SourceState(
       sources: sources ?? this.sources,
       groups: groups ?? this.groups,
-      selectedGroup: selectedGroup ?? this.selectedGroup,
+      selectedGroup: identical(selectedGroup, _unset)
+          ? this.selectedGroup
+          : selectedGroup as String?,
       searchKeyword: searchKeyword ?? this.searchKeyword,
       isLoading: isLoading ?? this.isLoading,
       error: error,
@@ -181,7 +187,8 @@ class SourceState {
 /// 书源状态提供者
 ///
 /// 自动懒初始化 DAO+Repository，无需外部 DI 注入。
-final sourceProvider =
-    StateNotifierProvider<SourceProvider, SourceState>((ref) {
+final sourceProvider = StateNotifierProvider<SourceProvider, SourceState>((
+  ref,
+) {
   return SourceProvider();
 });

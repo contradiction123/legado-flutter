@@ -17,39 +17,39 @@ class RssSourceDao {
 
   /// 获取所有已启用的 RSS 订阅源
   Future<List<RssSource>> getEnabled() async {
-    final items = await (_database.select(_database.rssSources)
-          ..where((t) => t.enabled.equals(true)))
-        .get();
+    final items = await (_database.select(
+      _database.rssSources,
+    )..where((t) => t.enabled.equals(true))).get();
     return _mapper.fromTableList(items);
   }
 
   /// 按分组获取 RSS 订阅源
   Future<List<RssSource>> getByGroup(String group) async {
-    final items = await (_database.select(_database.rssSources)
-          ..where((t) => t.sourceGroup.equals(group)))
-        .get();
+    final items = await (_database.select(
+      _database.rssSources,
+    )..where((t) => t.sourceGroup.equals(group))).get();
     return _mapper.fromTableList(items);
   }
 
   /// 根据 URL 获取单个 RSS 订阅源
   Future<RssSource?> getByUrl(String url) async {
-    final item = await (_database.select(_database.rssSources)
-          ..where((t) => t.sourceUrl.equals(url)))
-        .getSingleOrNull();
+    final item = await (_database.select(
+      _database.rssSources,
+    )..where((t) => t.sourceUrl.equals(url))).getSingleOrNull();
     return item != null ? _mapper.fromTable(item) : null;
   }
 
   /// 插入 RSS 订阅源
   Future<int> insert(RssSource rssSource) {
-    return _database.into(_database.rssSources).insert(
-      _mapper.toCompanion(rssSource),
-    );
+    return _database
+        .into(_database.rssSources)
+        .insert(_mapper.toCompanion(rssSource));
   }
 
   /// 根据 URL 删除 RSS 订阅源
   Future<int> deleteByUrl(String url) {
-    return (_database.delete(_database.rssSources)
-          ..where((t) => t.sourceUrl.equals(url)))
-        .go();
+    return (_database.delete(
+      _database.rssSources,
+    )..where((t) => t.sourceUrl.equals(url))).go();
   }
 }

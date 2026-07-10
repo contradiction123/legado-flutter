@@ -25,10 +25,10 @@ class SharedJsScope {
     if (jsLib.isEmpty) return;
 
     // 缓存编译后的脚本
-    _cache.put(sourceKey, CompiledScript(
-      source: jsLib,
-      sourceUrl: 'jsLib:$sourceKey',
-    ));
+    _cache.put(
+      sourceKey,
+      CompiledScript(source: jsLib, sourceUrl: 'jsLib:$sourceKey'),
+    );
 
     // 注入 JS 库到 QuickJS 运行时
     _engine.evaluate(jsLib, sourceUrl: 'jsLib:$sourceKey');

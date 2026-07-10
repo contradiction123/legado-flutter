@@ -18,7 +18,8 @@ part 'app_database.g.dart';
 class Books extends Table {
   TextColumn get bookUrl => text()(); // 主键，详情页URL/本地文件路径
   TextColumn get tocUrl => text()(); // 目录页URL
-  TextColumn get origin => text().withDefault(const Constant('loc_book'))(); // 书源URL
+  TextColumn get origin =>
+      text().withDefault(const Constant('loc_book'))(); // 书源URL
   TextColumn get originName => text()(); // 书源名称/本地文件名
   TextColumn get name => text()(); // 书名
   TextColumn get author => text()(); // 作者
@@ -33,18 +34,27 @@ class Books extends Table {
   IntColumn get type => integer().withDefault(const Constant(8))(); // 书籍类型
   IntColumn get group => integer().withDefault(const Constant(0))(); // 分组ID
   TextColumn? get latestChapterTitle => text().nullable()(); // 最新章节标题
-  IntColumn get latestChapterTime => integer().withDefault(const Constant(0))(); // 最新章节时间
-  IntColumn get lastCheckTime => integer().withDefault(const Constant(0))(); // 最后检查时间
-  IntColumn get lastCheckCount => integer().withDefault(const Constant(0))(); // 新章节数
-  IntColumn get totalChapterNum => integer().withDefault(const Constant(0))(); // 总章节数
+  IntColumn get latestChapterTime =>
+      integer().withDefault(const Constant(0))(); // 最新章节时间
+  IntColumn get lastCheckTime =>
+      integer().withDefault(const Constant(0))(); // 最后检查时间
+  IntColumn get lastCheckCount =>
+      integer().withDefault(const Constant(0))(); // 新章节数
+  IntColumn get totalChapterNum =>
+      integer().withDefault(const Constant(0))(); // 总章节数
   TextColumn? get durChapterTitle => text().nullable()(); // 当前章节名
-  IntColumn get durChapterIndex => integer().withDefault(const Constant(0))(); // 当前章节索引
-  IntColumn get durChapterPos => integer().withDefault(const Constant(0))(); // 阅读位置
-  IntColumn get durChapterTime => integer().withDefault(const Constant(0))(); // 最后阅读时间
+  IntColumn get durChapterIndex =>
+      integer().withDefault(const Constant(0))(); // 当前章节索引
+  IntColumn get durChapterPos =>
+      integer().withDefault(const Constant(0))(); // 阅读位置
+  IntColumn get durChapterTime =>
+      integer().withDefault(const Constant(0))(); // 最后阅读时间
   TextColumn? get wordCount => text().nullable()(); // 字数
-  BoolColumn get canUpdate => boolean().withDefault(const Constant(true))(); // 可更新
+  BoolColumn get canUpdate =>
+      boolean().withDefault(const Constant(true))(); // 可更新
   IntColumn get order => integer().withDefault(const Constant(0))(); // 手动排序
-  IntColumn get originOrder => integer().withDefault(const Constant(0))(); // 书源排序
+  IntColumn get originOrder =>
+      integer().withDefault(const Constant(0))(); // 书源排序
   TextColumn? get variable => text().nullable()(); // 自定义变量
   TextColumn? get readConfig => text().nullable()(); // 阅读设置（JSON）
   IntColumn get syncTime => integer().withDefault(const Constant(0))(); // 同步时间
@@ -64,12 +74,16 @@ class Books extends Table {
 class BookChapters extends Table {
   TextColumn get url => text()(); // 复合主键1，章节地址
   TextColumn get title => text()(); // 标题
-  BoolColumn get isVolume => boolean().withDefault(const Constant(false))(); // 是否是卷
+  BoolColumn get isVolume =>
+      boolean().withDefault(const Constant(false))(); // 是否是卷
   TextColumn get baseUrl => text()(); // 基础URL
-  TextColumn get bookUrl => text().references(Books, #bookUrl)(); // 复合主键2，外键关联 Books（级联删除在应用层处理）
+  TextColumn get bookUrl =>
+      text().references(Books, #bookUrl)(); // 复合主键2，外键关联 Books（级联删除在应用层处理）
   IntColumn get index => integer().withDefault(const Constant(0))(); // 章节序号
-  BoolColumn get isVip => boolean().withDefault(const Constant(false))(); // 是否VIP
-  BoolColumn get isPay => boolean().withDefault(const Constant(false))(); // 是否购买
+  BoolColumn get isVip =>
+      boolean().withDefault(const Constant(false))(); // 是否VIP
+  BoolColumn get isPay =>
+      boolean().withDefault(const Constant(false))(); // 是否购买
   TextColumn? get resourceUrl => text().nullable()(); // 音频URL
   TextColumn? get tag => text().nullable()(); // 附加信息
   TextColumn? get wordCount => text().nullable()(); // 本章字数
@@ -96,11 +110,13 @@ class BookSources extends Table {
   TextColumn get bookSourceUrl => text()(); // 主键
   TextColumn get bookSourceName => text()(); // 名称
   TextColumn? get bookSourceGroup => text().nullable()(); // 分组
-  IntColumn get bookSourceType => integer().withDefault(const Constant(0))(); // 类型
+  IntColumn get bookSourceType =>
+      integer().withDefault(const Constant(0))(); // 类型
   TextColumn? get bookUrlPattern => text().nullable()(); // 详情页URL正则
   IntColumn get customOrder => integer().withDefault(const Constant(0))(); // 排序
   BoolColumn get enabled => boolean().withDefault(const Constant(true))(); // 启用
-  BoolColumn get enabledExplore => boolean().withDefault(const Constant(true))(); // 启用发现
+  BoolColumn get enabledExplore =>
+      boolean().withDefault(const Constant(true))(); // 启用发现
   TextColumn? get jsLib => text().nullable()(); // JS库
   BoolColumn? get enabledCookieJar => boolean().nullable()(); // CookieJar
   TextColumn? get concurrentRate => text().nullable()(); // 并发率
@@ -111,8 +127,10 @@ class BookSources extends Table {
   TextColumn? get coverDecodeJs => text().nullable()(); // 封面解密JS
   TextColumn? get bookSourceComment => text().nullable()(); // 注释
   TextColumn? get variableComment => text().nullable()(); // 变量说明
-  IntColumn get lastUpdateTime => integer().withDefault(const Constant(0))(); // 更新时间
-  IntColumn get respondTime => integer().withDefault(const Constant(180000))(); // 响应时间
+  IntColumn get lastUpdateTime =>
+      integer().withDefault(const Constant(0))(); // 更新时间
+  IntColumn get respondTime =>
+      integer().withDefault(const Constant(180000))(); // 响应时间
   IntColumn get weight => integer().withDefault(const Constant(0))(); // 权重
   TextColumn? get exploreUrl => text().nullable()(); // 发现URL
   TextColumn? get exploreScreen => text().nullable()(); // 发现筛选规则
@@ -123,8 +141,10 @@ class BookSources extends Table {
   TextColumn? get ruleToc => text().nullable()(); // 目录规则（JSON）
   TextColumn? get ruleContent => text().nullable()(); // 正文规则（JSON）
   TextColumn? get ruleReview => text().nullable()(); // 段评规则（JSON）
-  BoolColumn get eventListener => boolean().withDefault(const Constant(false))(); // 事件监听
-  BoolColumn get customButton => boolean().withDefault(const Constant(false))(); // 自定义按钮
+  BoolColumn get eventListener =>
+      boolean().withDefault(const Constant(false))(); // 事件监听
+  BoolColumn get customButton =>
+      boolean().withDefault(const Constant(false))(); // 自定义按钮
   TextColumn? get homepageModules => text().nullable()(); // 首页模块（JSON）
 
   @override
@@ -136,7 +156,8 @@ class BookSources extends Table {
 /// 主键：bookUrl，外键关联 BookSource
 class SearchBooks extends Table {
   TextColumn get bookUrl => text()(); // 主键
-  TextColumn get origin => text().references(BookSources, #bookSourceUrl)(); // 书源URL
+  TextColumn get origin =>
+      text().references(BookSources, #bookSourceUrl)(); // 书源URL
   TextColumn get originName => text()(); // 书源名称
   IntColumn get type => integer().withDefault(const Constant(8))(); // 类型
   TextColumn get name => text()(); // 书名
@@ -147,12 +168,17 @@ class SearchBooks extends Table {
   TextColumn? get wordCount => text().nullable()(); // 字数
   TextColumn? get latestChapterTitle => text().nullable()(); // 最新章节
   TextColumn get tocUrl => text()(); // 目录URL
-  IntColumn get time => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 搜索时间
+  IntColumn get time => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 搜索时间
   TextColumn? get variable => text().nullable()(); // 变量
-  IntColumn get originOrder => integer().withDefault(const Constant(0))(); // 书源排序
+  IntColumn get originOrder =>
+      integer().withDefault(const Constant(0))(); // 书源排序
   TextColumn? get chapterWordCountText => text().nullable()(); // 章节字数文本
-  IntColumn get chapterWordCount => integer().withDefault(const Constant(-1))(); // 章节字数
-  IntColumn get respondTime => integer().withDefault(const Constant(-1))(); // 响应时间
+  IntColumn get chapterWordCount =>
+      integer().withDefault(const Constant(-1))(); // 章节字数
+  IntColumn get respondTime =>
+      integer().withDefault(const Constant(-1))(); // 响应时间
 
   @override
   Set<Column> get primaryKey => {bookUrl};
@@ -162,10 +188,13 @@ class SearchBooks extends Table {
 /// 对应原：Bookmark.kt
 /// 主键：time
 class Bookmarks extends Table {
-  IntColumn get time => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 主键
+  IntColumn get time => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 主键
   TextColumn get bookName => text()(); // 书名
   TextColumn get bookAuthor => text().withDefault(const Constant(''))(); // 作者
-  IntColumn get chapterIndex => integer().withDefault(const Constant(0))(); // 章节索引
+  IntColumn get chapterIndex =>
+      integer().withDefault(const Constant(0))(); // 章节索引
   IntColumn get chapterPos => integer().withDefault(const Constant(0))(); // 位置
   TextColumn get chapterName => text()(); // 章节名
   TextColumn get bookText => text()(); // 文本
@@ -192,7 +221,8 @@ class ReadRecords extends Table {
   TextColumn get bookName => text()(); // 主键2
   TextColumn get bookAuthor => text().withDefault(const Constant(''))(); // 主键3
   IntColumn get readTime => integer().withDefault(const Constant(0))(); // 阅读时长
-  IntColumn get lastRead => integer().withDefault(const Constant(0))(); // 最后阅读时间
+  IntColumn get lastRead =>
+      integer().withDefault(const Constant(0))(); // 最后阅读时间
 
   @override
   Set<Column> get primaryKey => {deviceId, bookName, bookAuthor};
@@ -206,10 +236,14 @@ class ReadRecordDetails extends Table {
   TextColumn get bookName => text()(); // 主键2
   TextColumn get bookAuthor => text().withDefault(const Constant(''))(); // 主键3
   TextColumn get date => text()(); // 主键4
-  IntColumn get readTime => integer().withDefault(const Constant(0))(); // 当天阅读时长
-  IntColumn get readWords => integer().withDefault(const Constant(0))(); // 当天阅读字数
-  IntColumn get firstReadTime => integer().withDefault(const Constant(0))(); // 首次阅读时间
-  IntColumn get lastReadTime => integer().withDefault(const Constant(0))(); // 末次阅读时间
+  IntColumn get readTime =>
+      integer().withDefault(const Constant(0))(); // 当天阅读时长
+  IntColumn get readWords =>
+      integer().withDefault(const Constant(0))(); // 当天阅读字数
+  IntColumn get firstReadTime =>
+      integer().withDefault(const Constant(0))(); // 首次阅读时间
+  IntColumn get lastReadTime =>
+      integer().withDefault(const Constant(0))(); // 末次阅读时间
 
   @override
   Set<Column> get primaryKey => {deviceId, bookName, bookAuthor, date};
@@ -232,11 +266,14 @@ class ReadRecordSessions extends Table {
 /// 对应原：TxtTocRule.kt
 /// 主键：id
 class TxtTocRules extends Table {
-  IntColumn get id => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 主键
+  IntColumn get id => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 主键
   TextColumn get name => text()(); // 规则名
   TextColumn get rule => text()(); // 规则表达式
   TextColumn? get example => text().nullable()(); // 示例
-  IntColumn get serialNumber => integer().withDefault(const Constant(-1))(); // 排序
+  IntColumn get serialNumber =>
+      integer().withDefault(const Constant(-1))(); // 排序
   BoolColumn get enable => boolean().withDefault(const Constant(true))(); // 启用
 
   @override
@@ -267,8 +304,10 @@ class RssSources extends Table {
   TextColumn? get loginCheckJs => text().nullable()(); // 登录检测JS
   TextColumn? get coverDecodeJs => text().nullable()(); // 封面解密JS
   TextColumn? get sortUrl => text().nullable()(); // 分类URL
-  BoolColumn get singleUrl => boolean().withDefault(const Constant(false))(); // 单URL源
-  IntColumn get articleStyle => integer().withDefault(const Constant(0))(); // 列表样式
+  BoolColumn get singleUrl =>
+      boolean().withDefault(const Constant(false))(); // 单URL源
+  IntColumn get articleStyle =>
+      integer().withDefault(const Constant(0))(); // 列表样式
   TextColumn? get ruleArticles => text().nullable()(); // 列表规则
   TextColumn? get ruleNextPage => text().nullable()(); // 下一页规则
   TextColumn? get ruleTitle => text().nullable()(); // 标题规则
@@ -281,21 +320,28 @@ class RssSources extends Table {
   TextColumn? get contentBlacklist => text().nullable()(); // 正文黑名单
   TextColumn? get shouldOverrideUrlLoading => text().nullable()(); // 跳转拦截
   TextColumn? get style => text().nullable()(); // WebView样式
-  BoolColumn get enableJs => boolean().withDefault(const Constant(true))(); // 启用JS
-  BoolColumn get loadWithBaseUrl => boolean().withDefault(const Constant(true))(); // 使用BaseURL
+  BoolColumn get enableJs =>
+      boolean().withDefault(const Constant(true))(); // 启用JS
+  BoolColumn get loadWithBaseUrl =>
+      boolean().withDefault(const Constant(true))(); // 使用BaseURL
   TextColumn? get injectJs => text().nullable()(); // 注入JS
   TextColumn? get preloadJs => text().nullable()(); // 预注入JS
   TextColumn? get startHtml => text().nullable()(); // 起始页HTML
   TextColumn? get startStyle => text().nullable()(); // 起始样式
   TextColumn? get startJs => text().nullable()(); // 起始JS
-  BoolColumn get showWebLog => boolean().withDefault(const Constant(false))(); // 显示日志
-  IntColumn get lastUpdateTime => integer().withDefault(const Constant(0))(); // 更新时间
+  BoolColumn get showWebLog =>
+      boolean().withDefault(const Constant(false))(); // 显示日志
+  IntColumn get lastUpdateTime =>
+      integer().withDefault(const Constant(0))(); // 更新时间
   IntColumn get customOrder => integer().withDefault(const Constant(0))(); // 排序
   IntColumn get type => integer().withDefault(const Constant(0))(); // 类型
-  BoolColumn get preload => boolean().withDefault(const Constant(false))(); // 预加载
-  BoolColumn get cacheFirst => boolean().withDefault(const Constant(false))(); // 优先缓存
+  BoolColumn get preload =>
+      boolean().withDefault(const Constant(false))(); // 预加载
+  BoolColumn get cacheFirst =>
+      boolean().withDefault(const Constant(false))(); // 优先缓存
   TextColumn? get searchUrl => text().nullable()(); // 搜索URL
-  TextColumn get redirectPolicy => text().withDefault(const Constant('ASK_CROSS_ORIGIN'))(); // 重定向策略
+  TextColumn get redirectPolicy =>
+      text().withDefault(const Constant('ASK_CROSS_ORIGIN'))(); // 重定向策略
 
   @override
   Set<Column> get primaryKey => {sourceUrl};
@@ -379,12 +425,16 @@ class ReplaceRules extends Table {
   TextColumn get pattern => text().withDefault(const Constant(''))(); // 匹配模式
   TextColumn get replacement => text().withDefault(const Constant(''))(); // 替换为
   TextColumn? get scope => text().nullable()(); // 作用范围
-  BoolColumn get scopeTitle => boolean().withDefault(const Constant(false))(); // 作用于标题
-  BoolColumn get scopeContent => boolean().withDefault(const Constant(true))(); // 作用于正文
+  BoolColumn get scopeTitle =>
+      boolean().withDefault(const Constant(false))(); // 作用于标题
+  BoolColumn get scopeContent =>
+      boolean().withDefault(const Constant(true))(); // 作用于正文
   TextColumn? get excludeScope => text().nullable()(); // 排除范围
-  BoolColumn get isEnabled => boolean().withDefault(const Constant(true))(); // 启用
+  BoolColumn get isEnabled =>
+      boolean().withDefault(const Constant(true))(); // 启用
   BoolColumn get isRegex => boolean().withDefault(const Constant(true))(); // 正则
-  IntColumn get timeoutMillisecond => integer().withDefault(const Constant(3000))(); // 超时
+  IntColumn get timeoutMillisecond =>
+      integer().withDefault(const Constant(3000))(); // 超时
   IntColumn get order => integer().withDefault(const Constant(0))(); // 排序
 }
 
@@ -392,23 +442,30 @@ class ReplaceRules extends Table {
 /// 对应原：HighlightRule.kt
 /// 主键：id
 class HighlightRules extends Table {
-  TextColumn get id => text().clientDefault(() => _generateUuid())(); // 主键（UUID）
+  TextColumn get id =>
+      text().clientDefault(() => _generateUuid())(); // 主键（UUID）
   TextColumn get name => text()(); // 规则名
   TextColumn get pattern => text()(); // 正则
   TextColumn get sampleText => text()(); // 示例文本
-  IntColumn get targetScope => integer().withDefault(const Constant(0))(); // 作用域
+  IntColumn get targetScope =>
+      integer().withDefault(const Constant(0))(); // 作用域
   BoolColumn get enabled => boolean().withDefault(const Constant(true))(); // 启用
   IntColumn get position => integer().withDefault(const Constant(0))(); // 排序
   IntColumn? get textColor => integer().nullable()(); // 文字颜色
   IntColumn? get bgColor => integer().nullable()(); // 背景颜色
-  IntColumn get underlineMode => integer().withDefault(const Constant(0))(); // 下划线模式
+  IntColumn get underlineMode =>
+      integer().withDefault(const Constant(0))(); // 下划线模式
   IntColumn? get underlineColor => integer().nullable()(); // 下划线颜色
-  RealColumn get underlineWidth => real().withDefault(const Constant(1.0))(); // 下划线宽度
-  RealColumn get underlineOffset => real().withDefault(const Constant(2.0))(); // 下划线偏移
+  RealColumn get underlineWidth =>
+      real().withDefault(const Constant(1.0))(); // 下划线宽度
+  RealColumn get underlineOffset =>
+      real().withDefault(const Constant(2.0))(); // 下划线偏移
   TextColumn? get underlineSvgPath => text().nullable()(); // SVG路径
   TextColumn? get bgImage => text().nullable()(); // 背景图
-  IntColumn get bgImageFit => integer().withDefault(const Constant(0))(); // 背景图适配
-  RealColumn get bgImageScale => real().withDefault(const Constant(1.0))(); // 背景图缩放
+  IntColumn get bgImageFit =>
+      integer().withDefault(const Constant(0))(); // 背景图适配
+  RealColumn get bgImageScale =>
+      real().withDefault(const Constant(1.0))(); // 背景图缩放
   TextColumn? get configName => text().nullable()(); // 配置名
   TextColumn? get fontPath => text().nullable()(); // 字体路径
 
@@ -451,10 +508,12 @@ class BookGroups extends Table {
   TextColumn get groupName => text()(); // 分组名
   TextColumn? get cover => text().nullable()(); // 封面
   IntColumn get order => integer().withDefault(const Constant(0))(); // 排序
-  BoolColumn get enableRefresh => boolean().withDefault(const Constant(true))(); // 刷新
+  BoolColumn get enableRefresh =>
+      boolean().withDefault(const Constant(true))(); // 刷新
   BoolColumn get show => boolean().withDefault(const Constant(true))(); // 显示
   IntColumn get bookSort => integer().withDefault(const Constant(-1))(); // 排序方式
-  BoolColumn get isPrivate => boolean().withDefault(const Constant(false))(); // 私密
+  BoolColumn get isPrivate =>
+      boolean().withDefault(const Constant(false))(); // 私密
 
   @override
   Set<Column> get primaryKey => {groupId};
@@ -471,21 +530,32 @@ class BookContentProcesses extends Table {
   TextColumn get id => text()(); // 主键
   TextColumn get bookUrl => text()(); // 书籍URL
   IntColumn? get chapterIndex => integer().nullable()(); // 章节索引
-  TextColumn get kind => text()(); // 处理类型：ai_clean/ai_rewrite/user_underline/user_highlight
-  TextColumn get stage => text().withDefault(const Constant('content'))(); // 阶段：content/style
-  TextColumn get target => text().withDefault(const Constant('selection'))(); // 目标：selection/paragraph/chapter
+  TextColumn get kind =>
+      text()(); // 处理类型：ai_clean/ai_rewrite/user_underline/user_highlight
+  TextColumn get stage =>
+      text().withDefault(const Constant('content'))(); // 阶段：content/style
+  TextColumn get target => text().withDefault(
+    const Constant('selection'),
+  )(); // 目标：selection/paragraph/chapter
   TextColumn get anchorJson => text()(); // 锚点JSON
   TextColumn get actionJson => text()(); // 动作JSON
   TextColumn? get styleJson => text().nullable()(); // 样式JSON
-  TextColumn get source => text().withDefault(const Constant('user'))(); // 来源：user/ai
+  TextColumn get source =>
+      text().withDefault(const Constant('user'))(); // 来源：user/ai
   TextColumn? get aiArtifactId => text().nullable()(); // AI工件ID
   TextColumn? get sourceContentHash => text().nullable()(); // 源内容哈希
   BoolColumn get enabled => boolean().withDefault(const Constant(true))(); // 启用
   IntColumn get sortOrder => integer().withDefault(const Constant(0))(); // 排序
-  IntColumn get status => integer().withDefault(const Constant(1))(); // 状态：0草稿/1激活/2禁用/3删除
-  IntColumn get schemaVersion => integer().withDefault(const Constant(1))(); // 版本
-  IntColumn get createdAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 创建时间
-  IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 更新时间
+  IntColumn get status =>
+      integer().withDefault(const Constant(1))(); // 状态：0草稿/1激活/2禁用/3删除
+  IntColumn get schemaVersion =>
+      integer().withDefault(const Constant(1))(); // 版本
+  IntColumn get createdAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 创建时间
+  IntColumn get updatedAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {id};
@@ -513,13 +583,19 @@ class DictRules extends Table {
 /// 对应原：RuleSub.kt
 /// 主键：id
 class RuleSubs extends Table {
-  IntColumn get id => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 主键
+  IntColumn get id => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 主键
   TextColumn get name => text()(); // 名称
   TextColumn get url => text()(); // URL
-  IntColumn get type => integer().withDefault(const Constant(0))(); // 类型：0书源/1订阅源/2替换规则/3自动
+  IntColumn get type =>
+      integer().withDefault(const Constant(0))(); // 类型：0书源/1订阅源/2替换规则/3自动
   IntColumn get customOrder => integer().withDefault(const Constant(0))(); // 排序
-  BoolColumn get autoUpdate => boolean().withDefault(const Constant(false))(); // 自动更新
-  IntColumn get update => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 更新时间
+  BoolColumn get autoUpdate =>
+      boolean().withDefault(const Constant(false))(); // 自动更新
+  IntColumn get update => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {id};
@@ -542,7 +618,9 @@ class KeyboardAssists extends Table {
 /// 对应原：Server.kt
 /// 主键：id
 class Servers extends Table {
-  IntColumn get id => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 主键
+  IntColumn get id => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 主键
   TextColumn get name => text()(); // 名称
   TextColumn get type => text().withDefault(const Constant('WEBDAV'))(); // 类型
   TextColumn? get config => text().nullable()(); // 配置JSON
@@ -559,7 +637,9 @@ class Servers extends Table {
 /// 对应原：HttpTTS.kt（实现 BaseSource 接口）
 /// 主键：id
 class HttpTTSList extends Table {
-  IntColumn get id => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 主键
+  IntColumn get id => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 主键
   TextColumn get name => text()(); // 名称
   TextColumn get url => text()(); // URL
   TextColumn? get contentType => text().nullable()(); // 内容类型
@@ -570,7 +650,8 @@ class HttpTTSList extends Table {
   TextColumn? get jsLib => text().nullable()(); // JS库
   BoolColumn? get enabledCookieJar => boolean().nullable()(); // CookieJar
   TextColumn? get loginCheckJs => text().nullable()(); // 登录检测JS
-  IntColumn get lastUpdateTime => integer().withDefault(const Constant(0))(); // 更新时间
+  IntColumn get lastUpdateTime =>
+      integer().withDefault(const Constant(0))(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {id};
@@ -582,7 +663,9 @@ class HttpTTSList extends Table {
 class SearchKeywords extends Table {
   TextColumn get word => text()(); // 主键
   IntColumn get usage => integer().withDefault(const Constant(1))(); // 使用次数
-  IntColumn get lastUseTime => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 最后使用时间
+  IntColumn get lastUseTime => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 最后使用时间
 
   @override
   Set<Column> get primaryKey => {word};
@@ -596,7 +679,9 @@ class SearchContentHistory extends Table {
   TextColumn get bookName => text().withDefault(const Constant(''))(); // 书名
   TextColumn get bookAuthor => text().withDefault(const Constant(''))(); // 作者
   TextColumn get query => text()(); // 搜索词
-  IntColumn get time => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 时间
+  IntColumn get time => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 时间
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -615,10 +700,12 @@ class HomepageModules extends Table {
   TextColumn? get args => text().nullable()(); // 参数
   TextColumn? get layoutConfig => text().nullable()(); // 布局配置
   TextColumn? get url => text().nullable()(); // URL
-  BoolColumn get isEnabled => boolean().withDefault(const Constant(true))(); // 启用
+  BoolColumn get isEnabled =>
+      boolean().withDefault(const Constant(true))(); // 启用
   IntColumn get sortOrder => integer().withDefault(const Constant(0))(); // 排序
   TextColumn? get customSetId => text().nullable()(); // 自定义集ID
-  BoolColumn get isUserCreated => boolean().withDefault(const Constant(false))(); // 用户创建
+  BoolColumn get isUserCreated =>
+      boolean().withDefault(const Constant(false))(); // 用户创建
   TextColumn? get customTitle => text().nullable()(); // 自定义标题
   TextColumn? get customSetTitle => text().nullable()(); // 自定义集标题
   TextColumn? get sourceJsonHash => text().nullable()(); // 源JSON哈希
@@ -648,7 +735,9 @@ class HomepageCustomSets extends Table {
 /// 对应原：HighlightTagRule.kt
 /// 主键：id
 class HighlightTagRules extends Table {
-  IntColumn get id => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 主键
+  IntColumn get id => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 主键
   TextColumn get title => text()(); // 标题
   TextColumn get pattern => text()(); // 正则
   BoolColumn get enabled => boolean().withDefault(const Constant(true))(); // 启用
@@ -662,7 +751,9 @@ class HighlightTagRules extends Table {
 /// 对应原：TagGroupRule.kt
 /// 主键：id
 class TagGroupRules extends Table {
-  IntColumn get id => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 主键
+  IntColumn get id => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 主键
   TextColumn get pattern => text()(); // 正则
   TextColumn get groupName => text()(); // 分组名
   IntColumn get order => integer().withDefault(const Constant(0))(); // 排序
@@ -685,7 +776,8 @@ class AiProviderProfiles extends Table {
   TextColumn get baseUrl => text()(); // 基础URL
   TextColumn? get modelsUrl => text().nullable()(); // 模型列表URL
   TextColumn get apiKey => text().withDefault(const Constant(''))(); // API密钥
-  TextColumn get authType => text().withDefault(const Constant('bearer'))(); // 认证类型
+  TextColumn get authType =>
+      text().withDefault(const Constant('bearer'))(); // 认证类型
   TextColumn? get secretRef => text().nullable()(); // 密钥引用
   TextColumn? get headersJson => text().nullable()(); // 请求头JSON
   TextColumn? get chatPath => text().nullable()(); // 聊天路径
@@ -694,8 +786,12 @@ class AiProviderProfiles extends Table {
   TextColumn? get modelsPath => text().nullable()(); // 模型路径
   TextColumn? get customHeadersJson => text().nullable()(); // 自定义请求头JSON
   BoolColumn get enabled => boolean().withDefault(const Constant(true))(); // 启用
-  IntColumn get createdAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 创建时间
-  IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 更新时间
+  IntColumn get createdAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 创建时间
+  IntColumn get updatedAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {id};
@@ -709,14 +805,20 @@ class AiModelProfiles extends Table {
   TextColumn get providerId => text()(); // 提供方ID
   TextColumn get displayName => text()(); // 显示名称
   TextColumn get modelId => text()(); // 模型ID
-  IntColumn get contextWindow => integer().withDefault(const Constant(0))(); // 上下文窗口
-  IntColumn get maxOutputTokens => integer().withDefault(const Constant(0))(); // 最大输出Token
+  IntColumn get contextWindow =>
+      integer().withDefault(const Constant(0))(); // 上下文窗口
+  IntColumn get maxOutputTokens =>
+      integer().withDefault(const Constant(0))(); // 最大输出Token
   TextColumn get capabilities => text().withDefault(const Constant(''))(); // 能力
   TextColumn? get defaultParamsJson => text().nullable()(); // 默认参数JSON
   BoolColumn get enabled => boolean().withDefault(const Constant(true))(); // 启用
   IntColumn get sortNumber => integer().withDefault(const Constant(0))(); // 排序
-  IntColumn get createdAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 创建时间
-  IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 更新时间
+  IntColumn get createdAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 创建时间
+  IntColumn get updatedAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {id};
@@ -734,10 +836,15 @@ class AiTaskPresets extends Table {
   TextColumn? get paramsJson => text().nullable()(); // 参数JSON
   TextColumn? get chunkPolicyJson => text().nullable()(); // 分块策略JSON
   BoolColumn get enabled => boolean().withDefault(const Constant(true))(); // 启用
-  BoolColumn get isDefault => boolean().withDefault(const Constant(false))(); // 默认
+  BoolColumn get isDefault =>
+      boolean().withDefault(const Constant(false))(); // 默认
   IntColumn get sortNumber => integer().withDefault(const Constant(0))(); // 排序
-  IntColumn get createdAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 创建时间
-  IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 更新时间
+  IntColumn get createdAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 创建时间
+  IntColumn get updatedAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {id};
@@ -754,12 +861,18 @@ class AiArtifacts extends Table {
   TextColumn get contentHash => text()(); // 内容哈希
   TextColumn get promptHash => text()(); // 提示词哈希
   TextColumn get modelProfileId => text()(); // 模型ID
-  IntColumn get status => integer().withDefault(const Constant(0))(); // 状态：0待处理/1处理中/2成功/3失败
+  IntColumn get status =>
+      integer().withDefault(const Constant(0))(); // 状态：0待处理/1处理中/2成功/3失败
   TextColumn? get output => text().nullable()(); // 输出
   TextColumn? get errorMessage => text().nullable()(); // 错误信息
-  IntColumn get schemaVersion => integer().withDefault(const Constant(1))(); // 版本
-  IntColumn get createdAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 创建时间
-  IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 更新时间
+  IntColumn get schemaVersion =>
+      integer().withDefault(const Constant(1))(); // 版本
+  IntColumn get createdAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 创建时间
+  IntColumn get updatedAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {id};
@@ -771,10 +884,15 @@ class AiArtifacts extends Table {
 class AiChatConversations extends Table {
   TextColumn get id => text()(); // 主键
   TextColumn get title => text()(); // 标题
-  TextColumn get reasoningLevel => text().withDefault(const Constant('auto'))(); // 推理级别
+  TextColumn get reasoningLevel =>
+      text().withDefault(const Constant('auto'))(); // 推理级别
   TextColumn? get modelProfileId => text().nullable()(); // 模型ID
-  IntColumn get createdAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 创建时间
-  IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 更新时间
+  IntColumn get createdAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 创建时间
+  IntColumn get updatedAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {id};
@@ -788,11 +906,16 @@ class AiChatMessages extends Table {
   TextColumn get conversationId => text()(); // 会话ID
   TextColumn get role => text()(); // 角色
   TextColumn get partsJson => text()(); // 内容JSON
-  IntColumn get createdAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 创建时间
-  IntColumn get branchIndex => integer().withDefault(const Constant(0))(); // 分支索引
-  BoolColumn get isSelected => boolean().withDefault(const Constant(true))(); // 选中
+  IntColumn get createdAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 创建时间
+  IntColumn get branchIndex =>
+      integer().withDefault(const Constant(0))(); // 分支索引
+  BoolColumn get isSelected =>
+      boolean().withDefault(const Constant(true))(); // 选中
   TextColumn? get parentMessageId => text().nullable()(); // 父消息ID
-  IntColumn get thinkingDuration => integer().withDefault(const Constant(0))(); // 思考时长
+  IntColumn get thinkingDuration =>
+      integer().withDefault(const Constant(0))(); // 思考时长
 
   @override
   Set<Column> get primaryKey => {id};
@@ -805,7 +928,9 @@ class AiMemories extends Table {
   TextColumn get conversationId => text()(); // 主键1
   TextColumn get key => text()(); // 主键2
   TextColumn get value => text()(); // 值
-  IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 更新时间
+  IntColumn get updatedAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {conversationId, key};
@@ -820,10 +945,15 @@ class AiPromptPresets extends Table {
   TextColumn get name => text()(); // 名称
   TextColumn get instruction => text()(); // 指令
   BoolColumn get enabled => boolean().withDefault(const Constant(true))(); // 启用
-  BoolColumn get builtIn => boolean().withDefault(const Constant(false))(); // 内置
+  BoolColumn get builtIn =>
+      boolean().withDefault(const Constant(false))(); // 内置
   IntColumn get sortNumber => integer().withDefault(const Constant(0))(); // 排序
-  IntColumn get createdAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 创建时间
-  IntColumn get updatedAt => integer().clientDefault(() => DateTime.now().millisecondsSinceEpoch)(); // 更新时间
+  IntColumn get createdAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 创建时间
+  IntColumn get updatedAt => integer().clientDefault(
+    () => DateTime.now().millisecondsSinceEpoch,
+  )(); // 更新时间
 
   @override
   Set<Column> get primaryKey => {id};

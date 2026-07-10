@@ -47,8 +47,8 @@ class PdfReaderProvider extends StateNotifier<PdfReaderState> {
   final String _filePath;
 
   PdfReaderProvider(this._filePath)
-      : _parser = PdfParser(),
-        super(const PdfReaderState()) {
+    : _parser = PdfParser(),
+      super(const PdfReaderState()) {
     _init();
   }
 
@@ -56,10 +56,7 @@ class PdfReaderProvider extends StateNotifier<PdfReaderState> {
     state = state.copyWith(isLoading: true);
     try {
       await _parser.openFile(_filePath);
-      state = state.copyWith(
-        pageCount: _parser.pageCount,
-        isLoading: false,
-      );
+      state = state.copyWith(pageCount: _parser.pageCount, isLoading: false);
     } catch (e) {
       state = state.copyWith(isLoading: false, error: '加载PDF失败: $e');
     }
@@ -98,5 +95,5 @@ class PdfReaderProvider extends StateNotifier<PdfReaderState> {
 
 final pdfReaderProvider =
     StateNotifierProvider.family<PdfReaderProvider, PdfReaderState, String>(
-  (ref, filePath) => PdfReaderProvider(filePath),
-);
+      (ref, filePath) => PdfReaderProvider(filePath),
+    );

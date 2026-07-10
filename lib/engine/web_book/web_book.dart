@@ -26,7 +26,8 @@ class WebBook {
     if (searchUrl == null ||
         searchUrl.isEmpty ||
         ruleSearchStr == null ||
-        ruleSearchStr.isEmpty) return [];
+        ruleSearchStr.isEmpty)
+      return [];
 
     try {
       // 构建搜索 URL
@@ -37,16 +38,15 @@ class WebBook {
       });
 
       // 发送请求
-      final html = await _urlBuilder.fetchAsString(
-        url,
-        headers: source.header,
-      );
+      final html = await _urlBuilder.fetchAsString(url, headers: source.header);
       if (html.isEmpty) return [];
 
       // 解析搜索结果列表规则
       _rule.setRawData(html);
       final ruleSearch = _parseRuleSearch(ruleSearchStr);
-      final bookListItems = _rule.getStrings(ruleSearch.bookList ?? ruleSearchStr);
+      final bookListItems = _rule.getStrings(
+        ruleSearch.bookList ?? ruleSearchStr,
+      );
 
       final books = <SearchBook>[];
       for (final item in bookListItems) {
@@ -81,12 +81,14 @@ class WebBook {
         tocUrl: searchResult.tocUrl,
         origin: source.bookSourceUrl,
         originName: source.bookSourceName,
-        name: _takeNonEmpty(
+        name:
+            _takeNonEmpty(
               _rule.getString(rule.name ?? ''),
               searchResult.name,
             ) ??
             searchResult.name,
-        author: _takeNonEmpty(
+        author:
+            _takeNonEmpty(
               _rule.getString(rule.author ?? ''),
               searchResult.author,
             ) ??
@@ -140,16 +142,18 @@ class WebBook {
         if (url == null || url.isEmpty) continue;
 
         final resolvedUrl = _urlBuilder.resolveUrl(tocUrl, url);
-        chapters.add(BookChapter(
-          url: resolvedUrl,
-          title: title,
-          baseUrl: tocUrl,
-          bookUrl: book.bookUrl,
-          index: i,
-          isVolume: false,
-          isVip: false,
-          isPay: false,
-        ));
+        chapters.add(
+          BookChapter(
+            url: resolvedUrl,
+            title: title,
+            baseUrl: tocUrl,
+            bookUrl: book.bookUrl,
+            index: i,
+            isVolume: false,
+            isVip: false,
+            isPay: false,
+          ),
+        );
       }
       return chapters;
     } catch (e) {
@@ -185,7 +189,8 @@ class WebBook {
     if (exploreUrl == null ||
         exploreUrl.isEmpty ||
         ruleExploreStr == null ||
-        ruleExploreStr.isEmpty) return [];
+        ruleExploreStr.isEmpty)
+      return [];
 
     try {
       final targetUrl = url ?? exploreUrl;
@@ -236,16 +241,14 @@ class WebBook {
       originName: source.bookSourceName,
       name: name,
       author: author ?? '',
-      coverUrl:
-          coverUrl != null ? _urlBuilder.resolveUrl(source.bookSourceUrl, coverUrl) : null,
+      coverUrl: coverUrl != null
+          ? _urlBuilder.resolveUrl(source.bookSourceUrl, coverUrl)
+          : null,
       intro: intro,
       kind: kind,
       wordCount: wordCount,
       latestChapterTitle: latestChapterTitle,
-      tocUrl: _urlBuilder.resolveUrl(
-        source.bookSourceUrl,
-        tocUrl ?? bookUrl,
-      ),
+      tocUrl: _urlBuilder.resolveUrl(source.bookSourceUrl, tocUrl ?? bookUrl),
     );
   }
 

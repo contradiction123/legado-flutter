@@ -118,10 +118,7 @@ class SearchProvider extends StateNotifier<SearchState> {
       final sources = await sourceDao.getEnabled();
 
       if (sources.isEmpty) {
-        state = state.copyWith(
-          isLoading: false,
-          error: '没有可用的书源，请先导入或启用书源',
-        );
+        state = state.copyWith(isLoading: false, error: '没有可用的书源，请先导入或启用书源');
         return;
       }
 
@@ -133,10 +130,12 @@ class SearchProvider extends StateNotifier<SearchState> {
       // 分批并发搜索，每批最多 5 个
       final futures = <Future<void>>[];
       for (final source in sources) {
-        futures.add(_searchSingleSource(source, trimmed, allResults, () {
-          completed++;
-          state = state.copyWith(completedSources: completed);
-        }));
+        futures.add(
+          _searchSingleSource(source, trimmed, allResults, () {
+            completed++;
+            state = state.copyWith(completedSources: completed);
+          }),
+        );
       }
 
       await Future.wait(futures);
@@ -158,10 +157,7 @@ class SearchProvider extends StateNotifier<SearchState> {
         history: newHistory.take(20).toList(),
       );
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: '搜索失败: $e',
-      );
+      state = state.copyWith(isLoading: false, error: '搜索失败: $e');
     }
   }
 
@@ -197,7 +193,8 @@ class SearchProvider extends StateNotifier<SearchState> {
 }
 
 /// 搜索状态提供者
-final searchProvider =
-    StateNotifierProvider<SearchProvider, SearchState>((ref) {
+final searchProvider = StateNotifierProvider<SearchProvider, SearchState>((
+  ref,
+) {
   return SearchProvider();
 });

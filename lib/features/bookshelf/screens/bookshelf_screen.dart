@@ -53,8 +53,8 @@ class BookshelfScreen extends ConsumerWidget {
                     child: filteredBooks.isEmpty
                         ? _buildEmptyState(context)
                         : state.isGridView
-                            ? _buildGridView(context, state, provider)
-                            : _buildListView(context, state, provider),
+                        ? _buildGridView(context, state, provider)
+                        : _buildListView(context, state, provider),
                   ),
           ),
         ],
@@ -63,14 +63,21 @@ class BookshelfScreen extends ConsumerWidget {
       bottomNavigationBar: state.isEditMode
           ? SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     Expanded(
                       child: FilledButton.tonalIcon(
                         onPressed: state.selectedBooks.isEmpty
                             ? null
-                            : () => _showMoveGroupBottomSheet(context, state, provider),
+                            : () => _showMoveGroupBottomSheet(
+                                context,
+                                state,
+                                provider,
+                              ),
                         icon: const Icon(Icons.drive_file_move_outline),
                         label: const Text('移动分组'),
                       ),
@@ -212,13 +219,15 @@ class BookshelfScreen extends ConsumerWidget {
               ),
             ),
             const Divider(height: 1),
-            ...state.groups.map((group) => ListTile(
-                  title: Text(group.groupName),
-                  onTap: () {
-                    Navigator.pop(context);
-                    provider.moveSelectedToGroup(group.groupId);
-                  },
-                )),
+            ...state.groups.map(
+              (group) => ListTile(
+                title: Text(group.groupName),
+                onTap: () {
+                  Navigator.pop(context);
+                  provider.moveSelectedToGroup(group.groupId);
+                },
+              ),
+            ),
           ],
         ),
       ),

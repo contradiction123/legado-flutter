@@ -33,13 +33,10 @@ class _CoverPageViewState extends State<CoverPageView>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _slideAnim = Tween<Offset>(
-      begin: const Offset(1.0, 0.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animController,
-      curve: Curves.easeOutCubic,
-    ));
+    _slideAnim = Tween<Offset>(begin: const Offset(1.0, 0.0), end: Offset.zero)
+        .animate(
+          CurvedAnimation(parent: _animController, curve: Curves.easeOutCubic),
+        );
     _animController.addListener(() {
       if (_animController.isCompleted) {
         _isTransitioning = false;
@@ -71,8 +68,7 @@ class _CoverPageViewState extends State<CoverPageView>
           if (details.primaryVelocity! < 0 &&
               widget.currentIndex < widget.children.length - 1) {
             _goToNext(widget.currentIndex + 1);
-          } else if (details.primaryVelocity! > 0 &&
-              widget.currentIndex > 0) {
+          } else if (details.primaryVelocity! > 0 && widget.currentIndex > 0) {
             widget.onPageChanged(widget.currentIndex - 1);
           }
         }

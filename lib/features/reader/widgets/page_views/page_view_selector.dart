@@ -97,7 +97,9 @@ class _PageViewSelectorState extends State<PageViewSelector> {
           onPageChanged: widget.onPageChanged,
           child: widget.children.isNotEmpty
               ? widget.children[widget.currentIndex.clamp(
-                  0, widget.children.length - 1)]
+                  0,
+                  widget.children.length - 1,
+                )]
               : const SizedBox.shrink(),
         );
     }

@@ -10,7 +10,7 @@ part 'search_rule.g.dart';
 /// 对应原：SearchRule.kt（实现 BookListRule 接口）
 /// 所有字段均为 nullable 的 String，默认值 null
 @freezed
-class SearchRule with _$SearchRule {
+abstract class SearchRule with _$SearchRule {
   const factory SearchRule({
     // BookListRule 接口字段
     @JsonKey(name: 'bookList') String? bookList,

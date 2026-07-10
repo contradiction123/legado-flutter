@@ -130,10 +130,10 @@ class _MangaReaderScreenState extends ConsumerState<MangaReaderScreen> {
       controller: _pageController,
       itemCount: groupedPages.length,
       onPageChanged: (page) {
-        final actualPage = isRtl
-            ? pages.length - 1 - page * 2
-            : page * 2;
-        ref.read(mangaReaderProvider.notifier).goToPage(actualPage.clamp(0, pages.length - 1));
+        final actualPage = isRtl ? pages.length - 1 - page * 2 : page * 2;
+        ref
+            .read(mangaReaderProvider.notifier)
+            .goToPage(actualPage.clamp(0, pages.length - 1));
       },
       itemBuilder: (context, index) {
         final group = groupedPages[index];
@@ -171,12 +171,19 @@ class _MangaReaderScreenState extends ConsumerState<MangaReaderScreen> {
                 if (progress == null) return child;
                 return const SizedBox(
                   height: 300,
-                  child: Center(child: CircularProgressIndicator(color: Colors.white38)),
+                  child: Center(
+                    child: CircularProgressIndicator(color: Colors.white38),
+                  ),
                 );
               },
               errorBuilder: (_, __, ___) => const SizedBox(
                 height: 200,
-                child: Center(child: Icon(Icons.broken_image_outlined, color: Colors.white24)),
+                child: Center(
+                  child: Icon(
+                    Icons.broken_image_outlined,
+                    color: Colors.white24,
+                  ),
+                ),
               ),
             ),
           ),
@@ -261,7 +268,10 @@ class _MangaReaderScreenState extends ConsumerState<MangaReaderScreen> {
             centerTitle: true,
             actions: [
               IconButton(
-                icon: const Icon(Icons.list_alt_outlined, color: Colors.white70),
+                icon: const Icon(
+                  Icons.list_alt_outlined,
+                  color: Colors.white70,
+                ),
                 tooltip: '章节',
                 onPressed: () => _showChapterList(state),
               ),
@@ -273,15 +283,19 @@ class _MangaReaderScreenState extends ConsumerState<MangaReaderScreen> {
                   color: Colors.white70,
                 ),
                 tooltip: '切换模式',
-                onPressed: () => ref.read(mangaReaderProvider.notifier).toggleGallery(),
+                onPressed: () =>
+                    ref.read(mangaReaderProvider.notifier).toggleGallery(),
               ),
               IconButton(
                 icon: Icon(
-                  state.config.fitToScreen ? Icons.fit_screen : Icons.photo_size_select_actual,
+                  state.config.fitToScreen
+                      ? Icons.fit_screen
+                      : Icons.photo_size_select_actual,
                   color: Colors.white70,
                 ),
                 tooltip: '适应屏幕',
-                onPressed: () => ref.read(mangaReaderProvider.notifier).toggleFitToScreen(),
+                onPressed: () =>
+                    ref.read(mangaReaderProvider.notifier).toggleFitToScreen(),
               ),
             ],
           ),
@@ -312,7 +326,10 @@ class _MangaReaderScreenState extends ConsumerState<MangaReaderScreen> {
               Slider(
                 value: state.currentPageIndex.toDouble(),
                 min: 0,
-                max: (state.currentChapter?.pages.length ?? 1).toDouble().clamp(1, double.infinity),
+                max: (state.currentChapter?.pages.length ?? 1).toDouble().clamp(
+                  1,
+                  double.infinity,
+                ),
                 activeColor: theme.colorScheme.primary,
                 inactiveColor: Colors.white24,
                 onChanged: (v) {
@@ -324,32 +341,56 @@ class _MangaReaderScreenState extends ConsumerState<MangaReaderScreen> {
                 children: [
                   TextButton.icon(
                     onPressed: state.hasPrevChapter
-                        ? () => ref.read(mangaReaderProvider.notifier).goToChapter(
-                              state.currentChapterIndex - 1)
+                        ? () => ref
+                              .read(mangaReaderProvider.notifier)
+                              .goToChapter(state.currentChapterIndex - 1)
                         : null,
-                    icon: const Icon(Icons.skip_previous, color: Colors.white54, size: 18),
-                    label: const Text('上一章', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                    icon: const Icon(
+                      Icons.skip_previous,
+                      color: Colors.white54,
+                      size: 18,
+                    ),
+                    label: const Text(
+                      '上一章',
+                      style: TextStyle(color: Colors.white54, fontSize: 12),
+                    ),
                   ),
                   TextButton.icon(
-                    onPressed: () => ref.read(mangaReaderProvider.notifier).toggleDoublePage(),
+                    onPressed: () => ref
+                        .read(mangaReaderProvider.notifier)
+                        .toggleDoublePage(),
                     icon: Icon(
                       state.config.readMode == MangaReadMode.doublePage
                           ? Icons.filter_none
                           : Icons.crop_square,
-                      color: Colors.white54, size: 18,
+                      color: Colors.white54,
+                      size: 18,
                     ),
                     label: Text(
-                      state.config.readMode == MangaReadMode.doublePage ? '单页' : '双页',
-                      style: const TextStyle(color: Colors.white54, fontSize: 12),
+                      state.config.readMode == MangaReadMode.doublePage
+                          ? '单页'
+                          : '双页',
+                      style: const TextStyle(
+                        color: Colors.white54,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                   TextButton.icon(
                     onPressed: state.hasNextChapter
-                        ? () => ref.read(mangaReaderProvider.notifier).goToChapter(
-                              state.currentChapterIndex + 1)
+                        ? () => ref
+                              .read(mangaReaderProvider.notifier)
+                              .goToChapter(state.currentChapterIndex + 1)
                         : null,
-                    icon: const Icon(Icons.skip_next, color: Colors.white54, size: 18),
-                    label: const Text('下一章', style: TextStyle(color: Colors.white54, fontSize: 12)),
+                    icon: const Icon(
+                      Icons.skip_next,
+                      color: Colors.white54,
+                      size: 18,
+                    ),
+                    label: const Text(
+                      '下一章',
+                      style: TextStyle(color: Colors.white54, fontSize: 12),
+                    ),
                   ),
                 ],
               ),
@@ -391,12 +432,17 @@ class _MangaReaderScreenState extends ConsumerState<MangaReaderScreen> {
                       ch.title,
                       style: TextStyle(
                         color: Colors.white70,
-                        fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                        fontWeight: isCurrent
+                            ? FontWeight.bold
+                            : FontWeight.normal,
                       ),
                     ),
                     subtitle: Text(
                       '${ch.pages.length} 页',
-                      style: const TextStyle(color: Colors.white38, fontSize: 11),
+                      style: const TextStyle(
+                        color: Colors.white38,
+                        fontSize: 11,
+                      ),
                     ),
                     onTap: () {
                       Navigator.pop(context);

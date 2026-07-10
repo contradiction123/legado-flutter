@@ -94,8 +94,10 @@ class _SourceGroupDialogState extends ConsumerState<SourceGroupDialog> {
                     )
                   : ListView.separated(
                       itemCount: groups.length,
-                      separatorBuilder: (_, __) =>
-                          Divider(height: 1, color: theme.colorScheme.outlineVariant),
+                      separatorBuilder: (_, __) => Divider(
+                        height: 1,
+                        color: theme.colorScheme.outlineVariant,
+                      ),
                       itemBuilder: (context, index) {
                         final group = groups[index];
                         final count = groupCounts[group] ?? 0;
@@ -111,10 +113,7 @@ class _SourceGroupDialogState extends ConsumerState<SourceGroupDialog> {
                               ),
                             ),
                           ),
-                          title: Text(
-                            group,
-                            style: theme.textTheme.bodyMedium,
-                          ),
+                          title: Text(group, style: theme.textTheme.bodyMedium),
                           subtitle: Text(
                             '$count 个书源',
                             style: theme.textTheme.bodySmall?.copyWith(
@@ -134,7 +133,10 @@ class _SourceGroupDialogState extends ConsumerState<SourceGroupDialog> {
                               // 删除
                               if (group != '未分组')
                                 IconButton(
-                                  icon: const Icon(Icons.delete_outline, size: 20),
+                                  icon: const Icon(
+                                    Icons.delete_outline,
+                                    size: 20,
+                                  ),
                                   tooltip: '删除',
                                   color: theme.colorScheme.error,
                                   onPressed: () =>
@@ -174,9 +176,9 @@ class _SourceGroupDialogState extends ConsumerState<SourceGroupDialog> {
     // 这里清空输入框，让用户知道添加成功
     _newGroupController.clear();
     setState(() => _error = null);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('已创建分组 "$name"，可在编辑书源时使用')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('已创建分组 "$name"，可在编辑书源时使用')));
   }
 
   /// 显示重命名对话框
@@ -214,8 +216,9 @@ class _SourceGroupDialogState extends ConsumerState<SourceGroupDialog> {
                 final allSources = ref.read(sourceProvider);
                 for (final source in allSources.sources) {
                   if (source.bookSourceGroup == oldName) {
-                    final updatedSource =
-                        source.copyWith(bookSourceGroup: newName);
+                    final updatedSource = source.copyWith(
+                      bookSourceGroup: newName,
+                    );
                     await provider.saveSource(updatedSource);
                   }
                 }
@@ -229,9 +232,9 @@ class _SourceGroupDialogState extends ConsumerState<SourceGroupDialog> {
                 }
               } catch (e) {
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('重命名失败: $e')),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('重命名失败: $e')));
                 }
               }
             },
@@ -262,7 +265,9 @@ class _SourceGroupDialogState extends ConsumerState<SourceGroupDialog> {
                 final allSources = ref.read(sourceProvider);
                 for (final source in allSources.sources) {
                   if (source.bookSourceGroup == group) {
-                    final updatedSource = source.copyWith(bookSourceGroup: null);
+                    final updatedSource = source.copyWith(
+                      bookSourceGroup: null,
+                    );
                     await provider.saveSource(updatedSource);
                   }
                 }
@@ -270,15 +275,15 @@ class _SourceGroupDialogState extends ConsumerState<SourceGroupDialog> {
 
                 if (context.mounted) {
                   Navigator.pop(context); // 关闭确认对话框
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('已删除分组 "$group"')),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('已删除分组 "$group"')));
                 }
               } catch (e) {
                 if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('删除失败: $e')),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('删除失败: $e')));
                 }
               }
             },

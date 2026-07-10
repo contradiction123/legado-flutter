@@ -79,15 +79,12 @@ class PageLayoutProvider extends StateNotifier<PageLayoutState> {
   PageLayoutProvider({
     required LayoutConfig config,
     required TextStyle textStyle,
-  })  : _config = config,
-        _textStyle = textStyle,
-        super(const PageLayoutState());
+  }) : _config = config,
+       _textStyle = textStyle,
+       super(const PageLayoutState());
 
   /// 更新排版配置（字号/行高/边距变化时调用）
-  void updateConfig({
-    LayoutConfig? config,
-    TextStyle? textStyle,
-  }) {
+  void updateConfig({LayoutConfig? config, TextStyle? textStyle}) {
     if (config != null) _config = config;
     if (textStyle != null) _textStyle = textStyle;
     // 配置变化，清空缓存并请求重排
@@ -133,10 +130,7 @@ class PageLayoutProvider extends StateNotifier<PageLayoutState> {
         pageIndex: pageIndex,
       );
     } catch (e) {
-      state = state.copyWith(
-        isLayouting: false,
-        error: '排版失败: $e',
-      );
+      state = state.copyWith(isLayouting: false, error: '排版失败: $e');
     }
   }
 
@@ -174,10 +168,7 @@ class PageLayoutProvider extends StateNotifier<PageLayoutState> {
     }
 
     // 创建排版器
-    final builder = TextPageBuilder(
-      config: _config,
-      textStyle: _textStyle,
-    );
+    final builder = TextPageBuilder(config: _config, textStyle: _textStyle);
 
     // 执行排版
     final layout = builder.buildLayout(
@@ -220,13 +211,16 @@ class PageLayoutProvider extends StateNotifier<PageLayoutState> {
 /// 裸调用会返回一个空的 fallback 状态，不会崩溃。
 final pageLayoutProvider =
     StateNotifierProvider<PageLayoutProvider, PageLayoutState>((ref) {
-  // 提供一个安全的 fallback 实例，避免在生产环境下意外创建时崩溃
-  final safeConfig = LayoutConfig(
-    width: 360,
-    height: 640,
-    padding: EdgeInsets.zero,
-    fontSize: 16,
-    lineHeight: 1.5,
-  );
-  return PageLayoutProvider(config: safeConfig, textStyle: const TextStyle());
-});
+      // 提供一个安全的 fallback 实例，避免在生产环境下意外创建时崩溃
+      final safeConfig = LayoutConfig(
+        width: 360,
+        height: 640,
+        padding: EdgeInsets.zero,
+        fontSize: 16,
+        lineHeight: 1.5,
+      );
+      return PageLayoutProvider(
+        config: safeConfig,
+        textStyle: const TextStyle(),
+      );
+    });

@@ -82,7 +82,12 @@ class MangaParser {
 
   /// 支持的图片扩展名
   static const Set<String> imageExtensions = {
-    '.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp',
+    '.jpg',
+    '.jpeg',
+    '.png',
+    '.gif',
+    '.webp',
+    '.bmp',
   };
 
   /// 判断文件名是否为图片

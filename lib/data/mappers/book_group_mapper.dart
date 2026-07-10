@@ -26,7 +26,9 @@ class BookGroupMapper {
     return db.BookGroupsCompanion(
       groupId: drift.Value(model.groupId),
       groupName: drift.Value(model.groupName),
-      cover: model.cover != null ? drift.Value(model.cover!) : const drift.Value.absent(),
+      cover: model.cover != null
+          ? drift.Value(model.cover!)
+          : const drift.Value.absent(),
       order: drift.Value(model.order),
       enableRefresh: drift.Value(model.enableRefresh),
       show: drift.Value(model.show),

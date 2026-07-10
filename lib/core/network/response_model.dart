@@ -28,8 +28,7 @@ class StrResponse {
 }
 
 /// 从 Dio Response 构建 StrResponse
-StrResponse strResponseFromDio(Response<dynamic> response,
-    {int callTime = 0}) {
+StrResponse strResponseFromDio(Response<dynamic> response, {int callTime = 0}) {
   final body = response.data;
   return StrResponse(
     url: response.requestOptions.uri.toString(),

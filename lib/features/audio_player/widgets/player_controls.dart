@@ -58,7 +58,9 @@ class PlayerControls extends ConsumerWidget {
             // 上一首
             IconButton(
               icon: const Icon(Icons.skip_previous_rounded, size: 32),
-              onPressed: state.currentIndex > 0 ? () => notifier.previous() : null,
+              onPressed: state.currentIndex > 0
+                  ? () => notifier.previous()
+                  : null,
             ),
             const SizedBox(width: 16),
 
@@ -70,7 +72,9 @@ class PlayerControls extends ConsumerWidget {
               ),
               child: IconButton(
                 icon: Icon(
-                  state.isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+                  state.isPlaying
+                      ? Icons.pause_rounded
+                      : Icons.play_arrow_rounded,
                   size: 36,
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),

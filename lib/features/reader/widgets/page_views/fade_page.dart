@@ -44,8 +44,7 @@ class _FadePageViewState extends State<FadePageView> {
           if (details.primaryVelocity! < 0 &&
               widget.currentIndex < widget.children.length - 1) {
             widget.onPageChanged(widget.currentIndex + 1);
-          } else if (details.primaryVelocity! > 0 &&
-              widget.currentIndex > 0) {
+          } else if (details.primaryVelocity! > 0 && widget.currentIndex > 0) {
             widget.onPageChanged(widget.currentIndex - 1);
           }
         }

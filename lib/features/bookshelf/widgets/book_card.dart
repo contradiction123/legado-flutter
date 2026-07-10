@@ -84,11 +84,7 @@ class BookCard extends StatelessWidget {
                   ),
                 ),
                 child: isSelected
-                    ? Icon(
-                        Icons.check,
-                        size: 16,
-                        color: colorScheme.onPrimary,
-                      )
+                    ? Icon(Icons.check, size: 16, color: colorScheme.onPrimary)
                     : null,
               ),
             ),
@@ -104,7 +100,8 @@ class BookCard extends StatelessWidget {
         imageUrl: coverUrl,
         fit: BoxFit.cover,
         placeholder: (context, url) => _buildPlaceholderCover(colorScheme),
-        errorWidget: (context, url, error) => _buildPlaceholderCover(colorScheme),
+        errorWidget: (context, url, error) =>
+            _buildPlaceholderCover(colorScheme),
       );
     }
     return _buildPlaceholderCover(colorScheme);

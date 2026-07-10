@@ -97,7 +97,8 @@ class ReaderConfigState {
       theme: theme ?? this.theme,
       pageAnimation: pageAnimation ?? this.pageAnimation,
       brightness: brightness ?? this.brightness,
-      followSystemBrightness: followSystemBrightness ?? this.followSystemBrightness,
+      followSystemBrightness:
+          followSystemBrightness ?? this.followSystemBrightness,
     );
   }
 
@@ -146,15 +147,26 @@ class ReaderConfigProvider extends StateNotifier<ReaderConfigState> {
       final themeIndex = prefs.getInt(_kThemeIndex) ?? 0;
       final pageAnimIndex = prefs.getInt(_kPageAnim) ?? 0;
       final brightness = prefs.getDouble(_kBrightness) ?? 1.0;
-      final followSystemBrightness = prefs.getBool(_kFollowSysBrightness) ?? true;
+      final followSystemBrightness =
+          prefs.getBool(_kFollowSysBrightness) ?? true;
 
       if (!_disposed) {
         state = ReaderConfigState(
           fontSize: fontSize,
           lineHeight: lineHeight,
-          margin: EdgeInsets.fromLTRB(marginLeft, marginTop, marginRight, marginBottom),
-          theme: ReaderTheme.all[themeIndex.clamp(0, ReaderTheme.all.length - 1)],
-          pageAnimation: PageAnimationMode.values[pageAnimIndex.clamp(0, PageAnimationMode.values.length - 1)],
+          margin: EdgeInsets.fromLTRB(
+            marginLeft,
+            marginTop,
+            marginRight,
+            marginBottom,
+          ),
+          theme:
+              ReaderTheme.all[themeIndex.clamp(0, ReaderTheme.all.length - 1)],
+          pageAnimation:
+              PageAnimationMode.values[pageAnimIndex.clamp(
+                0,
+                PageAnimationMode.values.length - 1,
+              )],
           brightness: brightness,
           followSystemBrightness: followSystemBrightness,
         );
@@ -175,7 +187,10 @@ class ReaderConfigProvider extends StateNotifier<ReaderConfigState> {
       await prefs.setDouble(_kMarginTop, state.margin.top);
       await prefs.setDouble(_kMarginBottom, state.margin.bottom);
       await prefs.setInt(_kThemeIndex, ReaderTheme.all.indexOf(state.theme));
-      await prefs.setInt(_kPageAnim, PageAnimationMode.values.indexOf(state.pageAnimation));
+      await prefs.setInt(
+        _kPageAnim,
+        PageAnimationMode.values.indexOf(state.pageAnimation),
+      );
       await prefs.setDouble(_kBrightness, state.brightness);
       await prefs.setBool(_kFollowSysBrightness, state.followSystemBrightness);
     } catch (_) {
@@ -195,28 +210,48 @@ class ReaderConfigProvider extends StateNotifier<ReaderConfigState> {
 
   void setMarginLeft(double value) {
     state = state.copyWith(
-      margin: EdgeInsets.fromLTRB(value, state.margin.top, state.margin.right, state.margin.bottom),
+      margin: EdgeInsets.fromLTRB(
+        value,
+        state.margin.top,
+        state.margin.right,
+        state.margin.bottom,
+      ),
     );
     _save();
   }
 
   void setMarginRight(double value) {
     state = state.copyWith(
-      margin: EdgeInsets.fromLTRB(state.margin.left, state.margin.top, value, state.margin.bottom),
+      margin: EdgeInsets.fromLTRB(
+        state.margin.left,
+        state.margin.top,
+        value,
+        state.margin.bottom,
+      ),
     );
     _save();
   }
 
   void setMarginTop(double value) {
     state = state.copyWith(
-      margin: EdgeInsets.fromLTRB(state.margin.left, value, state.margin.right, state.margin.bottom),
+      margin: EdgeInsets.fromLTRB(
+        state.margin.left,
+        value,
+        state.margin.right,
+        state.margin.bottom,
+      ),
     );
     _save();
   }
 
   void setMarginBottom(double value) {
     state = state.copyWith(
-      margin: EdgeInsets.fromLTRB(state.margin.left, state.margin.top, state.margin.right, value),
+      margin: EdgeInsets.fromLTRB(
+        state.margin.left,
+        state.margin.top,
+        state.margin.right,
+        value,
+      ),
     );
     _save();
   }
@@ -247,5 +282,5 @@ class ReaderConfigProvider extends StateNotifier<ReaderConfigState> {
 /// 全局阅读配置提供者
 final readerConfigProvider =
     StateNotifierProvider<ReaderConfigProvider, ReaderConfigState>((ref) {
-  return ReaderConfigProvider();
-});
+      return ReaderConfigProvider();
+    });

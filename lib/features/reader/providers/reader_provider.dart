@@ -56,7 +56,9 @@ class ReaderState {
 
   /// 当前章节
   BookChapter? get currentChapter {
-    if (chapters.isEmpty || currentIndex < 0 || currentIndex >= chapters.length) {
+    if (chapters.isEmpty ||
+        currentIndex < 0 ||
+        currentIndex >= chapters.length) {
       return null;
     }
     return chapters[currentIndex];
@@ -75,7 +77,7 @@ class ReaderState {
 /// 阅读器状态管理器
 class ReaderProvider extends StateNotifier<ReaderState> {
   ReaderProvider(Book book)
-      : super(ReaderState(book: book, currentIndex: book.durChapterIndex)) {
+    : super(ReaderState(book: book, currentIndex: book.durChapterIndex)) {
     _init();
     _startAutoSave();
   }
@@ -175,10 +177,7 @@ class ReaderProvider extends StateNotifier<ReaderState> {
       final newContents = Map<int, String>.from(state.contents);
       newContents[index] = content;
 
-      state = state.copyWith(
-        contents: newContents,
-        isLoading: false,
-      );
+      state = state.copyWith(contents: newContents, isLoading: false);
 
       // 预加载相邻章节
       _preloadAdjacent(index);
@@ -191,7 +190,9 @@ class ReaderProvider extends StateNotifier<ReaderState> {
   void _preloadAdjacent(int index) {
     final preloadIndexes = [index - 1, index + 1];
     for (final i in preloadIndexes) {
-      if (i >= 0 && i < state.chapters.length && !state.contents.containsKey(i)) {
+      if (i >= 0 &&
+          i < state.chapters.length &&
+          !state.contents.containsKey(i)) {
         _preloadChapter(i);
       }
     }
@@ -260,6 +261,7 @@ class ReaderProvider extends StateNotifier<ReaderState> {
 }
 
 /// 阅读器状态提供者（需外部传入 Book）
-final readerProvider = StateNotifierProvider.family<ReaderProvider, ReaderState, Book>(
-  (ref, book) => ReaderProvider(book),
-);
+final readerProvider =
+    StateNotifierProvider.family<ReaderProvider, ReaderState, Book>(
+      (ref, book) => ReaderProvider(book),
+    );

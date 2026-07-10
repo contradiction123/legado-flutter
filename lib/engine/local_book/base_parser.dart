@@ -70,7 +70,13 @@ BookFormat detectFormat(String fileName) {
 
 /// 支持的书籍格式扩展名
 const Set<String> supportedExtensions = {
-  '.txt', '.epub', '.pdf', '.mobi', '.azw3', '.azw', '.umd',
+  '.txt',
+  '.epub',
+  '.pdf',
+  '.mobi',
+  '.azw3',
+  '.azw',
+  '.umd',
 };
 
 /// 从文件名分析书名和作者

@@ -11,10 +11,7 @@ import '../providers/book_detail_provider.dart';
 class BookDetailScreen extends ConsumerWidget {
   final SearchBook searchBook;
 
-  const BookDetailScreen({
-    super.key,
-    required this.searchBook,
-  });
+  const BookDetailScreen({super.key, required this.searchBook});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,7 +53,10 @@ class BookDetailScreen extends ConsumerWidget {
   Widget _buildHeader(BuildContext context, BookDetailState state) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final coverUrl = state.book?.customCoverUrl ?? state.book?.coverUrl ?? state.searchBook.coverUrl;
+    final coverUrl =
+        state.book?.customCoverUrl ??
+        state.book?.coverUrl ??
+        state.searchBook.coverUrl;
 
     return Container(
       color: colorScheme.surfaceContainerHighest,
@@ -75,8 +75,10 @@ class BookDetailScreen extends ConsumerWidget {
                       ? CachedNetworkImage(
                           imageUrl: coverUrl,
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => _placeholder(colorScheme),
-                          errorWidget: (context, url, error) => _placeholder(colorScheme),
+                          placeholder: (context, url) =>
+                              _placeholder(colorScheme),
+                          errorWidget: (context, url, error) =>
+                              _placeholder(colorScheme),
                         )
                       : _placeholder(colorScheme),
                 ),
@@ -169,7 +171,8 @@ class BookDetailScreen extends ConsumerWidget {
   }
 
   Widget _buildIntroSection(BuildContext context, BookDetailState state) {
-    final intro = state.book?.customIntro ?? state.book?.intro ?? state.searchBook.intro;
+    final intro =
+        state.book?.customIntro ?? state.book?.intro ?? state.searchBook.intro;
     if (intro == null || intro.isEmpty) return const SizedBox.shrink();
 
     return Column(
@@ -177,9 +180,9 @@ class BookDetailScreen extends ConsumerWidget {
       children: [
         Text(
           '简介',
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(
+            context,
+          ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Text(
@@ -207,9 +210,9 @@ class BookDetailScreen extends ConsumerWidget {
           children: [
             Text(
               '章节列表',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
             if (state.isLoadingChapters)
               const SizedBox(

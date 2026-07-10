@@ -1,26 +1,16 @@
 import 'package:flutter/material.dart';
 
 /// 主题模式
-enum ThemeModeType {
-  light,
-  dark,
-  system,
-}
+enum ThemeModeType { light, dark, system }
 
 /// 主题状态
 class ThemeState {
   final ThemeModeType mode;
   final Color? seedColor;
 
-  const ThemeState({
-    this.mode = ThemeModeType.system,
-    this.seedColor,
-  });
+  const ThemeState({this.mode = ThemeModeType.system, this.seedColor});
 
-  ThemeState copyWith({
-    ThemeModeType? mode,
-    Color? seedColor,
-  }) {
+  ThemeState copyWith({ThemeModeType? mode, Color? seedColor}) {
     return ThemeState(
       mode: mode ?? this.mode,
       seedColor: seedColor ?? this.seedColor,

@@ -80,10 +80,7 @@ class _ChangeSourceSheetState extends ConsumerState<ChangeSourceSheet> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '选择书源',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
+          Text('选择书源', style: Theme.of(context).textTheme.titleMedium),
           if (!state.isLoading)
             Text(
               '${state.sources.length} 个书源',
@@ -147,10 +144,12 @@ class _ChangeSourceSheetState extends ConsumerState<ChangeSourceSheet> {
     ChangeSourceState state,
     ColorScheme colorScheme,
   ) {
-    final successfulSources =
-        ref.read(changeSourceProvider.notifier).getSuccessfulSources();
-    final failedSources =
-        ref.read(changeSourceProvider.notifier).getFailedSources();
+    final successfulSources = ref
+        .read(changeSourceProvider.notifier)
+        .getSuccessfulSources();
+    final failedSources = ref
+        .read(changeSourceProvider.notifier)
+        .getFailedSources();
 
     return Flexible(
       child: ListView(
@@ -162,9 +161,9 @@ class _ChangeSourceSheetState extends ConsumerState<ChangeSourceSheet> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 '可用源 (${successfulSources.length})',
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                  color: colorScheme.primary,
-                ),
+                style: Theme.of(
+                  context,
+                ).textTheme.labelMedium?.copyWith(color: colorScheme.primary),
               ),
             ),
             ...successfulSources.map(
@@ -233,8 +232,8 @@ class _ChangeSourceSheetState extends ConsumerState<ChangeSourceSheet> {
         isCurrent
             ? '当前书源'
             : (success && result != null
-                ? '响应: ${result.responseTimeMs}ms'
-                : ''),
+                  ? '响应: ${result.responseTimeMs}ms'
+                  : ''),
       ),
       trailing: isCurrent
           ? Icon(Icons.check, color: colorScheme.primary, size: 20)

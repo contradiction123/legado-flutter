@@ -33,18 +33,17 @@ class ChapterDao {
   /// 批量插入章节（忽略已存在的）
   Future<void> insertAll(List<BookChaptersCompanion> entries) async {
     for (final entry in entries) {
-      await _database.into(_database.bookChapters).insert(
-            entry,
-            mode: InsertMode.insertOrIgnore,
-          );
+      await _database
+          .into(_database.bookChapters)
+          .insert(entry, mode: InsertMode.insertOrIgnore);
     }
   }
 
   /// 删除某本书的所有章节
   Future<int> deleteByBookUrl(String bookUrl) {
-    return (_database.delete(_database.bookChapters)
-          ..where((t) => t.bookUrl.equals(bookUrl)))
-        .go();
+    return (_database.delete(
+      _database.bookChapters,
+    )..where((t) => t.bookUrl.equals(bookUrl))).go();
   }
 
   /// 获取章节总数

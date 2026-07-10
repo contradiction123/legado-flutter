@@ -39,9 +39,7 @@ class ReplaceRuleScreen extends ConsumerWidget {
           ),
           const Divider(height: 1),
           if (state.isLoading)
-            const Expanded(
-              child: Center(child: CircularProgressIndicator()),
-            )
+            const Expanded(child: Center(child: CircularProgressIndicator()))
           else if (state.allRules.isEmpty)
             Expanded(
               child: Center(
@@ -51,27 +49,25 @@ class ReplaceRuleScreen extends ConsumerWidget {
                     Icon(
                       Icons.auto_fix_high,
                       size: 64,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurfaceVariant
-                          .withValues(alpha: 0.3),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       '暂无替换规则',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       '点击右上角 + 添加规则',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant
-                                .withValues(alpha: 0.6),
-                          ),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                      ),
                     ),
                   ],
                 ),
@@ -105,7 +101,9 @@ class ReplaceRuleScreen extends ConsumerWidget {
   ) {
     final nameCtl = TextEditingController(text: existing?.name ?? '');
     final patternCtl = TextEditingController(text: existing?.pattern ?? '');
-    final replacementCtl = TextEditingController(text: existing?.replacement ?? '');
+    final replacementCtl = TextEditingController(
+      text: existing?.replacement ?? '',
+    );
     var isRegex = existing?.isRegex ?? true;
     var scopeTitle = existing?.scopeTitle ?? false;
     var scopeContent = existing?.scopeContent ?? true;

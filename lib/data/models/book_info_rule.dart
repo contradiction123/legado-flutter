@@ -10,7 +10,7 @@ part 'book_info_rule.g.dart';
 /// 对应原：BookInfoRule.kt
 /// 所有字段均为 nullable 的 String，默认值 null
 @freezed
-class BookInfoRule with _$BookInfoRule {
+abstract class BookInfoRule with _$BookInfoRule {
   const factory BookInfoRule({
     @JsonKey(name: 'init') String? init,
     @JsonKey(name: 'name') String? name,

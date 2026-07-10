@@ -22,7 +22,9 @@ class HttpHelper {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   }) async {
-    _stopwatch..reset()..start();
+    _stopwatch
+      ..reset()
+      ..start();
     try {
       final response = await _dio.get(
         url,
@@ -36,10 +38,7 @@ class HttpHelper {
       );
     } on DioException catch (e) {
       _stopwatch.stop();
-      return strResponseFromError(
-        e,
-        callTime: _stopwatch.elapsedMilliseconds,
-      );
+      return strResponseFromError(e, callTime: _stopwatch.elapsedMilliseconds);
     }
   }
 
@@ -49,7 +48,9 @@ class HttpHelper {
     Map<String, dynamic>? formData,
     Map<String, dynamic>? headers,
   }) async {
-    _stopwatch..reset()..start();
+    _stopwatch
+      ..reset()
+      ..start();
     try {
       final response = await _dio.post(
         url,
@@ -63,10 +64,7 @@ class HttpHelper {
       );
     } on DioException catch (e) {
       _stopwatch.stop();
-      return strResponseFromError(
-        e,
-        callTime: _stopwatch.elapsedMilliseconds,
-      );
+      return strResponseFromError(e, callTime: _stopwatch.elapsedMilliseconds);
     }
   }
 
@@ -76,7 +74,9 @@ class HttpHelper {
     dynamic jsonData,
     Map<String, dynamic>? headers,
   }) async {
-    _stopwatch..reset()..start();
+    _stopwatch
+      ..reset()
+      ..start();
     try {
       final response = await _dio.post(
         url,
@@ -93,10 +93,7 @@ class HttpHelper {
       );
     } on DioException catch (e) {
       _stopwatch.stop();
-      return strResponseFromError(
-        e,
-        callTime: _stopwatch.elapsedMilliseconds,
-      );
+      return strResponseFromError(e, callTime: _stopwatch.elapsedMilliseconds);
     }
   }
 
@@ -107,15 +104,14 @@ class HttpHelper {
     Map<String, dynamic>? headers,
     String? contentType,
   }) async {
-    _stopwatch..reset()..start();
+    _stopwatch
+      ..reset()
+      ..start();
     try {
       final response = await _dio.post(
         url,
         data: body,
-        options: Options(
-          headers: headers,
-          contentType: contentType,
-        ),
+        options: Options(headers: headers, contentType: contentType),
       );
       _stopwatch.stop();
       return strResponseFromDio(
@@ -124,10 +120,7 @@ class HttpHelper {
       );
     } on DioException catch (e) {
       _stopwatch.stop();
-      return strResponseFromError(
-        e,
-        callTime: _stopwatch.elapsedMilliseconds,
-      );
+      return strResponseFromError(e, callTime: _stopwatch.elapsedMilliseconds);
     }
   }
 

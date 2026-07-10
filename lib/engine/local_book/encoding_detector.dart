@@ -120,7 +120,8 @@ class EncodingDetector {
     }
 
     // 如果大量连续双字节符合 GBK 模式，判断为 GBK
-    return totalHighBytePairs > 3 && (gbkSequenceCount / totalHighBytePairs) > 0.3;
+    return totalHighBytePairs > 3 &&
+        (gbkSequenceCount / totalHighBytePairs) > 0.3;
   }
 
   /// 简单 BIG5 检测

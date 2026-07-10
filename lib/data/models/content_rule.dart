@@ -10,7 +10,7 @@ part 'content_rule.g.dart';
 /// 对应原：ContentRule.kt
 /// 所有字段均为 nullable 的 String，默认值 null
 @freezed
-class ContentRule with _$ContentRule {
+abstract class ContentRule with _$ContentRule {
   const factory ContentRule({
     @JsonKey(name: 'content') String? content,
     @JsonKey(name: 'subContent') String? subContent,

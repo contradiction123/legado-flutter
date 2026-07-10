@@ -8,11 +8,7 @@ class SearchResultCard extends StatelessWidget {
   final SearchBook book;
   final VoidCallback? onTap;
 
-  const SearchResultCard({
-    super.key,
-    required this.book,
-    this.onTap,
-  });
+  const SearchResultCard({super.key, required this.book, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +33,10 @@ class SearchResultCard extends StatelessWidget {
                     ? CachedNetworkImage(
                         imageUrl: coverUrl,
                         fit: BoxFit.cover,
-                        placeholder: (context, url) => _placeholder(colorScheme),
-                        errorWidget: (context, url, error) => _placeholder(colorScheme),
+                        placeholder: (context, url) =>
+                            _placeholder(colorScheme),
+                        errorWidget: (context, url, error) =>
+                            _placeholder(colorScheme),
                       )
                     : _placeholder(colorScheme),
               ),
@@ -83,7 +81,9 @@ class SearchResultCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
+                        color: colorScheme.onSurfaceVariant.withValues(
+                          alpha: 0.7,
+                        ),
                       ),
                     ),
                   const SizedBox(height: 4),
@@ -92,7 +92,9 @@ class SearchResultCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: theme.textTheme.labelSmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                      color: colorScheme.onSurfaceVariant.withValues(
+                        alpha: 0.5,
+                      ),
                     ),
                   ),
                 ],

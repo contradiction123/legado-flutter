@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../domain/models/book_source.dart';
 import '../providers/source_provider.dart';
@@ -55,15 +56,22 @@ class SourceListScreen extends ConsumerWidget {
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 8),
               children: [
-                _buildGroupChip(context, '全部', null,
-                    state.selectedGroup == null, () => provider.filterByGroup(null)),
-                ...state.groups.map((group) => _buildGroupChip(
-                      context,
-                      group,
-                      group,
-                      state.selectedGroup == group,
-                      () => provider.filterByGroup(group),
-                    )),
+                _buildGroupChip(
+                  context,
+                  '全部',
+                  null,
+                  state.selectedGroup == null,
+                  () => provider.filterByGroup(null),
+                ),
+                ...state.groups.map(
+                  (group) => _buildGroupChip(
+                    context,
+                    group,
+                    group,
+                    state.selectedGroup == group,
+                    () => provider.filterByGroup(group),
+                  ),
+                ),
               ],
             ),
           ),
@@ -72,22 +80,22 @@ class SourceListScreen extends ConsumerWidget {
             child: state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : state.error != null
-                    ? Center(child: Text('加载失败: ${state.error}'))
-                    : RefreshIndicator(
-                        onRefresh: () => provider.loadSources(),
-                        child: ListView.builder(
-                          itemCount: filteredSources.length,
-                          itemBuilder: (context, index) {
-                            final source = filteredSources[index];
-                            return SourceCard(
-                              source: source,
-                              onTap: () => _editSource(context, source),
-                              onToggleEnabled: (enabled) =>
-                                  provider.toggleEnabled(source.bookSourceUrl),
-                            );
-                          },
-                        ),
-                      ),
+                ? Center(child: Text('加载失败: ${state.error}'))
+                : RefreshIndicator(
+                    onRefresh: () => provider.loadSources(),
+                    child: ListView.builder(
+                      itemCount: filteredSources.length,
+                      itemBuilder: (context, index) {
+                        final source = filteredSources[index];
+                        return SourceCard(
+                          source: source,
+                          onTap: () => _editSource(context, source),
+                          onToggleEnabled: (enabled) =>
+                              provider.toggleEnabled(source.bookSourceUrl),
+                        );
+                      },
+                    ),
+                  ),
           ),
         ],
       ),
@@ -141,35 +149,38 @@ class SourceListScreen extends ConsumerWidget {
     );
   }
 
-  void _importFromClipboard(BuildContext context, SourceProvider provider) async {
+  void _importFromClipboard(
+    BuildContext context,
+    SourceProvider provider,
+  ) async {
     final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     final data = clipboardData?.text;
     if (data == null || data.isEmpty) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('剪贴板为空')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('剪贴板为空')));
       }
       return;
     }
 
     final count = await provider.importFromJson(data);
     if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('成功导入 $count 个书源')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('成功导入 $count 个书源')));
     }
   }
 
   void _exportToClipboard(BuildContext context, SourceProvider provider) async {
-    final jsonList = provider.filteredSources
-        .map((s) => s.toJson())
-        .toList();
+    final jsonList = provider.filteredSources.map((s) => s.toJson()).toList();
     final jsonStr = const JsonEncoder.withIndent('  ').convert(jsonList);
     await Clipboard.setData(ClipboardData(text: jsonStr));
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('已导出 ${provider.filteredSources.length} 个书源到剪贴板')),
+        SnackBar(
+          content: Text('已导出 ${provider.filteredSources.length} 个书源到剪贴板'),
+        ),
       );
     }
   }
@@ -191,9 +202,7 @@ class SourceListScreen extends ConsumerWidget {
               ? const Text('暂无分组')
               : ListView(
                   children: groups
-                      .map((group) => ListTile(
-                            title: Text(group),
-                          ))
+                      .map((group) => ListTile(title: Text(group)))
                       .toList(),
                 ),
         ),
@@ -208,39 +217,10 @@ class SourceListScreen extends ConsumerWidget {
   }
 
   void _editSource(BuildContext context, BookSource source) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('书源 JSON'),
-        content: SingleChildScrollView(
-          child: Text(
-            const JsonEncoder.withIndent('  ').convert(source.toJson()),
-            style: const TextStyle(fontSize: 12, fontFamily: 'monospace'),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('关闭'),
-          ),
-        ],
-      ),
-    );
+    context.push('/source-edit', extra: source);
   }
 
   void _addSource(BuildContext context, SourceProvider provider) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('添加书源'),
-        content: const Text('从菜单选择「从剪贴板导入」来添加书源'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('确定'),
-          ),
-        ],
-      ),
-    );
+    context.push('/source-edit');
   }
 }

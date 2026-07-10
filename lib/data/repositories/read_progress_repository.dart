@@ -49,18 +49,20 @@ class ReadProgressRepository {
     );
 
     final existing = await _dao.getByBook(bookName, bookAuthor);
-    await _dao.upsert(ReadRecord(
-      deviceId: deviceId,
-      bookName: bookName,
-      bookAuthor: bookAuthor,
-      readTime: (existing?.readTime ?? 0) + readTime,
-      lastRead: endTime,
-    ));
+    await _dao.upsert(
+      ReadRecord(
+        deviceId: deviceId,
+        bookName: bookName,
+        bookAuthor: bookAuthor,
+        readTime: (existing?.readTime ?? 0) + readTime,
+        lastRead: endTime,
+      ),
+    );
 
     final todayDetails = await _dao.getDetailsByDate(dateStr);
-    final todayEntry = todayDetails.where(
-      (d) => d.bookName == bookName && d.bookAuthor == bookAuthor,
-    ).toList();
+    final todayEntry = todayDetails
+        .where((d) => d.bookName == bookName && d.bookAuthor == bookAuthor)
+        .toList();
     final existingDetail = todayEntry.isNotEmpty ? todayEntry.first : null;
 
     await _dao.upsertDetail(

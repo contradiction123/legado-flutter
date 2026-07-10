@@ -73,8 +73,10 @@ class TextPage {
       final progress = (chapterIndex + 1) / chapterPageCount.clamp(1, 999);
       return '${(progress * 100).toStringAsFixed(1)}%';
     }
-    final progress = chapterIndex / chapterPageCount +
-        (1.0 / chapterPageCount) * ((index + 1) / chapterPageCount.clamp(1, 999));
+    final progress =
+        chapterIndex / chapterPageCount +
+        (1.0 / chapterPageCount) *
+            ((index + 1) / chapterPageCount.clamp(1, 999));
     return '${(progress * 100).clamp(0, 100).toStringAsFixed(1)}%';
   }
 }

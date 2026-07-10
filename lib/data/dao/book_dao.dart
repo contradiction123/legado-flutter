@@ -15,23 +15,23 @@ class BookDao {
 
   /// 根据 bookUrl 获取单本书
   Future<Book?> getByUrl(String url) {
-    return (_database.select(_database.books)
-          ..where((t) => t.bookUrl.equals(url)))
-        .getSingleOrNull();
+    return (_database.select(
+      _database.books,
+    )..where((t) => t.bookUrl.equals(url))).getSingleOrNull();
   }
 
   /// 按分组获取书籍
   Future<List<Book>> getByGroup(int group) {
-    return (_database.select(_database.books)
-          ..where((t) => t.group.equals(group)))
-        .get();
+    return (_database.select(
+      _database.books,
+    )..where((t) => t.group.equals(group))).get();
   }
 
   /// 按名称搜索书籍（书架搜索）
   Future<List<Book>> search(String keyword) {
-    return (_database.select(_database.books)
-          ..where((t) => t.name.like('%$keyword%')))
-        .get();
+    return (_database.select(
+      _database.books,
+    )..where((t) => t.name.like('%$keyword%'))).get();
   }
 
   /// 插入书籍
@@ -46,9 +46,9 @@ class BookDao {
 
   /// 删除书籍
   Future<int> deleteByUrl(String url) {
-    return (_database.delete(_database.books)
-          ..where((t) => t.bookUrl.equals(url)))
-        .go();
+    return (_database.delete(
+      _database.books,
+    )..where((t) => t.bookUrl.equals(url))).go();
   }
 
   /// 更新阅读进度
@@ -58,14 +58,16 @@ class BookDao {
     required int durChapterPos,
     String? durChapterTitle,
   }) {
-    return (_database.update(_database.books)
-          ..where((t) => t.bookUrl.equals(bookUrl)))
-        .write(BooksCompanion(
-          durChapterIndex: Value(durChapterIndex),
-          durChapterPos: Value(durChapterPos),
-          durChapterTitle: Value(durChapterTitle),
-          durChapterTime: Value(DateTime.now().millisecondsSinceEpoch),
-        ));
+    return (_database.update(
+      _database.books,
+    )..where((t) => t.bookUrl.equals(bookUrl))).write(
+      BooksCompanion(
+        durChapterIndex: Value(durChapterIndex),
+        durChapterPos: Value(durChapterPos),
+        durChapterTitle: Value(durChapterTitle),
+        durChapterTime: Value(DateTime.now().millisecondsSinceEpoch),
+      ),
+    );
   }
 
   /// 获取书籍总数
@@ -75,10 +77,11 @@ class BookDao {
 
   /// 获取最近阅读的书籍
   Future<List<Book>> getRecentRead({int limitCount = 10}) async {
-    final books = await (_database.select(_database.books)
-          ..where((t) => t.durChapterTime.isBiggerThanValue(0))
-          ..orderBy([(t) => OrderingTerm.desc(t.durChapterTime)]))
-        .get();
+    final books =
+        await (_database.select(_database.books)
+              ..where((t) => t.durChapterTime.isBiggerThanValue(0))
+              ..orderBy([(t) => OrderingTerm.desc(t.durChapterTime)]))
+            .get();
     return books.take(limitCount).toList();
   }
 }

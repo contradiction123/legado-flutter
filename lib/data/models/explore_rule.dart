@@ -10,7 +10,7 @@ part 'explore_rule.g.dart';
 /// 对应原：ExploreRule.kt（实现 BookListRule 接口）
 /// 所有字段均为 nullable 的 String，默认值 null
 @freezed
-class ExploreRule with _$ExploreRule {
+abstract class ExploreRule with _$ExploreRule {
   const factory ExploreRule({
     // BookListRule 接口字段
     @JsonKey(name: 'bookList') String? bookList,

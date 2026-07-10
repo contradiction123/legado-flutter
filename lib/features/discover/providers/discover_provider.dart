@@ -46,14 +46,15 @@ class DiscoverState {
       sourcesByGroup: sourcesByGroup ?? this.sourcesByGroup,
       isLoading: isLoading ?? this.isLoading,
       error: error,
-      exploreResults: clearExploreResults ? null : (exploreResults ?? this.exploreResults),
+      exploreResults: clearExploreResults
+          ? null
+          : (exploreResults ?? this.exploreResults),
       exploreCategory: exploreCategory ?? this.exploreCategory,
       isExploring: isExploring ?? this.isExploring,
     );
   }
 
-  List<BookSource> get currentSources =>
-      sourcesByGroup[selectedGroup] ?? [];
+  List<BookSource> get currentSources => sourcesByGroup[selectedGroup] ?? [];
 
   List<String> get allTabs => ['全部', ...groups];
 }
@@ -94,14 +95,17 @@ class DiscoverProvider extends StateNotifier<DiscoverState> {
       if (!_disposed) {
         final sourcesByGroup = <String, List<BookSource>>{};
         for (final group in groups) {
-          sourcesByGroup[group] =
-              allSources.where((s) => s.bookSourceGroup == group).toList();
+          sourcesByGroup[group] = allSources
+              .where((s) => s.bookSourceGroup == group)
+              .toList();
         }
         sourcesByGroup['全部'] = allSources;
 
         state = DiscoverState(
           groups: groups,
-          selectedGroup: state.selectedGroup.isEmpty ? '全部' : state.selectedGroup,
+          selectedGroup: state.selectedGroup.isEmpty
+              ? '全部'
+              : state.selectedGroup,
           sourcesByGroup: sourcesByGroup,
           isLoading: false,
         );
@@ -136,15 +140,9 @@ class DiscoverProvider extends StateNotifier<DiscoverState> {
       final webBook = WebBook();
       final results = await webBook.explore(source, url: exploreUrl);
 
-      state = state.copyWith(
-        exploreResults: results,
-        isExploring: false,
-      );
+      state = state.copyWith(exploreResults: results, isExploring: false);
     } catch (e) {
-      state = state.copyWith(
-        isExploring: false,
-        error: '探索失败: $e',
-      );
+      state = state.copyWith(isExploring: false, error: '探索失败: $e');
     }
   }
 
@@ -176,7 +174,8 @@ class DiscoverProvider extends StateNotifier<DiscoverState> {
 }
 
 /// 探索页面 Provider
-final discoverProvider =
-    StateNotifierProvider<DiscoverProvider, DiscoverState>((ref) {
-  return DiscoverProvider();
-});
+final discoverProvider = StateNotifierProvider<DiscoverProvider, DiscoverState>(
+  (ref) {
+    return DiscoverProvider();
+  },
+);

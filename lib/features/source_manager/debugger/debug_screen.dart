@@ -68,9 +68,7 @@ class _DebugScreenState extends ConsumerState<DebugScreen> {
           _buildStepButtons(theme, debugState, debugProviderNotifier),
 
           // ---- 结果区域 ----
-          Expanded(
-            child: _buildResultsArea(theme, debugState),
-          ),
+          Expanded(child: _buildResultsArea(theme, debugState)),
         ],
       ),
     );
@@ -96,9 +94,13 @@ class _DebugScreenState extends ConsumerState<DebugScreen> {
           const SizedBox(width: 8),
           Expanded(
             child: GestureDetector(
-              onTap: () => setState(() => _showSourcePicker = !_showSourcePicker),
+              onTap: () =>
+                  setState(() => _showSourcePicker = !_showSourcePicker),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
                 decoration: BoxDecoration(
                   border: Border.all(color: theme.colorScheme.outline),
                   borderRadius: BorderRadius.circular(8),
@@ -116,9 +118,7 @@ class _DebugScreenState extends ConsumerState<DebugScreen> {
                       ),
                     ),
                     Icon(
-                      _showSourcePicker
-                          ? Icons.expand_less
-                          : Icons.expand_more,
+                      _showSourcePicker ? Icons.expand_less : Icons.expand_more,
                       size: 20,
                     ),
                   ],
@@ -131,7 +131,8 @@ class _DebugScreenState extends ConsumerState<DebugScreen> {
             IconButton(
               icon: const Icon(Icons.close, size: 18),
               tooltip: '清除选择',
-              onPressed: () => ref.read(debugProvider.notifier).selectSource(null),
+              onPressed: () =>
+                  ref.read(debugProvider.notifier).selectSource(null),
             ),
           ],
         ],
@@ -197,7 +198,8 @@ class _DebugScreenState extends ConsumerState<DebugScreen> {
               children: DebugStep.values.map((step) {
                 final isRunning = debugState.runningStep == step;
                 final hasResult = debugState.resultFor(step) != null;
-                final isSuccess = debugState.resultFor(step)?.isSuccess ?? false;
+                final isSuccess =
+                    debugState.resultFor(step)?.isSuccess ?? false;
 
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
@@ -274,12 +276,12 @@ class _DebugScreenState extends ConsumerState<DebugScreen> {
               ),
             )
           : hasResult
-              ? Icon(
-                  isSuccess ? Icons.check_circle : Icons.error,
-                  size: 16,
-                  color: foregroundColor,
-                )
-              : null,
+          ? Icon(
+              isSuccess ? Icons.check_circle : Icons.error,
+              size: 16,
+              color: foregroundColor,
+            )
+          : null,
       onSelected: isEnabled ? (_) => onPressed : null,
     );
   }

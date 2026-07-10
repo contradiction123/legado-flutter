@@ -44,15 +44,9 @@ class SourceCard extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '${source.respondTime}ms',
-              style: theme.textTheme.bodySmall,
-            ),
+            Text('${source.respondTime}ms', style: theme.textTheme.bodySmall),
             const SizedBox(width: 4),
-            Switch(
-              value: source.enabled,
-              onChanged: onToggleEnabled,
-            ),
+            Switch(value: source.enabled, onChanged: onToggleEnabled),
           ],
         ),
         onTap: onTap,

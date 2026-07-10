@@ -55,7 +55,7 @@ class BookDetailState {
 /// 书籍详情状态管理器
 class BookDetailProvider extends StateNotifier<BookDetailState> {
   BookDetailProvider(SearchBook searchBook)
-      : super(BookDetailState(searchBook: searchBook)) {
+    : super(BookDetailState(searchBook: searchBook)) {
     _init();
   }
 
@@ -103,10 +103,7 @@ class BookDetailProvider extends StateNotifier<BookDetailState> {
         state = state.copyWith(isLoading: false);
       }
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: '加载书籍信息失败: $e',
-      );
+      state = state.copyWith(isLoading: false, error: '加载书籍信息失败: $e');
     }
   }
 
@@ -163,6 +160,9 @@ class BookDetailProvider extends StateNotifier<BookDetailState> {
 }
 
 /// 书籍详情状态提供者（需外部传入 SearchBook）
-final bookDetailProvider = StateNotifierProvider.family<BookDetailProvider, BookDetailState, SearchBook>(
-  (ref, searchBook) => BookDetailProvider(searchBook),
-);
+final bookDetailProvider =
+    StateNotifierProvider.family<
+      BookDetailProvider,
+      BookDetailState,
+      SearchBook
+    >((ref, searchBook) => BookDetailProvider(searchBook));
